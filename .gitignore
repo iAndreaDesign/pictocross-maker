@@ -1,0 +1,45 @@
+# Dependencias y builds
+node_modules/
+dist/
+out-tsc/
+.angular/
+.sass-cache/
+coverage/
+*.tsbuildinfo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Entorno y secretos
+.env
+.env.*
+!.env.example
+*.pem
+
+# Claude Code: configuración personal (settings.json y hooks SÍ se versionan)
+.claude/settings.local.json
+.claude/worktrees/
+
+# Editor / IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+*.swp
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporales (capturas y descargas de Figma, exports de prueba)
+tmp/
+.tmp/
+*.tmp
+docs/design/cache/*.png
+docs/design/cache/*.svg

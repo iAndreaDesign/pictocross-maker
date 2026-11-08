@@ -1,0 +1,64 @@
+# S01 — Scaffold y tooling
+Estado: draft | Depende de: —
+
+## Objetivo
+Proyecto Angular funcionando con la configuración base (signals, zoneless, tests, lint) y la estructura de carpetas de `CLAUDE.md`.
+
+## Alcance
+Crear app, configurar zoneless/OnPush, estructura de carpetas, scripts npm, test de humo.
+## Fuera de alcance
+Cualquier lógica de nonogramas o UI real.
+
+## Requisitos
+- REQ-S01-01: App Angular última versión estable, standalone, sin NgModules.
+- REQ-S01-02: Zoneless (`provideZonelessChangeDetection` o default de la versión) y OnPush por defecto en schematics.
+- REQ-S01-03: TypeScript strict habilitado.
+- REQ-S01-04: Estructura `core/domain`, `core/workers`, `features/*`, `shared`.
+- REQ-S01-05: Scripts `start`, `test`, `build`, `lint` operativos.
+- REQ-S01-06: **Tokens de marca** (colores corporativos del Figma) como CSS custom properties en `styles.css`, con los valores de la sección Decisiones. Ningún componente usa colores hardcodeados: solo `var(--...)`.
+- REQ-S01-07: Tipografías de marca: Fraunces (Black, títulos) e Inter (SemiBold/Regular, UI), autoalojadas (p. ej. `@fontsource`) para no depender de CDN en runtime.
+- REQ-S01-09: **i18n desde el principio**: ningún texto de UI hardcodeado en plantillas; todo por claves. Idioma por defecto español (`es`), estructura lista para añadir idiomas (ficheros por locale). Librería de i18n con cambio en runtime y soporte de signals (propuesta: Transloco; alternativa: i18n nativo de Angular, que compila una build por idioma). Decidir y justificar en T01.8.
+- REQ-S01-10: **Repositorio y flujo de PR**: el proyecto no es aún un repo git. Inicializar git, remoto en GitHub (a confirmar con el usuario), rama `main`, plantilla de PR (`.github/pull_request_template.md`) con tarea, REQ, criterios y cómo probar. Una tarea = una rama = una PR, validada antes con el humano (ver `CLAUDE.md`).
+- REQ-S01-08: Logo de marca (Figma `4:1027`) exportado como SVG a `src/assets/` y favicon derivado.
+
+## Criterios de aceptación
+- [ ] `npm start` sirve una página con título "Nonogram Maker".
+- [ ] `npm test` ejecuta al menos 1 test en verde.
+- [ ] `npm run build` y `npm run lint` pasan.
+
+## Tareas
+- [x] T01.0 (REQ-S01-10) `git init`, `.gitignore`, remoto y plantilla de PR — Hecho: `git init -b main`, remoto `origin` = https://github.com/iAndreaDesign/nanogram-maker.git, `.gitignore` (commit base en `main`), plantilla de PR y documentación SDD inicial en la PR 0.
+- [ ] T01.1 (REQ-S01-01/02/03) `ng new` en la raíz sin romper `CLAUDE.md`/`docs/` — Hecho cuando: compila.
+- [ ] T01.2 (REQ-S01-04) Crear carpetas con `.gitkeep`/README mínimo.
+- [ ] T01.3 (REQ-S01-05) Añadir ESLint (angular-eslint) y scripts.
+- [ ] T01.4 (REQ-S01-06) `styles.css` con tokens de marca.
+- [ ] T01.5 (REQ-S01-07) Fuentes autoalojadas.
+- [ ] T01.6 (REQ-S01-08) Descargar logo SVG desde Figma (MCP) a assets.
+- [ ] T01.7 Test de humo del `App` component.
+- [ ] T01.8 (REQ-S01-09) Elegir e instalar i18n, `es.json` inicial y test que falla si hay una clave usada sin traducción.
+
+## Decisiones
+Paleta extraída del Figma (nodos `4:607`, `4:656`, `4:890`). Los nombres son propuesta; los valores son del diseño:
+
+| Token | Valor | Uso |
+|---|---|---|
+| `--color-header` | `#edccb4` | Fondo cabecera, badge dificultad, botón "Export solution" del panel |
+| `--color-accent` | `#d67747` | Botones primarios (Export PDF/PNG), logo |
+| `--color-text` | `#46352d` | Texto principal |
+| `--color-text-muted` | `#806d60` | Texto secundario, "Puzzle Atelier" |
+| `--color-border` | `#d6c4b5` | Bordes de barra, inputs, botones secundarios |
+| `--color-divider` | `#c5b4a5` | Separador vertical |
+| `--color-surface` | `#fcf6ee` | Barra de configuración, botones secundarios |
+| `--color-input` | `#fffdf7` | Fondo de campos numéricos |
+| `--color-success-bg` / `-text` | `#dce5cc` / `#435738` | Badge "Puzzle posible" |
+| `--color-possible-bg` / `-text` | `#DCE5CC` / `#435738` | Badge "Puzzle posible" |
+| `--color-impossible-bg` / `-text` | `#E20000` / `#FFFFFF` | Badge "Puzzle imposible" y casillas irresolubles |
+| `--color-grid-line` | `rgba(0,0,0,0.8)` | Líneas de la cuadrícula de la preview y exportaciones |
+| `--color-preview-bg` | `#FFFFFF` | Fondo de la preview (sustituye al `#EADED5` de la referencia) |
+| `--color-cell-filled` | `#9E5139` | Casilla pintada (editor y preview/exportaciones). Medido en la imagen de referencia de la preview |
+| `--color-clue-band` | `#F2D7C4` | Bandas alternas de pistas (filas y columnas) en la preview |
+| `--color-cross` | `#D77A4B` | Cruces en las casillas blancas de la solución |
+| `--color-page` | por extraer (beige de fondo) | Fondo de página |
+
+Radios: botones 10 px, inputs 8 px, badges 100 px. Fuentes: Fraunces Black 28 px/-1 px (título), Inter 13 px SemiBold (botones).
+Los tokens "por extraer" se completan en T01.4 leyendo el Figma.

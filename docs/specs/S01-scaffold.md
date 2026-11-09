@@ -29,7 +29,7 @@ Cualquier lógica de nonogramas o UI real.
 ## Tareas
 - [x] T01.0 (REQ-S01-10) `git init`, `.gitignore`, remoto y plantilla de PR — Hecho: `git init -b main`, remoto `origin` = https://github.com/iAndreaDesign/nanogram-maker.git, `.gitignore` (commit base en `main`), plantilla de PR y documentación SDD inicial en la PR 0.
 - [x] T01.1 (REQ-S01-01/02/03) `ng new` en la raíz sin romper `CLAUDE.md`/`docs/` — Hecho: Angular 22.2 (standalone, zoneless por defecto, sin router ni SSR), `strict: true` explícito, schematic de componentes con OnPush, Vitest como runner; compila y 1 test en verde.
-- [ ] T01.2 (REQ-S01-04) Crear carpetas con `.gitkeep`/README mínimo.
+- [x] T01.2 (REQ-S01-04) Crear carpetas con `.gitkeep`/README mínimo. — Hecho: `core/domain`, `core/workers`, `features/{editor,preview,export}`, `shared` con `.gitkeep`.
 - [ ] T01.3 (REQ-S01-05) Añadir ESLint (angular-eslint) y scripts.
 - [ ] T01.4 (REQ-S01-06) `styles.css` con tokens de marca.
 - [ ] T01.5 (REQ-S01-07) Fuentes autoalojadas.

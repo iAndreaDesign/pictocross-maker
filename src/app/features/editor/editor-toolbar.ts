@@ -104,6 +104,7 @@ import { DrawingStore } from './drawing-store';
     .tool-active {
       padding: 0 12px;
       background: var(--color-accent);
+      color: var(--color-on-accent);
     }
     .history {
       display: flex;

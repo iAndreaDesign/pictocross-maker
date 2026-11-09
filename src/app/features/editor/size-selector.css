@@ -54,23 +54,39 @@ input[type='number']::-webkit-outer-spin-button {
   margin: 0;
 }
 
+/* Cada flecha tiene un área táctil de 24×24 (WCAG 2.2 AA); los iconos se pegan al centro para
+   conservar el aspecto del Figma (chevrones de 10 px casi juntos). Sobresale unos px del campo sin verse. */
 .stepper {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 42px;
+  margin-right: -8px;
 }
 
 .step {
   display: inline-flex;
-  align-items: center;
+  flex: none;
   justify-content: center;
-  width: 14px;
-  height: 12px;
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: 0;
   background: transparent;
   color: var(--color-text);
   cursor: pointer;
+}
+
+.step:first-child {
+  align-items: flex-end;
+  padding-bottom: 2px;
+}
+
+.step:last-child {
+  align-items: flex-start;
+  padding-top: 2px;
 }
 
 .step .icon {

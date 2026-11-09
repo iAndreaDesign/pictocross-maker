@@ -7,7 +7,9 @@
   --color-header: #edccb4;
   --color-accent: #d67747;
   --color-text: #46352d;
-  --color-text-muted: #806d60;
+  --color-text-muted: #66554a;
+  /* Texto sobre el acento (botones terracota): oscurecido respecto al Figma (#46352d, 3,6:1) para cumplir AA (4,7:1). */
+  --color-on-accent: #32241d;
   --color-border: #d6c4b5;
   --color-divider: #c5b4a5;
   --color-surface: #fcf6ee;
@@ -86,6 +88,7 @@ body {
 
 .btn-primary {
   background: var(--color-accent);
+  color: var(--color-on-accent);
 }
 
 .btn-light {

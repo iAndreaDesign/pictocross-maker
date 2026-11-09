@@ -45,7 +45,9 @@ Paleta extraída del Figma (nodos `4:607`, `4:656`, `4:890`). Los nombres son pr
 | `--color-header` | `#edccb4` | Fondo cabecera, badge dificultad, botón "Export solution" del panel |
 | `--color-accent` | `#d67747` | Botones primarios (Export PDF/PNG), logo |
 | `--color-text` | `#46352d` | Texto principal |
-| `--color-text-muted` | `#806d60` | Texto secundario, "Puzzle Atelier" |
+| `--color-text-muted` | `#66554a` (Figma: `#806d60`, 3,2–3,7:1) | Texto secundario, "Puzzle Atelier". Oscurecido en S08 para cumplir AA |
+| `--color-on-accent` | `#32241d` (Figma: `#46352d`, 3,6:1) | Texto sobre botones/toggle terracota. Nuevo en S08 para cumplir AA (4,7:1) |
+| `--color-accent-dot` | `#c97d68` | Punto de acento del pie (Figma 4:912) |
 | `--color-border` | `#d6c4b5` | Bordes de barra, inputs, botones secundarios |
 | `--color-divider` | `#c5b4a5` | Separador vertical |
 | `--color-surface` | `#fcf6ee` | Barra de configuración, botones secundarios |

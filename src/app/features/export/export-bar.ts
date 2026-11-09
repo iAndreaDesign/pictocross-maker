@@ -71,7 +71,7 @@ import { ExportService } from './export.service';
     }
     .seg-active {
       background: var(--color-accent);
-      color: var(--color-input);
+      color: var(--color-on-accent);
     }
   `,
 })

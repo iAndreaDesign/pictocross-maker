@@ -2,5 +2,46 @@
   "app": {
     "brand": "PICTOCROSS MAKER",
     "tagline": "Puzzle Atelier"
+  },
+  "editor": {
+    "title": {
+      "label": "Título del proyecto",
+      "default": "Corazón de píxel"
+    },
+    "size": {
+      "height": "Alto",
+      "width": "Ancho",
+      "heightDecrease": "Reducir alto",
+      "heightIncrease": "Aumentar alto",
+      "widthDecrease": "Reducir ancho",
+      "widthIncrease": "Aumentar ancho",
+      "presets": "Tamaños rápidos",
+      "preset": "Tamaño {{ n }} × {{ n }}"
+    },
+    "actions": {
+      "clear": "Limpiar",
+      "invert": "Invertir"
+    },
+    "tools": {
+      "group": "Herramienta",
+      "draw": "Dibujar",
+      "erase": "Borrar",
+      "undo": "Deshacer",
+      "redo": "Rehacer"
+    },
+    "grid": {
+      "label": "Cuadrícula de dibujo",
+      "cellFilled": "Fila {{ row }}, columna {{ col }}: negra",
+      "cellEmpty": "Fila {{ row }}, columna {{ col }}: blanca"
+    },
+    "footer": {
+      "hint": "Arrastra para dibujar",
+      "counter": "{{ filled }} / {{ total }} celdas"
+    },
+    "resize": {
+      "confirm": "Al reducir el tablero se perderán {{ count }} casillas negras. ¿Continuar?",
+      "accept": "Reducir",
+      "cancel": "Cancelar"
+    }
   }
 }

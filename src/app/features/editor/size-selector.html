@@ -1,0 +1,84 @@
+<div class="size">
+  <div class="field">
+    <label for="size-rows">{{ 'editor.size.height' | transloco }}</label>
+    <div class="stepper">
+      <button
+        type="button"
+        class="btn-icon"
+        [disabled]="rows() <= min"
+        [attr.aria-label]="'editor.size.heightDecrease' | transloco"
+        (click)="step('rows', -1)"
+      >
+        <app-icon name="minus" />
+      </button>
+      <input
+        id="size-rows"
+        type="number"
+        inputmode="numeric"
+        [min]="min"
+        [max]="max"
+        [value]="rows()"
+        (change)="onInput('rows', $event)"
+      />
+      <button
+        type="button"
+        class="btn-icon"
+        [disabled]="rows() >= max"
+        [attr.aria-label]="'editor.size.heightIncrease' | transloco"
+        (click)="step('rows', 1)"
+      >
+        <app-icon name="plus" />
+      </button>
+    </div>
+  </div>
+
+  <span class="times" aria-hidden="true">×</span>
+
+  <div class="field">
+    <label for="size-cols">{{ 'editor.size.width' | transloco }}</label>
+    <div class="stepper">
+      <button
+        type="button"
+        class="btn-icon"
+        [disabled]="cols() <= min"
+        [attr.aria-label]="'editor.size.widthDecrease' | transloco"
+        (click)="step('cols', -1)"
+      >
+        <app-icon name="minus" />
+      </button>
+      <input
+        id="size-cols"
+        type="number"
+        inputmode="numeric"
+        [min]="min"
+        [max]="max"
+        [value]="cols()"
+        (change)="onInput('cols', $event)"
+      />
+      <button
+        type="button"
+        class="btn-icon"
+        [disabled]="cols() >= max"
+        [attr.aria-label]="'editor.size.widthIncrease' | transloco"
+        (click)="step('cols', 1)"
+      >
+        <app-icon name="plus" />
+      </button>
+    </div>
+  </div>
+
+  <div class="presets" role="group" [attr.aria-label]="'editor.size.presets' | transloco">
+    @for (preset of presets; track preset) {
+      <button
+        type="button"
+        class="chip"
+        [class.chip-active]="rows() === preset && cols() === preset"
+        [attr.aria-pressed]="rows() === preset && cols() === preset"
+        [attr.aria-label]="'editor.size.preset' | transloco: { n: preset }"
+        (click)="selectPreset(preset)"
+      >
+        {{ preset }}
+      </button>
+    }
+  </div>
+</div>

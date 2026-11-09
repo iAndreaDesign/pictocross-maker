@@ -1,5 +1,5 @@
 # S05 — Editor de dibujo
-Estado: draft | Depende de: S01, S02 | Ref: nonograma-logica.txt §6 (pasos 1–2) · Figma nodos `4:656`, `4:706`
+Estado: done | Depende de: S01, S02 | Ref: nonograma-logica.txt §6 (pasos 1–2) · Figma nodos `4:656`, `4:706`
 
 ## Objetivo
 Permitir elegir el tamaño y dibujar/borrar casillas con el ratón, con un dibujo por defecto (el logo), acciones Limpiar e Invertir, y estado en signals.
@@ -32,24 +32,24 @@ Pistas renderizadas, validación (S06), export (S07), persistencia (S08).
 - REQ-S05-17: Título del proyecto editable (por defecto "Corazón de píxel"), con icono de lápiz; se usa para el nombre de los ficheros exportados (sustituye a REQ-S07-06 si hay título).
 
 ## Criterios de aceptación
-- [ ] Al abrir la app aparece el logo 10x10 (idéntico a la matriz de Decisiones).
-- [ ] Clear → 0 casillas negras; deshacer recupera el dibujo.
-- [ ] Invert sobre el logo → complemento exacto; Invert dos veces → logo original.
-- [ ] Arrastrar en diagonal rápida no deja huecos (interpolación Bresenham).
-- [ ] Deshacer revierte un trazo completo, no casilla a casilla.
-- [ ] Redimensionar 10→5 con casillas negras fuera de rango muestra confirmación.
-- [ ] Tests del store (métodos, límites, historial).
+- [x] Al abrir la app aparece el logo 10x10 (idéntico a la matriz de Decisiones).
+- [x] Clear → 0 casillas negras; deshacer recupera el dibujo.
+- [x] Invert sobre el logo → complemento exacto; Invert dos veces → logo original.
+- [x] Arrastrar en diagonal rápida no deja huecos (interpolación Bresenham).
+- [x] Deshacer revierte un trazo completo, no casilla a casilla.
+- [x] Redimensionar 10→5 con casillas negras fuera de rango muestra confirmación.
+- [x] Tests del store (métodos, límites, historial).
 
 ## Tareas
-- [ ] T05.1 (REQ-S05-01/12) `DrawingStore` + tests.
-- [ ] T05.2 (REQ-S05-05) Constante `DEFAULT_LOGO_GRID` + test de forma 10x10.
-- [ ] T05.3 (REQ-S05-06/07/08) `clear`, `invert`, historial undo/redo + tests.
-- [ ] T05.4 (REQ-S05-02/09) Selector de tamaño y resize.
-- [ ] T05.5 (REQ-S05-03/04/10/13) Componente grid con puntero, borrador e interpolación.
-- [ ] T05.6 (REQ-S05-06/07) Botones Clear / Invert en la barra.
-- [ ] T05.7 (REQ-S05-11) Teclado.
-- [ ] T05.8 (REQ-S05-14/15/16) Cabecera de herramientas, reglas y pie del panel.
-- [ ] T05.9 (REQ-S05-17) Título editable.
+- [x] T05.1 (REQ-S05-01/12) `DrawingStore` + tests.
+- [x] T05.2 (REQ-S05-05) Constante `DEFAULT_LOGO_GRID` + test de forma 10x10.
+- [x] T05.3 (REQ-S05-06/07/08) `clear`, `invert`, historial undo/redo + tests.
+- [x] T05.4 (REQ-S05-02/09) Selector de tamaño y resize.
+- [x] T05.5 (REQ-S05-03/04/10/13) Componente grid con puntero, borrador e interpolación.
+- [x] T05.6 (REQ-S05-06/07) Botones Clear / Invert en la barra.
+- [x] T05.7 (REQ-S05-11) Teclado.
+- [x] T05.8 (REQ-S05-14/15/16) Cabecera de herramientas, reglas y pie del panel.
+- [x] T05.9 (REQ-S05-17) Título editable.
 
 ## Decisiones
 - **Confirmado (REQ-S05-04):** con Dibujar activo, izquierdo pinta y derecho borra; con Borrar activo se invierte (izquierdo borra, derecho pinta).
@@ -67,3 +67,10 @@ Pistas renderizadas, validación (S06), export (S07), persistencia (S08).
 0000000000
 ```
 - Render del grid con `<canvas>` vs celdas DOM: decidir en T05.5 según prueba 50x50.
+- **Render (T05.5): `<canvas>`**, resolución interna 24 px/casilla escalada por CSS (`image-rendering: pixelated`). Redibujar 2.500 casillas es trivial y evita 2.500 nodos DOM. Teclado y lector de pantalla: el canvas es focusable (`role="application"`, `aria-label`), con cursor dibujado y región `aria-live` que anuncia fila/columna/estado. Lag de 50x50 no medido en navegador real (solo razonado).
+- Arquitectura: ops puras de tablero en `core/domain/grid-ops.ts` + `bresenham.ts`; `DrawingStore` en `features/editor/`; el trazo (`beginStroke/paintStroke/endStroke`) es una sola entrada de historial; historial de 100 (`HISTORY_LIMIT`). `setTitle` guarda `null` para "título por defecto" (se traduce en la UI).
+- Reglas (REQ-S05-15): hasta 25 líneas se numeran todas; con tableros mayores solo 1 y múltiplos de 5, para que quepan.
+- Resize conserva el dibujo anclado arriba-izquierda; la confirmación es un aviso en línea (`role="alertdialog"`), no `window.confirm`.
+- Presets rápidos (5–50) fijan alto = ancho. Atajos: Ctrl+Z, Ctrl+Y, Ctrl+Shift+Z (ignorados dentro de campos de texto).
+- Figma **no se consultó** en S05: la spec ya traía estructura y tokens. La maquetación es provisional y se afina contra el diseño en S08. Se añadió `app-icon` (iconos SVG propios, sin librería nueva).
+- Pendiente para S07: el título del proyecto (`store.title()`, `null` = por defecto) nombra los ficheros exportados.

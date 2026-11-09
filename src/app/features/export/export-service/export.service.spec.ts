@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { i18nTestingImports, i18nTestingProviders } from '../../shared/i18n/i18n-testing';
-import { DrawingStore } from '../editor/drawing-store';
+import { i18nTestingImports, i18nTestingProviders } from '../../../shared/i18n/i18n-testing';
+import { DrawingStore } from '../../editor/drawing-store/drawing-store';
 import { EXPORT_CANVAS_FACTORY, ExportService, FILE_DOWNLOADER } from './export.service';
-import { exportPixelMetrics } from './export-render';
-import { MARGIN_MM, computeExportLayout, mmToPx } from './export-layout';
-import { computeLayout } from '../../shared/nonogram-renderer';
-import { generateClues } from '../../core/domain';
+import { exportPixelMetrics } from '../export-render/export-render';
+import { MARGIN_MM, computeExportLayout, mmToPx } from '../export-layout/export-layout';
+import { computeLayout } from '../../../shared/nonogram-renderer/nonogram-renderer';
+import { generateClues } from '../../../core/domain';
 
 // PNG válido de 1x1 px, para que jsPDF pueda incrustarlo.
 const PNG_1X1 =

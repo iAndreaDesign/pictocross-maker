@@ -1,4 +1,4 @@
-import { Clues } from '../../core/domain';
+import { Clues } from '../../../core/domain';
 
 export type Orientation = 'portrait' | 'landscape';
 

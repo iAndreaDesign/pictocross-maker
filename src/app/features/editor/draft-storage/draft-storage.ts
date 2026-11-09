@@ -1,4 +1,4 @@
-import { Cell, Grid, MAX_SIZE, MIN_SIZE } from '../../core/domain';
+import { Cell, Grid, MAX_SIZE, MIN_SIZE } from '../../../core/domain';
 
 export const DRAFT_STORAGE_KEY = 'pictocross-maker:draft';
 /** Súbela cuando cambie el formato; los borradores de otra versión se ignoran (no se migran en silencio). */

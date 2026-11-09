@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { Icon } from '../../../shared/icon';
-import { MAX_TITLE_LENGTH } from '../draft-storage';
-import { DrawingStore } from '../drawing-store';
+import { Icon } from '../../../shared/icon/icon';
+import { MAX_TITLE_LENGTH } from '../draft-storage/draft-storage';
+import { DrawingStore } from '../drawing-store/drawing-store';
 
 /**
  * Encabezado del proyecto (Figma 4:695): título editable con lápiz y, a la derecha, las acciones proyectadas.

@@ -4,7 +4,7 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { DraftPersistence } from './features/editor/draft-persistence';
+import { DraftPersistence } from './features/editor/draft-persistence/draft-persistence';
 import { provideI18n } from './shared/i18n/i18n.providers';
 
 export const appConfig: ApplicationConfig = {

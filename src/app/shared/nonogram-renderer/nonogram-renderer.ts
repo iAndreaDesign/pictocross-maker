@@ -1,4 +1,4 @@
-import { Clues, SolverCell } from '../core/domain';
+import { Clues, SolverCell } from '../../core/domain';
 
 /** Colores resueltos (los toma de los tokens CSS; el renderer no hardcodea ninguno). */
 export interface RenderColors {

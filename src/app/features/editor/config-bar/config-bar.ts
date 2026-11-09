@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { Icon } from '../../../shared/icon';
-import { DrawingStore } from '../drawing-store';
+import { Icon } from '../../../shared/icon/icon';
+import { DrawingStore } from '../drawing-store/drawing-store';
 import { SizeChange, SizeSelector } from '../size-selector/size-selector';
 
 interface PendingResize extends SizeChange {

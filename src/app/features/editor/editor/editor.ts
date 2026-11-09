@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { Icon } from '../../../shared/icon';
+import { Icon } from '../../../shared/icon/icon';
 import { DrawingGrid } from '../drawing-grid/drawing-grid';
-import { DrawingStore } from '../drawing-store';
+import { DrawingStore } from '../drawing-store/drawing-store';
 import { EditorToolbar } from '../editor-toolbar/editor-toolbar';
 
 /** Panel izquierdo: título, herramientas, grid y pie. La configuración (tamaño…) está en `ConfigBar`. */

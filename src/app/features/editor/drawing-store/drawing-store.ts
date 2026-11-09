@@ -10,7 +10,7 @@ import {
   linePoints,
   lostBlackCells,
   resizeGrid,
-} from '../../core/domain';
+} from '../../../core/domain';
 
 export type Tool = 'draw' | 'erase';
 export type StrokeMode = 'paint' | 'erase';

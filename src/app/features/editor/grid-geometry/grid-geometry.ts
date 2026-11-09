@@ -1,4 +1,4 @@
-import { StrokeMode, Tool } from './drawing-store';
+import { StrokeMode, Tool } from '../drawing-store/drawing-store';
 
 export interface Rect {
   readonly left: number;

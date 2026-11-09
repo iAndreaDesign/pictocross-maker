@@ -9,13 +9,13 @@ import {
   viewChild,
 } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { SolverCell, generateClues } from '../../../core/domain';
-import { SolverClient } from '../../../core/workers/solver-client';
-import { Icon } from '../../../shared/icon';
-import { DrawingStore } from '../../editor/drawing-store';
-import { ExportService } from '../../export/export.service';
-import { MIN_READABLE_CELL_MM } from '../../export/export-layout';
-import { computeLayout, readRenderColors, renderNonogram } from '../../../shared/nonogram-renderer';
+import { SolverCell, generateClues } from '../../core/domain';
+import { SolverClient } from '../../core/workers/solver-client';
+import { Icon } from '../../shared/icon/icon';
+import { DrawingStore } from '../editor/drawing-store/drawing-store';
+import { ExportService } from '../export/export-service/export.service';
+import { MIN_READABLE_CELL_MM } from '../export/export-layout/export-layout';
+import { computeLayout, readRenderColors, renderNonogram } from '../../shared/nonogram-renderer/nonogram-renderer';
 
 /** Ancho de referencia cuando no se puede medir el contenedor (tests). */
 const FALLBACK_WIDTH_PX = 600;

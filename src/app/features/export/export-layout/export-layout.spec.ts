@@ -1,4 +1,4 @@
-import { Cell, DEFAULT_LOGO_GRID, Grid, generateClues } from '../../core/domain';
+import { Cell, DEFAULT_LOGO_GRID, Grid, generateClues } from '../../../core/domain';
 import {
   A4_MM,
   MARGIN_MM,

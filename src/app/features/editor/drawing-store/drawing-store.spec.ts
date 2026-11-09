@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { DEFAULT_LOGO_GRID, countBlack } from '../../core/domain';
+import { DEFAULT_LOGO_GRID, countBlack } from '../../../core/domain';
 import { DrawingStore, HISTORY_LIMIT } from './drawing-store';
 
 describe('DrawingStore', () => {

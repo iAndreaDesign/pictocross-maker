@@ -1,4 +1,4 @@
-import { DEFAULT_LOGO_GRID, Grid } from '../../core/domain';
+import { DEFAULT_LOGO_GRID, Grid } from '../../../core/domain';
 import {
   DRAFT_SCHEMA_VERSION,
   MAX_TITLE_LENGTH,

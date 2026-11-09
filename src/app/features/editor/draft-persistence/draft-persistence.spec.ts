@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { DEFAULT_LOGO_GRID } from '../../core/domain';
+import { DEFAULT_LOGO_GRID } from '../../../core/domain';
 import { DRAFT_SAVE_DEBOUNCE_MS, DRAFT_STORAGE, DraftPersistence } from './draft-persistence';
-import { DrawingStore } from './drawing-store';
-import { DRAFT_STORAGE_KEY, serializeDraft } from './draft-storage';
+import { DrawingStore } from '../drawing-store/drawing-store';
+import { DRAFT_STORAGE_KEY, serializeDraft } from '../draft-storage/draft-storage';
 
 class FakeStorage {
   readonly data = new Map<string, string>();

@@ -1,11 +1,11 @@
-import { Clues, SolverCell } from '../../core/domain';
+import { Clues, SolverCell } from '../../../core/domain';
 import {
   Layout,
   RenderColors,
   computeLayout,
   renderNonogram,
-} from '../../shared/nonogram-renderer';
-import { ExportLayout, THICK_LINE_MM, THIN_LINE_MM, mmToPx } from './export-layout';
+} from '../../../shared/nonogram-renderer/nonogram-renderer';
+import { ExportLayout, THICK_LINE_MM, THIN_LINE_MM, mmToPx } from '../export-layout/export-layout';
 
 export const EXPORT_DPI = 300;
 

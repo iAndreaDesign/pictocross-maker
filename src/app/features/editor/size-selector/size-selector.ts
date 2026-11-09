@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MAX_SIZE, MIN_SIZE } from '../../../core/domain';
-import { Icon } from '../../../shared/icon';
+import { Icon } from '../../../shared/icon/icon';
 
 export interface SizeChange {
   readonly rows: number;

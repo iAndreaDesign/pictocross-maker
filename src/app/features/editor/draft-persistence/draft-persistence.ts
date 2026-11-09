@@ -1,6 +1,6 @@
 import { Injectable, InjectionToken, effect, inject, signal, untracked } from '@angular/core';
-import { DrawingStore } from './drawing-store';
-import { DRAFT_STORAGE_KEY, parseDraft, serializeDraft } from './draft-storage';
+import { DrawingStore } from '../drawing-store/drawing-store';
+import { DRAFT_STORAGE_KEY, parseDraft, serializeDraft } from '../draft-storage/draft-storage';
 
 export const DRAFT_SAVE_DEBOUNCE_MS = 400;
 

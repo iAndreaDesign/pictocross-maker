@@ -1,17 +1,17 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, InjectionToken, computed, inject, signal } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
-import { SolverCell, generateClues } from '../../core/domain';
-import { readRenderColors } from '../../shared/nonogram-renderer';
-import { DrawingStore } from '../editor/drawing-store';
+import { SolverCell, generateClues } from '../../../core/domain';
+import { readRenderColors } from '../../../shared/nonogram-renderer/nonogram-renderer';
+import { DrawingStore } from '../../editor/drawing-store/drawing-store';
 import {
   MARGIN_MM,
   Orientation,
   betterOrientation,
   computeExportLayout,
   exportFileName,
-} from './export-layout';
-import { renderExport } from './export-render';
+} from '../export-layout/export-layout';
+import { renderExport } from '../export-render/export-render';
 
 /** Crea el canvas donde se dibuja la exportación (inyectable para poder probarlo sin navegador). */
 export const EXPORT_CANVAS_FACTORY = new InjectionToken<() => HTMLCanvasElement>('EXPORT_CANVAS_FACTORY', {

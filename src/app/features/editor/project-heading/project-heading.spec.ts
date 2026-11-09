@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { i18nTestingImports, i18nTestingProviders } from '../../../shared/i18n/i18n-testing';
-import { DrawingStore } from '../drawing-store';
+import { DrawingStore } from '../drawing-store/drawing-store';
 import { ProjectHeading } from './project-heading';
 
 @Component({

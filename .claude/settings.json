@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__figma__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/figma-guard.mjs\"",
+            "timeout": 10,
+            "statusMessage": "Comprobando política de Figma...",
+            "onFailure": "block"
+          }
+        ]
+      }
+    ]
+  }
+}

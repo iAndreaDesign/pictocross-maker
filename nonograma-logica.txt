@@ -1,0 +1,186 @@
+ReesLÓGICA DE LOS NONOGRAMAS (PICTOGRAMAS)
+======================================
+
+1. QUÉ ES
+---------
+Un nonograma es una cuadrícula que se rellena con casillas negras y blancas
+siguiendo unas pistas numéricas. Al completarlo aparece una figura.
+
+- Cada fila tiene una lista de números a la izquierda.
+- Cada columna tiene una lista de números arriba.
+- Cada número indica el largo de un bloque de casillas negras consecutivas.
+- Entre dos bloques de una misma línea debe haber al menos una casilla blanca.
+- El orden de los números es el orden de los bloques (izquierda a derecha, o
+  arriba a abajo).
+
+Ejemplo (fila de 9 casillas):
+
+    ■■□■□□■■■   ->   pista: 2 1 3
+
+Una línea sin casillas negras tiene la pista 0.
+
+
+2. GENERAR LAS PISTAS DESDE UN DIBUJO
+-------------------------------------
+Es la parte fácil y es determinista:
+
+    para cada fila (y para cada columna):
+        racha = 0
+        pistas = []
+        para cada casilla de la línea:
+            si está negra: racha += 1
+            si no y racha > 0: pistas.push(racha); racha = 0
+        al terminar, si racha > 0: pistas.push(racha)
+        si pistas está vacía: pistas = [0]
+
+Con eso se obtienen las pistas de filas (a la izquierda) y de columnas
+(arriba) para pintar el nonograma en blanco.
+
+
+3. LA LIMITACIÓN: NO TODO DIBUJO ES VÁLIDO
+------------------------------------------
+Cualquier dibujo genera pistas, pero un nonograma solo es "bueno" si tiene
+UNA ÚNICA SOLUCIÓN. Si varias figuras distintas producen las mismas pistas,
+quien lo resuelve no puede saber cuál era la tuya.
+
+Ejemplo de ambigüedad (2x2):
+
+    ■□        □■
+    □■        ■□
+
+Ambas tienen pistas 1 en todas las filas y columnas. Son indistinguibles.
+
+Patrones que suelen causar ambigüedad:
+- Casillas negras "en diagonal" que se pueden intercambiar (esquinas de un
+  rectángulo, tipo tablero de ajedrez).
+- Dibujos muy dispersos, con pocas casillas negras y mucho espacio.
+- Dibujos con mucha simetría o repetición.
+
+Esta aplicación NO usa backtracking ni adivinanzas. Solo hay dos resultados:
+  a) Se resuelve por lógica pura         -> IDEAL (verde).
+  b) La lógica se atasca sin terminar    -> NO SE PUEDE RESOLVER (rojo).
+
+El caso (b) agrupa dos situaciones que sin adivinar no se pueden distinguir:
+dibujos con varias soluciones (ambiguos) y dibujos con solución única que
+exigirían probar y errar. En ambos casos el nonograma se rechaza como no
+resoluble por lógica.
+
+Los dibujos con zonas rellenas compactas y pocos huecos aislados suelen
+resolverse bien. Los dibujos de trazo fino o muy dispersos suelen fallar.
+
+
+4. CÓMO VALIDAR EL DIBUJO EN EL PROGRAMA
+----------------------------------------
+Paso 1. Generar las pistas del dibujo.
+
+Paso 2. Resolver con un solucionador por líneas (sin adivinar, sin
+        backtracking). Todas las casillas empiezan como "desconocidas".
+
+  Para una fila o columna, dadas sus pistas y las casillas ya conocidas:
+    1. Calcular todas las formas válidas de colocar los bloques que sean
+       compatibles con las casillas ya conocidas. Se hace con programación
+       dinámica (coste del orden de largo de línea x número de bloques), no
+       probando combinaciones a ciegas.
+    2. Si una casilla es negra en TODAS las formas válidas -> se marca negra.
+    3. Si una casilla es blanca en TODAS las formas válidas -> se marca blanca.
+    4. Si no, la casilla sigue desconocida.
+
+  Esto cubre las reglas clásicas (solapamiento, líneas completadas, casillas
+  imposibles) en una sola operación.
+
+  Una "pasada" consiste en aplicar lo anterior a todas las filas y luego a
+  todas las columnas. Se repiten pasadas hasta que una pasada completa no
+  cambie ninguna casilla.
+
+Paso 3. Interpretar el resultado:
+  - No quedan casillas desconocidas -> IDEAL (verde). Se calcula la
+    dificultad (ver sección 5).
+  - Quedan casillas desconocidas     -> NO SE PUEDE RESOLVER (rojo). No se
+    intenta nada más.
+
+Nota: si el nonograma se resuelve por completo, la solución obtenida es
+necesariamente el dibujo original, porque el dibujo ya es una solución y
+la lógica solo deduce casillas que son ciertas en todas las soluciones.
+
+Paso 4. Si es no resoluble, las casillas que quedaron desconocidas se
+        resaltan en ROJO (tinte rojo) en la imagen del nonograma generado, de
+        modo que mientras dibuja el usuario vea qué zona debe modificar.
+
+  Detalles del resaltado:
+  - Las casillas rojas son las que la lógica no pudo decidir. Se obtienen
+    directamente del solucionador, sin cálculo adicional.
+  - Marcan DÓNDE se atasca la lógica, no necesariamente qué casilla exacta
+    del dibujo hay que cambiar. A veces conviene tocar una casilla vecina.
+  - Se pintan por igual las casillas que serían negras y las que serían
+    blancas, porque el solucionador no sabe cuáles son.
+  - Cambiar una casilla modifica las pistas de su fila y su columna, así que
+    el resaltado se recalcula tras cada cambio del dibujo.
+  - A medida que el usuario corrige, las manchas rojas se encogen. Cuando ya
+    no queda ninguna, el indicador pasa a verde (ideal) y aparece la
+    dificultad.
+
+
+5. DIFICULTAD (SOLO SI EL NONOGRAMA ES IDEAL)
+----------------------------------------------
+La dificultad se mide con lo que ya registra el solucionador del paso 4,
+sin cálculo adicional:
+
+  - P1: porcentaje de casillas resueltas en la primera pasada.
+        P1 = casillas resueltas tras la pasada 1 / casillas totales x 100
+  - N : número de pasadas hasta terminar (incluida la primera).
+  - T : tamaño del tablero (factor secundario). Se usa el lado mayor.
+
+Puntuación propuesta:
+
+    P1  >= 60 %  -> 0 puntos
+        30-59 %  -> 1 punto
+        < 30 %   -> 2 puntos
+
+    N   <= 3     -> 0 puntos
+        4-8      -> 1 punto
+        > 8      -> 2 puntos
+
+    T   <= 15    -> 0 puntos
+        > 15     -> 1 punto      (máximo 1, por ser factor secundario)
+
+    Total (0 a 5):
+        0-1 puntos -> FÁCIL
+        2-3 puntos -> MEDIO
+        4-5 puntos -> DIFÍCIL
+
+Los umbrales son provisionales: conviene ajustarlos probando con
+nonogramas reales de cada nivel.
+
+Cosas a tener en cuenta:
+- Un dibujo muy relleno suele resolverse casi entero en la primera pasada
+  (P1 alto, pocas pasadas): fácil.
+- Un dibujo con muchos huecos necesita más pasadas, porque cada línea solo
+  aporta información cuando las perpendiculares ya fijaron algo.
+- Con tableros grandes (hasta 50x50), ejecutar el solucionador en un Web
+  Worker y recalcular con un pequeño retardo al dibujar, para que la
+  interfaz no se congele.
+
+
+6. FLUJO PROPUESTO DE LA APLICACIÓN
+-----------------------------------
+1. El usuario elige el tamaño de la cuadrícula (ej. 5x5, 10x10, 15x15), hasta un máximo de 50x50.
+2. Dibuja pintando casillas negras (clic o arrastre).
+3. La app calcula y muestra las pistas en tiempo real en una imagen generada a la derecha.
+4. Un indicador muestra la dificultad (fácil, medio o difícil). Solo aplica
+   cuando el nonograma es ideal; si no, se oculta.
+5. Un indicador muestra si es ideal (verde) o no se puede resolver (rojo).
+   Cuando no se puede resolver, las casillas irresolubles se resaltan en rojo
+   en la imagen del nonograma generado (ver sección 4, paso 4).
+6. Un botón que siempre está activo de exportar nonograma en blanco en png o pdf
+7. Un botón que siempre está activo de exportar nanograma con la solución en png
+
+7. CONSIDERACIONES PARA EL PDF
+------------------------------
+- Librería posible: jsPDF (o pdf-lib) en el navegador.
+- Casillas cuadradas de tamaño constante; líneas más gruesas cada 5 casillas
+  para facilitar la lectura.
+- Pistas de columnas alineadas hacia abajo, pistas de filas alineadas a la
+  derecha.
+- Tamaño de tipografía legible al imprimir.
+- Ajustar el tamaño de casilla según el tamaño del tablero para que quepa en
+  A4.

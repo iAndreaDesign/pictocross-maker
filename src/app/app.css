@@ -3,7 +3,6 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
   gap: 12px 24px;
   min-height: 104px;
   box-sizing: border-box;

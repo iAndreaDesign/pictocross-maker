@@ -1,9 +1,15 @@
-import { signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { i18nTestingImports, i18nTestingProviders } from '../../shared/i18n/i18n-testing';
 import { DraftPersistence, SaveStatus } from './draft-persistence';
 import { DrawingStore } from './drawing-store';
 import { ProjectHeading } from './project-heading';
+
+@Component({
+  imports: [ProjectHeading],
+  template: `<app-project-heading><button class="probe">x</button></app-project-heading>`,
+})
+class Host {}
 
 describe('ProjectHeading', () => {
   let fixture: ComponentFixture<ProjectHeading>;
@@ -50,6 +56,15 @@ describe('ProjectHeading', () => {
 
   it('the pencil is a label that focuses the title field', () => {
     expect(q<HTMLLabelElement>('.pencil').htmlFor).toBe('project-title');
+  });
+
+  it('projects its content (the export buttons) next to the title, before the save status', async () => {
+    const host = TestBed.createComponent(Host);
+    await host.whenStable();
+    const row = host.nativeElement.querySelector('.heading') as HTMLElement;
+    const order = [...row.children].map((c) => c.className.split(' ')[0]);
+    expect(order).toEqual(['title-wrap', 'actions', 'status']);
+    expect(row.querySelector('.actions .probe')).not.toBeNull();
   });
 
   describe('local save indicator', () => {

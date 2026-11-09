@@ -14,6 +14,11 @@
     </label>
   </div>
 
+  <!-- Acciones del proyecto (p. ej. exportar), alineadas a la izquierda, junto al título. -->
+  <div class="actions">
+    <ng-content />
+  </div>
+
   <span class="status" role="status">
     @switch (status()) {
       @case ('saved') {

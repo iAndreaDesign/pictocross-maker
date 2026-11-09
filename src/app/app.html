@@ -6,12 +6,13 @@
       <p>{{ 'app.tagline' | transloco }}</p>
     </div>
   </div>
-  <app-export-bar class="header-actions" />
 </header>
 
 <app-config-bar />
 
-<app-project-heading />
+<app-project-heading>
+  <app-export-bar />
+</app-project-heading>
 
 <main class="app-main">
   <app-editor />

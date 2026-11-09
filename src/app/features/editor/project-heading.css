@@ -5,10 +5,17 @@
 
 .heading {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 12px 24px;
   min-height: 41px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 0;
 }
 
 .title-wrap {
@@ -51,6 +58,7 @@
   display: inline-flex;
   flex: none;
   align-items: center;
+  margin-left: auto;
 }
 
 .dot {

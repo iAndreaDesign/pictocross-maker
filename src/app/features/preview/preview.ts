@@ -13,6 +13,8 @@ import { SolverCell, generateClues } from '../../core/domain';
 import { SolverClient } from '../../core/workers/solver-client';
 import { Icon } from '../../shared/icon';
 import { DrawingStore } from '../editor/drawing-store';
+import { ExportService } from '../export/export.service';
+import { MIN_READABLE_CELL_MM } from '../export/export-layout';
 import { computeLayout, readRenderColors, renderNonogram } from '../../shared/nonogram-renderer';
 
 /** Ancho de referencia cuando no se puede medir el contenedor (tests). */
@@ -33,6 +35,7 @@ type Badge = 'empty' | 'calculating' | 'possible' | 'impossible';
 export class Preview {
   protected readonly store = inject(DrawingStore);
   private readonly solver = inject(SolverClient);
+  protected readonly exporter = inject(ExportService);
 
   private readonly canvasRef = viewChild<ElementRef<HTMLCanvasElement>>('canvas');
   private readonly frameRef = viewChild<ElementRef<HTMLElement>>('frame');
@@ -60,6 +63,18 @@ export class Preview {
   protected readonly difficultyLevel = computed(() => {
     const result = this.result();
     return !this.isEmpty() && result?.status === 'ideal' ? (result.difficulty?.level ?? null) : null;
+  });
+
+  /** Aviso de casilla pequeña al imprimir (no impide exportar) y, si ayuda, la otra orientación. */
+  protected readonly smallCell = computed(() => {
+    const layout = this.exporter.layout();
+    if (!layout.tooSmall) return null;
+    const other = this.exporter.suggestion();
+    return {
+      mm: layout.cellMm.toFixed(1),
+      min: MIN_READABLE_CELL_MM,
+      suggestion: other ? { orientation: other.orientation, mm: other.cellMm.toFixed(1) } : null,
+    };
   });
 
   /** Solución a pintar: el dibujo, con las casillas indecidibles marcadas como desconocidas. */

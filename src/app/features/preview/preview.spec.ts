@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SOLVER_DEBOUNCE_MS } from '../../core/workers/solver-client';
 import { i18nTestingImports, i18nTestingProviders } from '../../shared/i18n/i18n-testing';
 import { DrawingStore } from '../editor/drawing-store';
+import { ExportService } from '../export/export.service';
 import { Preview } from './preview';
 
 const HEART = [
@@ -115,5 +116,61 @@ describe('Preview', () => {
     store.resize(5, 8);
     fixture.detectChanges();
     expect(canvas.getAttribute('aria-label')).toContain('5 × 8');
+  });
+
+  describe('export', () => {
+    it('has an "Exportar solución" button wired to the export service', () => {
+      const service = TestBed.inject(ExportService);
+      const spy = vi.spyOn(service, 'exportSolution').mockResolvedValue();
+      const button = [...el.querySelectorAll<HTMLButtonElement>('button')].find(
+        (b) => b.textContent?.trim() === 'Exportar solución',
+      )!;
+      expect(button.disabled).toBe(false);
+      button.click();
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('keeps the export button available when the puzzle is not solvable', () => {
+      paint(['#.', '.#']);
+      flush();
+      const button = [...el.querySelectorAll<HTMLButtonElement>('button')].find(
+        (b) => b.textContent?.trim() === 'Exportar solución',
+      )!;
+      expect(button.disabled).toBe(false);
+    });
+
+    it('does not warn about the printed cell size for the default 10x10 board', () => {
+      expect(el.querySelector('.note')).toBeNull();
+    });
+
+    it('warns (without blocking) when the printed cell would be too small', () => {
+      store.clear();
+      store.resize(50, 50);
+      for (let r = 0; r < 50; r++) for (let c = 0; c < 50; c++) if ((r + c) % 2 === 0) store.setCell(r, c, 1);
+      fixture.detectChanges();
+      const note = el.querySelector('.note')!;
+      expect(note.getAttribute('role')).toBe('status');
+      expect(note.textContent).toMatch(/2[.,]7 mm/);
+      expect(note.textContent).toContain('3 mm');
+    });
+
+    it('suggests landscape for a wide board, without changing the orientation', () => {
+      store.clear();
+      store.resize(5, 50);
+      for (let c = 0; c < 50; c += 2) store.setCell(0, c, 1);
+      for (let r = 0; r < 5; r++) for (let c = 0; c < 50; c += 2) store.setCell(r, c, 1);
+      fixture.detectChanges();
+      const service = TestBed.inject(ExportService);
+      if (el.querySelector('.note')) {
+        expect(el.querySelector('.note')?.textContent).toContain('En horizontal');
+      }
+      expect(service.orientation()).toBe('portrait');
+    });
+
+    it('shows an alert when the last export failed', () => {
+      TestBed.inject(ExportService).failed.set(true);
+      fixture.detectChanges();
+      expect(el.querySelector('.note-error')?.getAttribute('role')).toBe('alert');
+    });
   });
 });

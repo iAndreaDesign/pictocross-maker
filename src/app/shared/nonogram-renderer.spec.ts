@@ -147,4 +147,21 @@ describe('renderNonogram', () => {
     const allowed = new Set(Object.values(COLORS));
     expect(fills.every((f) => allowed.has(f.style))).toBe(true);
   });
+
+  it('renders a blank board when cells is null: no fills, crosses or red, but grid and clues', () => {
+    const rec = fakeCtx();
+    renderNonogram(rec.ctx, { clues: CLUES, cells: null }, OPTS);
+    expect(rec.fills.some((f) => f.style === 'FILLED' || f.style === 'RED')).toBe(false);
+    expect(rec.strokes).toHaveLength(0);
+    expect(rec.fills.some((f) => f.style === 'LINE')).toBe(true);
+    expect(rec.texts).toHaveLength(6);
+  });
+
+  it('adds a margin around the board when asked (PNG export) and never less than the line needs', () => {
+    const plain = computeLayout(CLUES, 20, 2);
+    const withMargin = computeLayout(CLUES, 20, 2, 12);
+    expect(withMargin.pad).toBe(12);
+    expect(withMargin.width).toBe(plain.width - plain.pad * 2 + 24);
+    expect(computeLayout(CLUES, 20, 4, 1).pad).toBe(2);
+  });
 });

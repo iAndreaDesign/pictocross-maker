@@ -16,11 +16,6 @@ import { EditorToolbar } from './editor-toolbar';
 })
 export class Editor {
   protected readonly store = inject(DrawingStore);
-  protected onTitleChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.store.setTitle(input.value);
-  }
-
   /** Ctrl+Z deshacer; Ctrl+Y o Ctrl+Shift+Z rehacer. No interfiere con los campos de texto. */
   protected onShortcut(event: KeyboardEvent): void {
     if (!(event.ctrlKey || event.metaKey) || event.altKey) return;

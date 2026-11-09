@@ -1,0 +1,33 @@
+<div class="heading">
+  <div class="title-wrap">
+    <input
+      id="project-title"
+      class="title"
+      type="text"
+      [attr.maxlength]="maxLength"
+      [value]="store.title() ?? ('editor.title.default' | transloco)"
+      [attr.aria-label]="'editor.title.label' | transloco"
+      (change)="onTitleChange($event)"
+    />
+    <label class="pencil" for="project-title">
+      <app-icon name="pencil" />
+    </label>
+  </div>
+
+  <span class="status" role="status">
+    @switch (status()) {
+      @case ('saved') {
+        <span class="dot" [class]="statusClass()" [attr.title]="'editor.title.status.saved' | transloco"></span>
+        <span class="sr-only">{{ 'editor.title.status.saved' | transloco }}</span>
+      }
+      @case ('saving') {
+        <span class="dot" [class]="statusClass()" [attr.title]="'editor.title.status.saving' | transloco"></span>
+        <span class="sr-only">{{ 'editor.title.status.saving' | transloco }}</span>
+      }
+      @case ('unavailable') {
+        <span class="dot" [class]="statusClass()" [attr.title]="'editor.title.status.unavailable' | transloco"></span>
+        <span class="sr-only">{{ 'editor.title.status.unavailable' | transloco }}</span>
+      }
+    }
+  </span>
+</div>

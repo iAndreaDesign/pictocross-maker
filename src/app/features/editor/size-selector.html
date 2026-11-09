@@ -1,16 +1,7 @@
 <div class="size">
   <div class="field">
     <label for="size-rows">{{ 'editor.size.height' | transloco }}</label>
-    <div class="stepper">
-      <button
-        type="button"
-        class="btn-icon"
-        [disabled]="rows() <= min"
-        [attr.aria-label]="'editor.size.heightDecrease' | transloco"
-        (click)="step('rows', -1)"
-      >
-        <app-icon name="minus" />
-      </button>
+    <div class="numeric">
       <input
         id="size-rows"
         type="number"
@@ -20,15 +11,26 @@
         [value]="rows()"
         (change)="onInput('rows', $event)"
       />
-      <button
-        type="button"
-        class="btn-icon"
-        [disabled]="rows() >= max"
-        [attr.aria-label]="'editor.size.heightIncrease' | transloco"
-        (click)="step('rows', 1)"
-      >
-        <app-icon name="plus" />
-      </button>
+      <div class="stepper">
+        <button
+          type="button"
+          class="step"
+          [disabled]="rows() >= max"
+          [attr.aria-label]="'editor.size.heightIncrease' | transloco"
+          (click)="step('rows', 1)"
+        >
+          <app-icon name="chevron-up" />
+        </button>
+        <button
+          type="button"
+          class="step"
+          [disabled]="rows() <= min"
+          [attr.aria-label]="'editor.size.heightDecrease' | transloco"
+          (click)="step('rows', -1)"
+        >
+          <app-icon name="chevron-down" />
+        </button>
+      </div>
     </div>
   </div>
 
@@ -36,16 +38,7 @@
 
   <div class="field">
     <label for="size-cols">{{ 'editor.size.width' | transloco }}</label>
-    <div class="stepper">
-      <button
-        type="button"
-        class="btn-icon"
-        [disabled]="cols() <= min"
-        [attr.aria-label]="'editor.size.widthDecrease' | transloco"
-        (click)="step('cols', -1)"
-      >
-        <app-icon name="minus" />
-      </button>
+    <div class="numeric">
       <input
         id="size-cols"
         type="number"
@@ -55,15 +48,26 @@
         [value]="cols()"
         (change)="onInput('cols', $event)"
       />
-      <button
-        type="button"
-        class="btn-icon"
-        [disabled]="cols() >= max"
-        [attr.aria-label]="'editor.size.widthIncrease' | transloco"
-        (click)="step('cols', 1)"
-      >
-        <app-icon name="plus" />
-      </button>
+      <div class="stepper">
+        <button
+          type="button"
+          class="step"
+          [disabled]="cols() >= max"
+          [attr.aria-label]="'editor.size.widthIncrease' | transloco"
+          (click)="step('cols', 1)"
+        >
+          <app-icon name="chevron-up" />
+        </button>
+        <button
+          type="button"
+          class="step"
+          [disabled]="cols() <= min"
+          [attr.aria-label]="'editor.size.widthDecrease' | transloco"
+          (click)="step('cols', -1)"
+        >
+          <app-icon name="chevron-down" />
+        </button>
+      </div>
     </div>
   </div>
 </div>

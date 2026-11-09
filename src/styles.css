@@ -37,6 +37,8 @@
 
   /* Margen lateral de la página: 40 px en escritorio, 16 px por debajo de 960 px (REQ-S08-11). */
   --page-gutter: 40px;
+  /* Relleno lateral de cada sección: 40/16 px y, en pantallas muy anchas, contenido centrado de 1360 px. */
+  --page-inline: max(var(--page-gutter), calc((100% - 1360px) / 2));
 
   --font-title: 'Fraunces', serif;
   --font-ui: 'Inter', sans-serif;

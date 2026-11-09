@@ -74,3 +74,4 @@ Pistas renderizadas, validación (S06), export (S07), persistencia (S08).
 - Presets rápidos (5–50) fijan alto = ancho. Atajos: Ctrl+Z, Ctrl+Y, Ctrl+Shift+Z (ignorados dentro de campos de texto).
 - Figma **no se consultó** en S05: la spec ya traía estructura y tokens. La maquetación es provisional y se afina contra el diseño en S08. Se añadió `app-icon` (iconos SVG propios, sin librería nueva).
 - Pendiente para S07: el título del proyecto (`store.title()`, `null` = por defecto) nombra los ficheros exportados.
+- **Tamaño máximo de casilla: 45 px** (petición del usuario). Se limita en CSS (`--cell-max` en `drawing-grid.css`): el ancho del grid es como mucho `columnas × 45 px` (+ reglas); en tableros grandes las casillas se reducen para caber, nunca superan 45 px.

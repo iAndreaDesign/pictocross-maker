@@ -1,13 +1,19 @@
 :host {
   display: block;
+  /* Tamaño máximo de casilla en pantalla y ancho de la columna de reglas. */
+  --cell-max: 45px;
+  --ruler-width: 24px;
+  --frame-gap: 4px;
 }
 
 .frame {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: var(--ruler-width) 1fr;
   grid-template-rows: auto 1fr;
-  gap: 4px;
+  gap: var(--frame-gap);
   width: 100%;
+  /* reglas + hueco + (columnas × casilla máxima) + borde del canvas (2 px) */
+  max-width: calc(var(--ruler-width) + var(--frame-gap) + var(--cols) * var(--cell-max) + 2px);
 }
 
 .ruler {
@@ -38,7 +44,6 @@
   grid-column: 1;
   grid-row: 2;
   grid-template-rows: repeat(var(--rows), 1fr);
-  min-width: 1.6em;
 }
 
 .canvas {

@@ -58,6 +58,10 @@ Paleta extraída del Figma (nodos `4:607`, `4:656`, `4:890`). Los nombres son pr
 | `--color-preview-bg` | `#FFFFFF` | Fondo de la preview (sustituye al `#EADED5` de la referencia) |
 | `--color-cell-filled` | `#9E5139` | Casilla pintada (editor y preview/exportaciones). Medido en la imagen de referencia de la preview |
 | `--color-clue-band` | `#F2D7C4` | Bandas alternas de pistas (filas y columnas) en la preview |
+| `--color-preview-line` | `#D2D2D2` | Línea fina entre casillas vacías de la preview y exportaciones (Figma image 8) |
+| `--color-preview-line-filled` | `#FBF9F7` | Línea fina entre casillas pintadas |
+| `--color-clue-line` | `#EDEDEC` | Separador dentro de las pistas, junto a blanco |
+| `--color-clue-line-band` | `#F9EDE3` | Separador dentro de una banda de pistas |
 | `--color-cross` | `#D77A4B` | Cruces en las casillas blancas de la solución |
 | `--color-cell-line` | `#FFF4EA` | Línea fina entre casillas vacías del editor (Figma 4:728) |
 | `--color-cell-filled-line` | `#B26D52` | Línea fina junto a una casilla pintada del editor |

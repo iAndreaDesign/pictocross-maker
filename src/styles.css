@@ -23,6 +23,12 @@
   --color-cell-filled: #9e5139;
   --color-clue-band: #f2d7c4;
   --color-cross: #d77a4b;
+  /* Líneas de la preview/exportaciones (Figma image 8): finas y claras; solo las gruesas son negras */
+  --color-preview-line: #d2d2d2;
+  --color-preview-line-filled: #fbf9f7;
+  --color-clue-line: #ededec;
+  --color-clue-line-band: #f9ede3;
+
   /* Grid del editor (Figma 4:728) */
   --color-cell-line: #fff4ea;
   --color-cell-filled-line: #b26d52;

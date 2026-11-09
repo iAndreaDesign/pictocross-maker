@@ -18,6 +18,10 @@ const COLORS: Record<string, string> = {
   '--color-impossible-bg': 'RED',
   '--color-clue-band': 'BAND',
   '--color-grid-line': 'LINE',
+  '--color-preview-line': 'THIN',
+  '--color-preview-line-filled': 'THIN_FILLED',
+  '--color-clue-line': 'CLUE',
+  '--color-clue-line-band': 'CLUE_BAND',
   '--color-text': 'TEXT',
   '--font-ui': 'Inter',
 };

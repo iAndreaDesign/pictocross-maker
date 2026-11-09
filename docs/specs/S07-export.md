@@ -14,7 +14,7 @@ Exportar el nonograma en blanco (PNG o PDF) y con solución (PNG). Botones siemp
 - REQ-S07-07: PNG a resolución suficiente para imprimir (escala configurable, por defecto 2x).
 - REQ-S07-08: Dibujo vacío: exporta igualmente un tablero en blanco válido.
 - REQ-S07-09: Lo exportado usa el **mismo `NonogramRenderer` de S06**, con los **colores terracota** de marca, fondo blanco `#FFFFFF` y cuadrícula negra al 80 %. "Export solution" equivale a la preview sin el resaltado rojo; "Export as PDF/PNG" es la misma cuadrícula en blanco.
-- REQ-S07-11: Las líneas de cuadrícula exportadas son negras al 80 % de opacidad y se ven nítidas en PNG y PDF (grosor mínimo definido en el layout).
+- REQ-S07-11: Las líneas exportadas son las mismas que las de la preview (REQ-S06-13): gruesas negras al 80 % cada 5 casillas y en el borde, finas claras de 1 px; nítidas en PNG y PDF (grosor mínimo definido en el layout).
 - REQ-S07-12: Sin función de imprimir en la app; el usuario imprime el PDF exportado.
 - REQ-S07-13: **Tamaño físico de casilla**: las casillas del tablero y las de pistas (filas y columnas) son cuadradas y del mismo tamaño `c`. Para un tablero pequeño `c = 7 mm`.
 - REQ-S07-14: **Ajuste a A4** (210×297 mm) con **márgenes de 5 mm**. Área útil: vertical 200×287 mm, horizontal 287×200 mm. Ancho total = `(máx. nº de pistas en una fila + columnas) × c`; alto total = `(máx. nº de pistas en una columna + filas) × c`. `c = min(7 mm, áreaAncho / unidadesAncho, áreaAlto / unidadesAlto)`. El tablero se centra en el área útil. Función pura `computeLayout(grid, clues, orientation)`.
@@ -54,3 +54,4 @@ Exportar el nonograma en blanco (PNG o PDF) y con solución (PNG). Botones siemp
 - **Build:** `jspdf` arrastra avisos de esbuild por `core-js`/`canvg` (dependencias opcionales suyas); no son errores.
 - **Fix en S05 hallado al verificar:** a 50 columnas la regla superior del editor se salía del lienzo; ahora su ancho lo marca el canvas (`contain: inline-size`).
 - **Reubicación de los botones (petición del usuario, tras S08):** Vertical/Horizontal + Exportar PDF + Exportar PNG pasan de la cabecera a la fila del título del proyecto (`ExportBar` se proyecta dentro de `ProjectHeading` con `<ng-content>`, sin acoplar las features). Se elimina el botón "Exportar solución" de ese grupo: queda solo el de la preview (`ExportService.exportSolution()` sigue siendo la misma acción). Diverge del Figma (4:643), que tiene los tres botones en la cabecera.
+- **Líneas y cruces de la exportación** cambian con el renderer único (ver S06): las finas son grises claras, solo las gruesas son negras y las cruces son más finas. Efecto al imprimir: las líneas finas (`#D2D2D2`) son tenues; si resultan demasiado claras en papel, se puede oscurecer solo el token de las exportaciones.

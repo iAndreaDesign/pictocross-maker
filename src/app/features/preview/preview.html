@@ -1,0 +1,49 @@
+<section class="preview">
+  <header class="badges" aria-live="polite">
+    @switch (badge()) {
+      @case ('empty') {
+        <span class="badge badge-neutral">{{ 'preview.badge.empty' | transloco }}</span>
+      }
+      @case ('calculating') {
+        <span class="badge badge-neutral">{{ 'preview.badge.calculating' | transloco }}</span>
+      }
+      @case ('possible') {
+        <span class="badge badge-possible">
+          <app-icon name="circle-check" />
+          {{ 'preview.badge.possible' | transloco }}
+        </span>
+      }
+      @case ('impossible') {
+        <span class="badge badge-impossible">
+          {{ 'preview.badge.impossible' | transloco }}
+          <app-icon name="circle-x" />
+        </span>
+      }
+    }
+    @if (difficultyLevel(); as level) {
+      <span class="badge badge-difficulty">
+        <app-icon name="sparkles" />
+        @switch (level) {
+          @case ('easy') {
+            {{ 'preview.difficulty.easy' | transloco }}
+          }
+          @case ('medium') {
+            {{ 'preview.difficulty.medium' | transloco }}
+          }
+          @case ('hard') {
+            {{ 'preview.difficulty.hard' | transloco }}
+          }
+        }
+      </span>
+    }
+  </header>
+
+  <div #frame class="frame">
+    <canvas
+      #canvas
+      class="canvas"
+      role="img"
+      [attr.aria-label]="'preview.canvas' | transloco: { rows: rows, cols: cols }"
+    ></canvas>
+  </div>
+</section>

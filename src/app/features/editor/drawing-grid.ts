@@ -60,7 +60,11 @@ export class DrawingGrid {
     const mode = strokeModeFor(this.store.tool(), event.button);
     if (!mode) return;
     event.preventDefault();
-    (event.currentTarget as HTMLCanvasElement).setPointerCapture?.(event.pointerId);
+    try {
+      (event.currentTarget as HTMLCanvasElement).setPointerCapture?.(event.pointerId);
+    } catch {
+      // El puntero ya no está activo: el trazo sigue funcionando sin captura.
+    }
     this.store.beginStroke(mode);
     this.paintAt(event);
   }

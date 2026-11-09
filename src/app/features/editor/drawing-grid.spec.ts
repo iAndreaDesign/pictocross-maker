@@ -78,6 +78,15 @@ describe('DrawingGrid', () => {
     expect(store.grid()).toEqual(DEFAULT_LOGO_GRID);
   });
 
+  it('still draws when the pointer can no longer be captured', () => {
+    canvas.setPointerCapture = () => {
+      throw new DOMException('No active pointer', 'NotFoundError');
+    };
+    at('pointerdown', [9, 9]);
+    at('pointerup', [9, 9]);
+    expect(store.grid()[9][9]).toBe(1);
+  });
+
   it('ignores the middle button', () => {
     at('pointerdown', [9, 9], 1);
     at('pointerup', [9, 9], 1);

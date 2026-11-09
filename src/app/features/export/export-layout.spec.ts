@@ -134,6 +134,12 @@ describe('exportFileName', () => {
     expect(exportFileName('  ¡Mi Pez! ', 5, 5, 'solution', 'png', LABELS)).toBe('mi-pez-solucion.png');
   });
 
+  it('names PDF and PNG after the project: nombre.pdf, nombre.png, nombre-solucion.png', () => {
+    expect(exportFileName('Mi Dibujo', 8, 8, 'blank', 'pdf', LABELS)).toBe('mi-dibujo.pdf');
+    expect(exportFileName('Mi Dibujo', 8, 8, 'blank', 'png', LABELS)).toBe('mi-dibujo.png');
+    expect(exportFileName('Mi Dibujo', 8, 8, 'solution', 'png', LABELS)).toBe('mi-dibujo-solucion.png');
+  });
+
   it('takes the base and solution words from the labels (i18n), not from code', () => {
     const en = { base: 'nonogram', solution: 'solution' };
     expect(exportFileName(null, 5, 5, 'solution', 'png', en)).toBe('nonogram-5x5-solution.png');

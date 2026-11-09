@@ -18,21 +18,4 @@
   <div class="actions">
     <ng-content />
   </div>
-
-  <span class="status" role="status">
-    @switch (status()) {
-      @case ('saved') {
-        <span class="dot" [class]="statusClass()" [attr.title]="'editor.title.status.saved' | transloco"></span>
-        <span class="sr-only">{{ 'editor.title.status.saved' | transloco }}</span>
-      }
-      @case ('saving') {
-        <span class="dot" [class]="statusClass()" [attr.title]="'editor.title.status.saving' | transloco"></span>
-        <span class="sr-only">{{ 'editor.title.status.saving' | transloco }}</span>
-      }
-      @case ('unavailable') {
-        <span class="dot" [class]="statusClass()" [attr.title]="'editor.title.status.unavailable' | transloco"></span>
-        <span class="sr-only">{{ 'editor.title.status.unavailable' | transloco }}</span>
-      }
-    }
-  </span>
 </div>

@@ -5,6 +5,7 @@
 
 .heading {
   display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
   gap: 12px 24px;
@@ -53,34 +54,10 @@
   cursor: text;
 }
 
-/* Punto de estado (Figma 4:702, 6×6): la forma distingue el estado, no solo el color. */
-.status {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  margin-left: auto;
-}
-
-.dot {
-  box-sizing: border-box;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.status-saved {
-  background: var(--color-possible-text);
-}
-
-.status-saving {
-  border: 2px solid var(--color-text-muted);
-  background: transparent;
-}
-
-.status-unavailable {
-  border-radius: 1px;
-  background: var(--color-impossible-bg);
-  transform: rotate(45deg);
+@media (max-width: 449px) {
+  :host {
+    padding-top: var(--block-pad);
+  }
 }
 
 @media (max-width: 639px) {

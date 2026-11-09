@@ -9,12 +9,7 @@
   "editor": {
     "title": {
       "label": "Título del proyecto",
-      "default": "Corazón de píxel",
-      "status": {
-        "saved": "Borrador guardado en este navegador",
-        "saving": "Guardando borrador…",
-        "unavailable": "No se puede guardar el borrador en este navegador"
-      }
+      "default": "Corazón de píxel"
     },
     "size": {
       "height": "Alto",

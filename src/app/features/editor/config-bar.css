@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 24px var(--page-inline);
+  padding: var(--block-pad) var(--page-inline);
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
 }
@@ -48,6 +48,13 @@
 @media (max-width: 959px) {
   .divider {
     display: none;
+  }
+}
+
+/* Móvil (< 450 px): sin separación entre icono y selector de tamaño. */
+@media (max-width: 449px) {
+  .group {
+    gap: 0;
   }
 }
 

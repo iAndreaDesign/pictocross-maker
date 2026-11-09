@@ -10,6 +10,10 @@ import { ExportService } from './export.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="bar">
+      <button type="button" class="btn btn-soft" (click)="exporter.exportSolution()">
+        <app-icon name="download" />
+        {{ 'export.solution' | transloco }}
+      </button>
       <div class="orientation" role="group" [attr.aria-label]="'export.orientation.group' | transloco">
         <button
           type="button"

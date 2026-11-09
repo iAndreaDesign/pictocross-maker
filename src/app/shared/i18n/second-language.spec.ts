@@ -50,8 +50,9 @@ describe('adding a second language needs no component changes (REQ-S08-05)', () 
       // Todo texto visible viene de la traducción: quitando los segmentos §…§ (y el símbolo ×) no queda nada.
       const outside = (el.textContent ?? '').replace(/§[^§]*§/g, '').replace(/[×\s]/g, '');
       expect(outside, component.name).toBe('');
-      expect(el.textContent, component.name).toContain('§');
       const labels = [...el.querySelectorAll('[aria-label]')].map((n) => n.getAttribute('aria-label') ?? '');
+      // Algunos componentes (el encabezado) solo tienen texto traducido en atributos.
+      expect((el.textContent ?? '') + labels.join(''), component.name).toContain('§');
       expect(labels.length, component.name).toBeGreaterThan(0);
       for (const label of labels) expect(label, component.name).toMatch(/^§.*§$/);
     }

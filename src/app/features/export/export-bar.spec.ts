@@ -27,11 +27,11 @@ describe('ExportBar', () => {
 
   afterEach(() => vi.restoreAllMocks());
 
-  it('has the PDF and PNG export buttons, always enabled, and no "Exportar solución" (it lives in the preview)', () => {
-    for (const label of ['Exportar PDF', 'Exportar PNG']) {
+  it('has the solution, PDF and PNG export buttons, always enabled, with the solution first', () => {
+    for (const label of ['Exportar solución', 'Exportar PDF', 'Exportar PNG']) {
       expect(byText(label).disabled).toBe(false);
     }
-    expect(el.textContent).not.toContain('Exportar solución');
+    expect(el.querySelector('button')?.textContent?.trim()).toBe('Exportar solución');
   });
 
   it('each button triggers its export', () => {
@@ -40,6 +40,8 @@ describe('ExportBar', () => {
     expect(service.exportPdf).toHaveBeenCalledTimes(1);
     expect(service.exportPng).toHaveBeenCalledTimes(1);
     expect(service.exportSolution).not.toHaveBeenCalled();
+    byText('Exportar solución').click();
+    expect(service.exportSolution).toHaveBeenCalledTimes(1);
   });
 
   it('shows Vertical selected by default and lets the user switch to Horizontal', async () => {

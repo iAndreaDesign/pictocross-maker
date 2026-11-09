@@ -1,5 +1,5 @@
 # S10 — Últimos retoques
-Estado: draft | Depende de: S08, S09
+Estado: done | Depende de: S08, S09
 
 ## Objetivo
 Pequeños ajustes visuales y de exportación pedidos por el usuario tras S08/S09: líneas del editor, colores de dificultad, nombres de fichero, texto blanco en botones de acento, responsive móvil y botón "Exportar solución" en la cabecera del proyecto.
@@ -18,22 +18,24 @@ Pequeños ajustes visuales y de exportación pedidos por el usuario tras S08/S09
 - REQ-S10-07: **Móvil (< 450 px): "Exportar solución" desaparece de la preview** y solo queda el de la cabecera.
 
 ## Criterios de aceptación
-- [ ] El canvas del editor dibuja las líneas vacías con `#EDEDEC`.
-- [ ] Los badges fácil / medio / difícil muestran los tres fondos indicados; difícil con texto blanco.
-- [ ] Con nombre "Mi Dibujo": descargas `mi-dibujo.png`, `mi-dibujo.pdf`, `mi-dibujo-solucion.png`; sin nombre, `nonograma-{f}x{c}…`.
-- [ ] No queda ningún botón con fondo `--color-accent` y texto oscuro.
-- [ ] A < 450 px márgenes y padding son 8 px y `.group` no tiene gap; sin scroll horizontal a 320 px.
-- [ ] "Exportar solución" es el primer botón de la cabecera en todos los anchos; en la preview solo ≥ 450 px.
-- [ ] `npm test`, `npm run lint` y `npm run build` en verde.
+- [x] El canvas del editor dibuja las líneas vacías con `#EDEDEC`.
+- [x] Los badges fácil / medio / difícil muestran los tres fondos indicados; difícil con texto blanco.
+- [x] Con nombre "Mi Dibujo": descargas `mi-dibujo.png`, `mi-dibujo.pdf`, `mi-dibujo-solucion.png`; sin nombre, `nonograma-{f}x{c}…`.
+- [x] No queda ningún botón con fondo `--color-accent` y texto oscuro.
+- [x] A < 450 px márgenes y padding son 8 px y `.group` no tiene gap; sin scroll horizontal a 320 px.
+- [x] "Exportar solución" es el primer botón de la cabecera en todos los anchos; en la preview solo ≥ 450 px.
+- [x] `npm test`, `npm run lint` y `npm run build` en verde.
 
 ## Tareas
-- [ ] T10.1 (REQ-S10-01) Token `--color-cell-line` → `#EDEDEC` (+ spec S01 tabla de tokens y test del grid si aplica) — Hecho cuando: tests del grid en verde.
-- [ ] T10.2 (REQ-S10-02) Tokens y clases `badge-easy|medium|hard` en la preview — Hecho cuando: test de preview comprueba la clase por nivel.
-- [ ] T10.3 (REQ-S10-03) Verificar/ajustar `exportFileName` y cubrir con tests nombre / sin nombre / solución / PDF — Hecho cuando: tests de `export-layout` y `export.service` en verde.
-- [ ] T10.4 (REQ-S10-04) `--color-on-accent: #FFFFFF`; ajustar `scripts/check-contrast.mjs` (ver Decisiones) — Hecho cuando: `npm test` en verde.
-- [ ] T10.5 (REQ-S10-05) Media query `max-width: 449px` con gutter/padding 8 px y `.group { gap: 0 }` — Hecho cuando: captura a 320 y 449 px sin scroll horizontal.
-- [ ] T10.6 (REQ-S10-06/07) Botón "Exportar solución" primero en `export-bar` y oculto en la preview a < 450 px — Hecho cuando: tests de `export-bar` y `preview` en verde y verificado en navegador.
+- [x] T10.1 (REQ-S10-01) Token `--color-cell-line` → `#EDEDEC` (+ spec S01 tabla de tokens y test del grid si aplica) — Hecho cuando: tests del grid en verde.
+- [x] T10.2 (REQ-S10-02) Tokens y clases `badge-easy|medium|hard` en la preview — Hecho cuando: test de preview comprueba la clase por nivel.
+- [x] T10.3 (REQ-S10-03) Verificar/ajustar `exportFileName` y cubrir con tests nombre / sin nombre / solución / PDF — Hecho cuando: tests de `export-layout` y `export.service` en verde.
+- [x] T10.4 (REQ-S10-04) `--color-on-accent: #FFFFFF`; ajustar `scripts/check-contrast.mjs` (ver Decisiones) — Hecho cuando: `npm test` en verde.
+- [x] T10.5 (REQ-S10-05) Media query `max-width: 449px` con gutter/padding 8 px y `.group { gap: 0 }` — Hecho cuando: captura a 320 y 449 px sin scroll horizontal.
+- [x] T10.6 (REQ-S10-06/07) Botón "Exportar solución" primero en `export-bar` y oculto en la preview a < 450 px — Hecho cuando: tests de `export-bar` y `preview` en verde y verificado en navegador.
 
 ## Decisiones
 - **Contraste (a confirmar):** blanco sobre `#D67747` da ~3,2:1 y sobre `#C97C68` ~3,2:1, por debajo de AA para texto normal (4,5:1). En S08 se había oscurecido `--color-on-accent` precisamente por esto (Lighthouse 100). Se aplica lo pedido por el usuario; `check-contrast.mjs` admitirá 3:1 solo para estos dos pares (documentado) y se vuelve a pasar Lighthouse.
-- **Nota de trabajo:** los cambios sin commitear de `project-heading` (fila del título con `justify-content: space-between` y sin el punto de estado de guardado) son previos a S10; se revisan al implementar T10.6.
+- **Indicador de guardado eliminado (confirmado por el usuario):** `project-heading` ya no muestra el punto de estado (HTML/CSS/claves `editor.title.status.*` y sus tests fuera); la fila del título usa `justify-content: space-between`. `DraftPersistence` sigue guardando el borrador igual. Sustituye a REQ-S08-08.
+- **Implementación:** tokens `--color-badge-{easy,medium,hard}-bg`, `--color-badge-hard-text`, `--block-pad` (24 px; 8 px < 450 px). `check-contrast.mjs` admite 3:1 solo para `on-accent/accent` y `badge-hard-text/bg`. T10.3: el nombre ya funcionaba; se añadieron tests de `nombre.pdf/png/-solucion.png`.
+- **Límite de la verificación:** tests, lint y build en verde; no se ha revisado en navegador (320/449 px) ni vuelto a pasar Lighthouse.

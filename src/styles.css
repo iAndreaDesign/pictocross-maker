@@ -8,8 +8,8 @@
   --color-accent: #d67747;
   --color-text: #46352d;
   --color-text-muted: #66554a;
-  /* Texto sobre el acento (botones terracota): oscurecido respecto al Figma (#46352d, 3,6:1) para cumplir AA (4,7:1). */
-  --color-on-accent: #32241d;
+  /* Texto sobre el acento (botones terracota): blanco por decisión del usuario (S10; ~3,2:1, ver S10 Decisiones). */
+  --color-on-accent: #ffffff;
   --color-border: #d6c4b5;
   --color-divider: #c5b4a5;
   --color-surface: #fcf6ee;
@@ -30,10 +30,16 @@
   --color-clue-line-band: #f9ede3;
 
   /* Grid del editor (Figma 4:728) */
-  --color-cell-line: #fff4ea;
+  --color-cell-line: #ededec;
   --color-cell-filled-line: #b26d52;
   --color-grid-rule: #897262;
   --color-page: #eaded5;
+
+  /* Badge de dificultad (S10) */
+  --color-badge-easy-bg: #ebded5;
+  --color-badge-medium-bg: #edccb4;
+  --color-badge-hard-bg: #c97c68;
+  --color-badge-hard-text: #ffffff;
 
   /* Pie de página (Figma 4:912) */
   --color-accent-dot: #c97d68;
@@ -45,6 +51,8 @@
 
   /* Margen lateral de la página: 40 px en escritorio, 16 px por debajo de 960 px (REQ-S08-11). */
   --page-gutter: 40px;
+  /* Relleno de tarjetas y bloques: 24 px; 8 px por debajo de 450 px (S10). */
+  --block-pad: 24px;
   /* Relleno lateral de cada sección: 40/16 px y, en pantallas muy anchas, contenido centrado de 1360 px. */
   --page-inline: max(var(--page-gutter), calc((100% - 1360px) / 2));
 
@@ -55,6 +63,14 @@
 @media (max-width: 959px) {
   :root {
     --page-gutter: 16px;
+  }
+}
+
+/* Móvil (S10): márgenes y rellenos a 8 px. */
+@media (max-width: 449px) {
+  :root {
+    --page-gutter: 8px;
+    --block-pad: 8px;
   }
 }
 

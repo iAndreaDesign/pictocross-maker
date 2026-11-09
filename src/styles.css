@@ -1,1 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
+@import "@fontsource/fraunces/latin-900.css";
+@import "@fontsource/inter/latin-400.css";
+@import "@fontsource/inter/latin-600.css";
+
+:root {
+  /* Marca (Figma Pictocross-maker). Único lugar donde se definen colores. */
+  --color-header: #edccb4;
+  --color-accent: #d67747;
+  --color-text: #46352d;
+  --color-text-muted: #806d60;
+  --color-border: #d6c4b5;
+  --color-divider: #c5b4a5;
+  --color-surface: #fcf6ee;
+  --color-input: #fffdf7;
+  --color-possible-bg: #dce5cc;
+  --color-possible-text: #435738;
+  --color-impossible-bg: #e20000;
+  --color-impossible-text: #ffffff;
+  --color-grid-line: rgba(0, 0, 0, 0.8);
+  --color-preview-bg: #ffffff;
+  --color-cell-filled: #9e5139;
+  --color-clue-band: #f2d7c4;
+  --color-cross: #d77a4b;
+  /* PROVISIONAL: pendiente de extraer del Figma (ver S01 Decisiones). */
+  --color-page: var(--color-surface);
+
+  --radius-button: 10px;
+  --radius-input: 8px;
+  --radius-badge: 100px;
+
+  --font-title: 'Fraunces', serif;
+  --font-ui: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--color-page);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+}

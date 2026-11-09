@@ -6,7 +6,7 @@ Orden de ejecución. Un scope no empieza hasta que sus dependencias estén `done
 |-----|-----------------------------------------|------------|--------|
 | S01 | Scaffold y tooling                      | —          | done |
 | S02 | Dominio: tipos y generación de pistas   | S01        | done   |
-| S03 | Dominio: solucionador por líneas        | S02        | draft  |
+| S03 | Dominio: solucionador por líneas        | S02        | done   |
 | S04 | Dominio: dificultad                     | S03        | draft  |
 | S05 | Editor de dibujo (grid + store)         | S01, S02   | draft  |
 | S06 | Preview, validación y worker            | S03, S04, S05 | draft |

@@ -75,3 +75,8 @@ Pistas renderizadas, validación (S06), export (S07), persistencia (S08).
 - Figma **no se consultó** en S05: la spec ya traía estructura y tokens. La maquetación es provisional y se afina contra el diseño en S08. Se añadió `app-icon` (iconos SVG propios, sin librería nueva).
 - Pendiente para S07: el título del proyecto (`store.title()`, `null` = por defecto) nombra los ficheros exportados.
 - **Tamaño máximo de casilla: 45 px** (petición del usuario). Se limita en CSS (`--cell-max` en `drawing-grid.css`): el ancho del grid es como mucho `columnas × 45 px` (+ reglas); en tableros grandes las casillas se reducen para caber, nunca superan 45 px.
+- **Revisión contra Figma (4:706, 4:606), tras la PR de S06:**
+  - La **barra de configuración** (icono rejilla, Alto × Ancho, Limpiar, Invertir) es una franja **a todo el ancho** bajo la cabecera, fuera de las tarjetas: componente `ConfigBar`. El editor queda con título, herramientas, grid y pie. Limpiar usa el icono de borrador, como en el diseño.
+  - **Colores del grid** (tokens nuevos en S01): vacía `#FFFDF7`, línea fina `#FFF4EA`, pintada `#9E5139` con línea `#B26D52`, reglas gruesas cada 5 y marco de 2 px `#897262`. Sin radio en el grid. El canvas se dibuja a resolución de dispositivo (casilla ≤ 45 px).
+  - **Presets de tamaño eliminados** (REQ-S05-02 los permitía "si el diseño los admite"; el Figma no los tiene). Etiquetas Alto/Ancho en línea, como en el diseño.
+  - Diferencias del Figma **no aplicadas** (fuera de lo pedido, para decidir): título del proyecto fuera de las tarjetas y con otro peso tipográfico, botón de borrar solo con icono, botones de exportación en la cabecera, pie de página con copyright, textos "Haz clic o arrastra para pintar.".

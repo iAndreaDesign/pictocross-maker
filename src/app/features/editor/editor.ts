@@ -1,19 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { Icon } from '../../shared/icon';
 import { DrawingGrid } from './drawing-grid';
 import { DrawingStore } from './drawing-store';
 import { EditorToolbar } from './editor-toolbar';
-import { SizeChange, SizeSelector } from './size-selector';
 
-interface PendingResize extends SizeChange {
-  readonly lost: number;
-}
-
-/** Panel izquierdo: configuración (tamaño, limpiar, invertir), herramientas, grid y pie. */
+/** Panel izquierdo: título, herramientas, grid y pie. La configuración (tamaño…) está en `ConfigBar`. */
 @Component({
   selector: 'app-editor',
-  imports: [TranslocoPipe, Icon, DrawingGrid, EditorToolbar, SizeSelector],
+  imports: [TranslocoPipe, Icon, DrawingGrid, EditorToolbar],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './editor.html',
   styleUrl: './editor.css',
@@ -21,28 +16,6 @@ interface PendingResize extends SizeChange {
 })
 export class Editor {
   protected readonly store = inject(DrawingStore);
-  protected readonly pendingResize = signal<PendingResize | null>(null);
-
-  protected requestResize(size: SizeChange): void {
-    const lost = this.store.lostOnResize(size.rows, size.cols);
-    if (lost > 0) {
-      this.pendingResize.set({ ...size, lost });
-    } else {
-      this.pendingResize.set(null);
-      this.store.resize(size.rows, size.cols);
-    }
-  }
-
-  protected confirmResize(): void {
-    const pending = this.pendingResize();
-    if (pending) this.store.resize(pending.rows, pending.cols);
-    this.pendingResize.set(null);
-  }
-
-  protected cancelResize(): void {
-    this.pendingResize.set(null);
-  }
-
   protected onTitleChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.store.setTitle(input.value);

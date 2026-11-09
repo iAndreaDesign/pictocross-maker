@@ -57,6 +57,9 @@ Paleta extraída del Figma (nodos `4:607`, `4:656`, `4:890`). Los nombres son pr
 | `--color-cell-filled` | `#9E5139` | Casilla pintada (editor y preview/exportaciones). Medido en la imagen de referencia de la preview |
 | `--color-clue-band` | `#F2D7C4` | Bandas alternas de pistas (filas y columnas) en la preview |
 | `--color-cross` | `#D77A4B` | Cruces en las casillas blancas de la solución |
+| `--color-cell-line` | `#FFF4EA` | Línea fina entre casillas vacías del editor (Figma 4:728) |
+| `--color-cell-filled-line` | `#B26D52` | Línea fina junto a una casilla pintada del editor |
+| `--color-grid-rule` | `#897262` | Reglas gruesas (cada 5) y marco exterior del grid del editor, 2 px |
 | `--color-page` | `#EADED5` (confirmado por el usuario) | Fondo de página |
 
 Radios: botones 10 px, inputs 8 px, badges 100 px. Fuentes: Fraunces Black 28 px/-1 px (título), Inter 13 px SemiBold (botones).

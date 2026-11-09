@@ -21,6 +21,10 @@
   --color-cell-filled: #9e5139;
   --color-clue-band: #f2d7c4;
   --color-cross: #d77a4b;
+  /* Grid del editor (Figma 4:728) */
+  --color-cell-line: #fff4ea;
+  --color-cell-filled-line: #b26d52;
+  --color-grid-rule: #897262;
   --color-page: #eaded5;
 
   --radius-button: 10px;

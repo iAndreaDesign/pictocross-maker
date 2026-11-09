@@ -14,9 +14,7 @@
       "heightDecrease": "Reducir alto",
       "heightIncrease": "Aumentar alto",
       "widthDecrease": "Reducir ancho",
-      "widthIncrease": "Aumentar ancho",
-      "presets": "Tamaños rápidos",
-      "preset": "Tamaño {{ n }} × {{ n }}"
+      "widthIncrease": "Aumentar ancho"
     },
     "actions": {
       "clear": "Limpiar",

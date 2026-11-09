@@ -1,18 +1,18 @@
 .size {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
   gap: 8px 12px;
 }
 
 .field {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 8px;
 }
 
 .field label {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--color-text-muted);
 }
@@ -44,13 +44,6 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .times {
-  padding-bottom: 8px;
   color: var(--color-text-muted);
 }
 
-.presets {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-left: auto;
-}

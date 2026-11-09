@@ -34,6 +34,8 @@
 .ruler-x {
   grid-column: 2;
   grid-row: 1;
+  /* Su ancho lo marca el canvas, no la suma de sus etiquetas (a 50 columnas se salía del lienzo). */
+  contain: inline-size;
   grid-template-columns: repeat(var(--cols), 1fr);
 }
 

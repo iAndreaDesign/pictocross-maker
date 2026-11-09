@@ -68,6 +68,18 @@ body {
   color: var(--color-input);
 }
 
+.btn-light {
+  border-color: var(--color-border);
+  background: var(--color-input);
+  color: var(--color-text);
+}
+
+.btn-soft {
+  border-color: var(--color-border);
+  background: var(--color-header);
+  color: var(--color-text);
+}
+
 .btn-secondary {
   background: var(--color-surface);
   color: var(--color-text);

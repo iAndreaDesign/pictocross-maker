@@ -1,4 +1,4 @@
-import { Clues, SolverCell } from '../../core/domain';
+import { Clues, SolverCell } from '../core/domain';
 
 /** Colores resueltos (los toma de los tokens CSS; el renderer no hardcodea ninguno). */
 export interface RenderColors {
@@ -19,12 +19,17 @@ export interface RenderOptions {
   readonly thick: number;
   readonly fontFamily: string;
   readonly colors: RenderColors;
+  /** Margen blanco alrededor (px del canvas), p. ej. los 5 mm del PNG. Por defecto, solo lo que piden las líneas. */
+  readonly margin?: number;
 }
 
 export interface RenderModel {
   readonly clues: Clues;
-  /** Estado a pintar por casilla: negra = rellena, blanca = cruz, desconocida = rojo. */
-  readonly cells: readonly (readonly SolverCell[])[];
+  /**
+   * Estado a pintar por casilla: negra = rellena, blanca = cruz, desconocida = rojo.
+   * `null` = tablero en blanco (solo cuadrícula y pistas), como en las exportaciones sin solución.
+   */
+  readonly cells: readonly (readonly SolverCell[])[] | null;
 }
 
 export interface Layout {
@@ -45,12 +50,12 @@ export interface Layout {
 
 const maxLen = (clues: Clues['rows']) => Math.max(1, ...clues.map((c) => c.length));
 
-export function computeLayout(clues: Clues, cellSize: number, thick: number): Layout {
+export function computeLayout(clues: Clues, cellSize: number, thick: number, margin = 0): Layout {
   const rows = clues.rows.length;
   const cols = clues.cols.length;
   const rowClueCells = maxLen(clues.rows);
   const colClueCells = maxLen(clues.cols);
-  const pad = Math.ceil(thick / 2);
+  const pad = Math.max(Math.ceil(thick / 2), Math.ceil(margin));
   const gridX = rowClueCells * cellSize;
   const gridY = colClueCells * cellSize;
   return {
@@ -89,7 +94,7 @@ export function readRenderColors(element: Element): RenderColors & { fontFamily:
  */
 export function renderNonogram(ctx: CanvasRenderingContext2D, model: RenderModel, opts: RenderOptions): Layout {
   const { colors, cellSize: cs, thin, thick } = opts;
-  const layout = computeLayout(model.clues, cs, thick);
+  const layout = computeLayout(model.clues, cs, thick, opts.margin);
   const { rows, cols, rowClueCells, colClueCells, gridX, gridY, pad } = layout;
   const innerWidth = layout.width - pad * 2;
   const innerHeight = layout.height - pad * 2;
@@ -104,12 +109,13 @@ export function renderNonogram(ctx: CanvasRenderingContext2D, model: RenderModel
   for (let c = 0; c < cols; c += 2) ctx.fillRect(gridX + c * cs, 0, cs, gridY);
   for (let r = 0; r < rows; r += 2) ctx.fillRect(0, gridY + r * cs, gridX, cs);
 
-  // Solución: negras = terracota, blancas = cruz, desconocidas = rojo.
-  for (let r = 0; r < rows; r++) {
+  // Solución: negras = terracota, blancas = cruz, desconocidas = rojo. Sin `cells`, tablero en blanco.
+  const cells = model.cells;
+  for (let r = 0; cells && r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       const x = gridX + c * cs;
       const y = gridY + r * cs;
-      switch (model.cells[r][c]) {
+      switch (cells[r][c]) {
         case SolverCell.Black:
           ctx.fillStyle = colors.filled;
           ctx.fillRect(x, y, cs, cs);

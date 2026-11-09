@@ -55,5 +55,21 @@
       "hard": "Difícil · Beta"
     },
     "canvas": "Vista previa del nonograma ({{ rows }} × {{ cols }})"
+  },
+  "export": {
+    "pdf": "Exportar PDF",
+    "png": "Exportar PNG",
+    "solution": "Exportar solución",
+    "orientation": {
+      "group": "Orientación de la página",
+      "portrait": "Vertical",
+      "landscape": "Horizontal"
+    },
+    "warning": {
+      "small": "En A4 la casilla medirá {{ mm }} mm (mínimo recomendado: {{ min }} mm), puede costar leerla.",
+      "suggestPortrait": "En vertical la casilla mediría {{ mm }} mm.",
+      "suggestLandscape": "En horizontal la casilla mediría {{ mm }} mm.",
+      "failed": "No se pudo exportar. Inténtalo de nuevo."
+    }
   }
 }

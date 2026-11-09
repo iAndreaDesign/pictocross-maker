@@ -10,7 +10,7 @@ Orden de ejecución. Un scope no empieza hasta que sus dependencias estén `done
 | S04 | Dominio: dificultad                     | S03        | done   |
 | S05 | Editor de dibujo (grid + store)         | S01, S02   | done   |
 | S06 | Preview, validación y worker            | S03, S04, S05 | done |
-| S07 | Exportación PNG / PDF                   | S02, S06   | draft  |
+| S07 | Exportación PNG / PDF                   | S02, S06   | done   |
 | S08 | Diseño Figma, pulido y persistencia     | S05–S07    | draft  |
 | S09 | Calibración de dificultad con ejemplos  | S03, S04   | draft  |
 

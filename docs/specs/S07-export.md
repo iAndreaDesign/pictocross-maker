@@ -1,5 +1,5 @@
 # S07 — Exportación PNG / PDF
-Estado: draft | Depende de: S02, S06 | Ref: nonograma-logica.txt §6 (6–7), §7
+Estado: done | Depende de: S02, S06 | Ref: nonograma-logica.txt §6 (6–7), §7
 
 ## Objetivo
 Exportar el nonograma en blanco (PNG o PDF) y con solución (PNG). Botones siempre activos.
@@ -25,20 +25,31 @@ Exportar el nonograma en blanco (PNG o PDF) y con solución (PNG). Botones siemp
 - REQ-S07-10: Botones ubicados como en el Figma: cabecera (PDF, PNG, solución) y botón "Export solution" en el panel de preview, ambos llamando a la misma acción.
 
 ## Criterios de aceptación
-- [ ] 5x5 y 10x10 se exportan con casilla de exactamente 7 mm; el logo 10x10 cabe holgado en A4.
-- [ ] 15x15 y 50x50 caben en una página A4 con márgenes de 5 mm (ningún trazo fuera del área útil).
-- [ ] `computeLayout`: tests con tableros pequeños (c = 7), medianos (c < 7) y 50x50 con pistas largas.
-- [ ] Pistas en columnas con varios números se apilan sin solaparse.
-- [ ] PNG con solución coincide con el dibujo.
-- [ ] Tests del cálculo de layout (tamaño de casilla, márgenes) sin depender del navegador.
+- [x] 5x5 y 10x10 se exportan con casilla de exactamente 7 mm; el logo 10x10 cabe holgado en A4.
+- [x] 15x15 y 50x50 caben en una página A4 con márgenes de 5 mm (ningún trazo fuera del área útil).
+- [x] `computeLayout`: tests con tableros pequeños (c = 7), medianos (c < 7) y 50x50 con pistas largas.
+- [x] Pistas en columnas con varios números se apilan sin solaparse.
+- [x] PNG con solución coincide con el dibujo.
+- [x] Tests del cálculo de layout (tamaño de casilla, márgenes) sin depender del navegador.
 
 ## Tareas
-- [ ] T07.1 (REQ-S07-04) Cálculo de layout puro + tests.
-- [ ] T07.2 (REQ-S07-04/07) `NonogramRenderer` sobre canvas.
-- [ ] T07.3 (REQ-S07-01/02/06) Exportador PNG (blanco y solución).
-- [ ] T07.4 (REQ-S07-05) Exportador PDF con jspdf.
-- [ ] T07.5 (REQ-S07-01/02/03/08) Botones UI y descarga.
-- [ ] T07.6 (REQ-S07-15/16) Toggle de orientación (vertical por defecto) y aviso de casilla pequeña.
+- [x] T07.1 (REQ-S07-04) Cálculo de layout puro + tests.
+- [x] T07.2 (REQ-S07-04/07) `NonogramRenderer` sobre canvas.
+- [x] T07.3 (REQ-S07-01/02/06) Exportador PNG (blanco y solución).
+- [x] T07.4 (REQ-S07-05) Exportador PDF con jspdf.
+- [x] T07.5 (REQ-S07-01/02/03/08) Botones UI y descarga.
+- [x] T07.6 (REQ-S07-15/16) Toggle de orientación (vertical por defecto) y aviso de casilla pequeña.
 
 ## Decisiones
 - `jspdf` se carga con import dinámico para no penalizar el bundle inicial.
+- **Renderer único** movido a `shared/nonogram-renderer.ts` (preview y exportación). Nuevo: `cells: null` = tablero en blanco y `margin` opcional (los 5 mm del PNG). Las exportaciones nunca pasan casillas desconocidas, así que nunca hay rojo.
+- **Layout físico** (`features/export/export-layout.ts`): `computeExportLayout(clues, orientation)` (las dimensiones salen de las pistas; la spec decía `(grid, clues, orientation)`). Para que **ningún trazo** quede fuera del área útil, `c` se calcula con `área − grosor de línea gruesa (0,35 mm)`: 5x5 y 10x10 dan exactamente 7 mm; 50x50 con pistas de 25 números da 2,67 mm en ambas orientaciones.
+- **PNG** a 300 dpi (casilla de 83 px) con 5 mm de margen. Limitación: `canvas.toBlob` no escribe el metadato de dpi (pHYs) en el PNG.
+- **PDF = imagen de 300 dpi del mismo renderer incrustada en la página A4** (`jspdf`, import dinámico: chunk perezoso de ~113 kB gzip fuera del bundle inicial). No es vectorial: es lo que permite reutilizar el renderer único. La imagen se escala para que la casilla mida exactamente `c` mm. Si se quiere PDF vectorial habría que duplicar el dibujo en jsPDF (no hecho).
+- **Orientación (REQ-S07-15):** toggle Vertical/Horizontal en la cabecera junto a los botones (propuesta de la spec; el Figma no lo tiene) — pendiente de confirmar con el diseño en S08. Vertical por defecto, nunca cambia sola.
+- **Aviso (REQ-S07-16):** nota visible bajo los badges de la preview cuando `c < 3 mm`, con sugerencia de la otra orientación si da casilla mayor. No bloquea. Si falla una exportación se muestra un aviso (`role="alert"`).
+- **Nombre de fichero:** si hay título del proyecto (S05) se usa su slug; si no, `nonograma-{filas}x{cols}[-solucion].{ext}`.
+- **Botón "Export solution"** en cabecera y en el panel de preview, ambos llaman a `ExportService.exportSolution()` (REQ-S06-14 / REQ-S07-10).
+- **Verificado en Edge (build de producción):** el logo 10x10 descarga PNG en blanco, PNG con solución y PDF A4 vertical con casilla de 7,000 mm, centrado y dentro de márgenes; 50x50 de tablero de ajedrez (peor caso): aviso de 2,7 mm y PDF con la imagen a 200×200 mm pegada al margen de 5 mm. El visor PDF de Edge headless no renderiza, así que el PDF se comprobó por su geometría (MediaBox y matriz de la imagen), no visualmente.
+- **Build:** `jspdf` arrastra avisos de esbuild por `core-js`/`canvg` (dependencias opcionales suyas); no son errores.
+- **Fix en S05 hallado al verificar:** a 50 columnas la regla superior del editor se salía del lienzo; ahora su ancho lo marca el canvas (`contain: inline-size`).

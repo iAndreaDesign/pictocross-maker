@@ -1,5 +1,5 @@
 # S04 — Dominio: dificultad
-Estado: draft | Depende de: S03 | Ref: nonograma-logica.txt §5
+Estado: done | Depende de: S03 | Ref: nonograma-logica.txt §5
 
 ## Objetivo
 Calcular la dificultad (fácil/medio/difícil) de un nonograma ideal a partir de las métricas del solver.
@@ -12,13 +12,16 @@ Calcular la dificultad (fácil/medio/difícil) de un nonograma ideal a partir de
 - REQ-S04-05: `computeDifficulty(result)` devuelve `null` si el estado no es `ideal`.
 
 ## Criterios de aceptación
-- [ ] Tabla de casos límite (P1=60, 59.99, 30, 29.99; N=3,4,8,9; T=15,16) con puntos correctos.
-- [ ] Resultado `unsolvable` → `null`.
-- [ ] Cambiar un umbral en config cambia el resultado sin tocar la lógica.
+- [x] Tabla de casos límite (P1=60, 59.99, 30, 29.99; N=3,4,8,9; T=15,16) con puntos correctos.
+- [x] Resultado `unsolvable` → `null`.
+- [x] Cambiar un umbral en config cambia el resultado sin tocar la lógica.
 
 ## Tareas
-- [ ] T04.1 (REQ-S04-04) Config de umbrales.
-- [ ] T04.2 (REQ-S04-01/02/03/05) `computeDifficulty` + tests de límites.
+- [x] T04.1 (REQ-S04-04) Config de umbrales.
+- [x] T04.2 (REQ-S04-01/02/03/05) `computeDifficulty` + tests de límites.
 
 ## Decisiones
 - P1 se redondea solo para mostrar; la comparación usa el valor sin redondear.
+- Config tipada (`DifficultyConfig`) en `difficulty.config.ts`; `computeDifficulty(result, cfg = DIFFICULTY_CONFIG)` acepta una config alternativa (usado en tests).
+- Devuelve `{ level: 'easy'|'medium'|'hard', score, metrics {p1,n,t}, points {p1,n,t} }`; los textos de UI salen por i18n en S06 (no hay texto aquí).
+- Dimensiones de `result.cells`; los bordes de P1 (59.99, 29.99) se prueban con `pointsForP1`, porque en 50x50 no se pueden construir fracciones tan finas.

@@ -31,7 +31,7 @@ Cualquier lógica de nonogramas o UI real.
 - [x] T01.1 (REQ-S01-01/02/03) `ng new` en la raíz sin romper `CLAUDE.md`/`docs/` — Hecho: Angular 22.2 (standalone, zoneless por defecto, sin router ni SSR), `strict: true` explícito, schematic de componentes con OnPush, Vitest como runner; compila y 1 test en verde.
 - [x] T01.2 (REQ-S01-04) Crear carpetas con `.gitkeep`/README mínimo. — Hecho: `core/domain`, `core/workers`, `features/{editor,preview,export}`, `shared` con `.gitkeep`.
 - [x] T01.3 (REQ-S01-05) Añadir ESLint (angular-eslint) y scripts. — Hecho: angular-eslint (`ng add`), `npm run lint` pasa.
-- [x] T01.4 (REQ-S01-06) `styles.css` con tokens de marca. — Hecho: tokens y radios en `src/styles.css`. `--color-page` es PROVISIONAL (= `--color-surface`): el Figma no tiene variables (`get_variable_defs` de `4:607` vacío) y falta leer el fill de fondo.
+- [x] T01.4 (REQ-S01-06) `styles.css` con tokens de marca. — Hecho: tokens y radios en `src/styles.css`. `--color-page` = `#EADED5` (dado por el usuario; el Figma no tiene variables).
 - [x] T01.5 (REQ-S01-07) Fuentes autoalojadas. — Hecho: `@fontsource/fraunces` (900) e `@fontsource/inter` (400, 600), subset latin, importadas en `styles.css`.
 - [x] T01.6 (REQ-S01-08) Descargar logo SVG desde Figma (MCP) a assets. — Hecho: `src/assets/logo.svg` (nodo `4:1027`, sin rect de fondo) y `public/favicon.svg`; `angular.json` sirve `src/assets` en `/assets`.
 - [x] T01.7 Test de humo del `App` component. — Hecho: `app.spec.ts` (crea el componente y renderiza la marca traducida).
@@ -57,7 +57,7 @@ Paleta extraída del Figma (nodos `4:607`, `4:656`, `4:890`). Los nombres son pr
 | `--color-cell-filled` | `#9E5139` | Casilla pintada (editor y preview/exportaciones). Medido en la imagen de referencia de la preview |
 | `--color-clue-band` | `#F2D7C4` | Bandas alternas de pistas (filas y columnas) en la preview |
 | `--color-cross` | `#D77A4B` | Cruces en las casillas blancas de la solución |
-| `--color-page` | por extraer (beige de fondo) | Fondo de página |
+| `--color-page` | `#EADED5` (confirmado por el usuario) | Fondo de página |
 
 Radios: botones 10 px, inputs 8 px, badges 100 px. Fuentes: Fraunces Black 28 px/-1 px (título), Inter 13 px SemiBold (botones).
 Los tokens "por extraer" se completan en T01.4 leyendo el Figma.

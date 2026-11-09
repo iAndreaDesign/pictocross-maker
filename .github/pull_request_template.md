@@ -1,5 +1,5 @@
 ## Tarea
-<!-- ID y título, p. ej. T01.1 — Crear app Angular. Una PR = una tarea. -->
+<!-- Scope y título, p. ej. S04 — Dificultad. Una PR = un scope (las subtareas son commits). -->
 
 ## Scope y requisitos cubiertos
 <!-- Spec (docs/specs/Sxx-*.md) y REQ-Sxx-nn -->

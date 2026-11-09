@@ -21,8 +21,7 @@
   --color-cell-filled: #9e5139;
   --color-clue-band: #f2d7c4;
   --color-cross: #d77a4b;
-  /* PROVISIONAL: pendiente de extraer del Figma (ver S01 Decisiones). */
-  --color-page: var(--color-surface);
+  --color-page: #eaded5;
 
   --radius-button: 10px;
   --radius-input: 8px;

@@ -6,6 +6,13 @@
   gap: 8px 20px;
 }
 
+/* Móvil (< 450 px): sin gap entre los campos (S10). */
+@media (max-width: 449px) {
+  .size {
+    gap: 0;
+  }
+}
+
 .field {
   display: flex;
   align-items: center;

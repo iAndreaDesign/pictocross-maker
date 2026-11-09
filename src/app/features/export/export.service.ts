@@ -140,6 +140,7 @@ export class ExportService {
       base: this.i18n.translate('export.file.base'),
       solution: this.i18n.translate('export.file.solution'),
     };
-    return exportFileName(this.store.title(), this.store.rows(), this.store.cols(), kind, extension, labels);
+    const title = this.store.title() ?? this.i18n.translate('editor.title.default');
+    return exportFileName(title, this.store.rows(), this.store.cols(), kind, extension, labels);
   }
 }

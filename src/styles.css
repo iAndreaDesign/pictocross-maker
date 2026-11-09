@@ -5,10 +5,10 @@
 :root {
   /* Marca (Figma Pictocross-maker). Único lugar donde se definen colores. */
   --color-header: #edccb4;
-  --color-accent: #d67747;
+  --color-accent: #ab5f39;
   --color-text: #46352d;
   --color-text-muted: #66554a;
-  /* Texto sobre el acento (botones terracota): blanco por decisión del usuario (S10; ~3,2:1, ver S10 Decisiones). */
+  /* Texto sobre el acento (botones terracota): blanco; el acento se oscureció (#d67747 → #ab5f39) para cumplir AA (4,7:1, S10). */
   --color-on-accent: #ffffff;
   --color-border: #d6c4b5;
   --color-divider: #c5b4a5;
@@ -24,13 +24,13 @@
   --color-clue-band: #f2d7c4;
   --color-cross: #d77a4b;
   /* Líneas de la preview/exportaciones (Figma image 8): finas y claras; solo las gruesas son negras */
-  --color-preview-line: #d2d2d2;
+  --color-preview-line: #a8a8a8;
   --color-preview-line-filled: #fbf9f7;
-  --color-clue-line: #ededec;
-  --color-clue-line-band: #f9ede3;
+  --color-clue-line: #bebebd;
+  --color-clue-line-band: #c7beb6;
 
   /* Grid del editor (Figma 4:728) */
-  --color-cell-line: #ededec;
+  --color-cell-line: #bebebd;
   --color-cell-filled-line: #b26d52;
   --color-grid-rule: #897262;
   --color-page: #eaded5;

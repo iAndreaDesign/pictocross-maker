@@ -31,7 +31,7 @@ describe('ProjectHeading', () => {
 
   it('shows the default project title, labelled for assistive tech', () => {
     const input = q<HTMLInputElement>('.title');
-    expect(input.value).toBe('Corazón de píxel');
+    expect(input.value).toBe('Pictocross');
     expect(input.getAttribute('aria-label')).toBe('Título del proyecto');
   });
 

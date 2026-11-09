@@ -27,11 +27,12 @@ describe('ExportBar', () => {
 
   afterEach(() => vi.restoreAllMocks());
 
-  it('has the solution, PDF and PNG export buttons, always enabled, with the solution first', () => {
+  it('has the solution, PDF and PNG export buttons, always enabled, with the orientation switch first', () => {
     for (const label of ['Exportar solución', 'Exportar PDF', 'Exportar PNG']) {
       expect(byText(label).disabled).toBe(false);
     }
-    expect(el.querySelector('button')?.textContent?.trim()).toBe('Exportar solución');
+    const order = [...el.querySelector('.bar')!.children].map((c) => c.classList.contains('orientation') ? 'orientation' : c.textContent?.trim());
+    expect(order).toEqual(['orientation', 'Exportar solución', 'Exportar PDF', 'Exportar PNG']);
   });
 
   it('each button triggers its export', () => {

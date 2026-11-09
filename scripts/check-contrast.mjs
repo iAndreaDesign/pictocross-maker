@@ -1,5 +1,5 @@
 // Comprueba el contraste WCAG AA de los pares texto/fondo de los tokens de `src/styles.css`.
-// Texto normal: >= 4.5:1. Excepción (S10, decisión del usuario): texto blanco sobre el acento terracota, >= 3:1. Se ejecuta antes de `npm test`.
+// Texto normal: >= 4.5:1. Excepción (S10, color pedido por el usuario): texto blanco sobre el badge difícil, >= 3:1. Se ejecuta antes de `npm test`.
 import { readFileSync } from 'node:fs';
 
 const css = readFileSync('src/styles.css', 'utf8');
@@ -38,7 +38,7 @@ const PAIRS = [
   ['color-impossible-text', 'color-impossible-bg'],
 ];
 
-const EXCEPTIONS = new Set(['color-on-accent|color-accent', 'color-badge-hard-text|color-badge-hard-bg']);
+const EXCEPTIONS = new Set(['color-badge-hard-text|color-badge-hard-bg']);
 
 const failures = [];
 for (const [fg, bg] of PAIRS) {

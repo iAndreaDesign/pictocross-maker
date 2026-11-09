@@ -139,10 +139,10 @@ describe('ExportService', () => {
   });
 
   describe('PNG', () => {
-    it('downloads a blank board PNG named nonograma-{rows}x{cols}.png', async () => {
+    it('downloads a blank board PNG named pictocross.png', async () => {
       await service.exportPng();
       expect(downloads).toHaveLength(1);
-      expect(downloads[0].name).toBe('nonograma-10x10.png');
+      expect(downloads[0].name).toBe('pictocross.png');
       expect(downloads[0].blob.type).toBe('image/png');
       expect(service.failed()).toBe(false);
     });
@@ -158,7 +158,7 @@ describe('ExportService', () => {
 
     it('solution: terracotta cells for black and a cross for every white cell', async () => {
       await service.exportSolution();
-      expect(downloads[0].name).toBe('nonograma-10x10-solucion.png');
+      expect(downloads[0].name).toBe('pictocross-solucion.png');
       const { fills, strokes } = canvases[0];
       expect(fills.filter((f) => f === 'FILLED')).toHaveLength(store.blackCount());
       expect(strokes).toBe(store.totalCells() - store.blackCount());
@@ -177,7 +177,7 @@ describe('ExportService', () => {
       store.clear();
       await service.exportPng();
       await service.exportSolution();
-      expect(downloads.map((d) => d.name)).toEqual(['nonograma-10x10.png', 'nonograma-10x10-solucion.png']);
+      expect(downloads.map((d) => d.name)).toEqual(['pictocross.png', 'pictocross-solucion.png']);
       expect(service.failed()).toBe(false);
     });
 
@@ -205,9 +205,9 @@ describe('ExportService', () => {
   });
 
   describe('PDF', () => {
-    it('generates a portrait A4 PDF named nonograma-{rows}x{cols}.pdf', async () => {
+    it('generates a portrait A4 PDF named pictocross.pdf', async () => {
       await service.exportPdf();
-      expect(downloads[0].name).toBe('nonograma-10x10.pdf');
+      expect(downloads[0].name).toBe('pictocross.pdf');
       expect(downloads[0].blob.type).toBe('application/pdf');
       expect((await downloads[0].blob.text()).startsWith('%PDF-')).toBe(true);
       const [width, height] = await mediaBox(downloads[0].blob);

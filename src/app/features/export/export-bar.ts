@@ -10,10 +10,6 @@ import { ExportService } from './export.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="bar">
-      <button type="button" class="btn btn-soft" (click)="exporter.exportSolution()">
-        <app-icon name="download" />
-        {{ 'export.solution' | transloco }}
-      </button>
       <div class="orientation" role="group" [attr.aria-label]="'export.orientation.group' | transloco">
         <button
           type="button"
@@ -34,6 +30,10 @@ import { ExportService } from './export.service';
           {{ 'export.orientation.landscape' | transloco }}
         </button>
       </div>
+      <button type="button" class="btn btn-soft" (click)="exporter.exportSolution()">
+        <app-icon name="download" />
+        {{ 'export.solution' | transloco }}
+      </button>
       <button type="button" class="btn btn-primary" (click)="exporter.exportPdf()">
         <app-icon name="file" />
         {{ 'export.pdf' | transloco }}

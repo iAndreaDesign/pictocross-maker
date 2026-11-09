@@ -51,12 +51,6 @@
   }
 }
 
-/* Móvil (< 450 px): sin separación entre icono y selector de tamaño. */
-@media (max-width: 449px) {
-  .group {
-    gap: 0;
-  }
-}
 
 .confirm {
   display: flex;

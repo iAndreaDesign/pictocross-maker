@@ -6,8 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "node scripts/check-i18n.mjs && node scripts/check-contrast.mjs && ng test",
-    "lint": "ng lint"
+    "test": "node scripts/check-i18n.mjs && node scripts/check-contrast.mjs && node scripts/calibrate.mjs --check && ng test",
+    "lint": "ng lint",
+    "calibrate": "node scripts/calibrate.mjs"
   },
   "private": true,
   "packageManager": "npm@11.19.1",

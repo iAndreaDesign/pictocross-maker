@@ -9,3 +9,4 @@ export * from './default-logo';
 export * from './bresenham';
 export * from './grid-ops';
 export * from './analysis';
+export * from './calibration';

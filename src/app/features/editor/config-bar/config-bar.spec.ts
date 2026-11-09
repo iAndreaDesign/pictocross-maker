@@ -26,11 +26,12 @@ describe('ConfigBar', () => {
     await settle();
   });
 
-  it('shows Height × Width fields, Clear and Invert, with no size presets', () => {
+  it('shows Height × Width fields, Clear, Invert and Reset, with no size presets', () => {
     expect(q<HTMLInputElement>('#size-rows').value).toBe('10');
     expect(q<HTMLInputElement>('#size-cols').value).toBe('10');
     expect(byText('Limpiar')).toBeTruthy();
     expect(byText('Invertir')).toBeTruthy();
+    expect(byText('Restablecer')).toBeTruthy();
     expect(el.querySelector('.chip')).toBeNull();
   });
 
@@ -46,6 +47,15 @@ describe('ConfigBar', () => {
     byText('Invertir').click();
     await settle();
     expect(store.blackCount()).toBe(52);
+  });
+
+  it('Reset restores the default drawing and its size', async () => {
+    store.clear();
+    store.resize(20, 20);
+    byText('Restablecer').click();
+    await settle();
+    expect(store.grid()).toEqual(DEFAULT_LOGO_GRID);
+    expect(store.rows()).toBe(10);
   });
 
   describe('resize', () => {

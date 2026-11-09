@@ -23,6 +23,7 @@ Pequeños ajustes visuales y de exportación pedidos por el usuario tras S08/S09
 - REQ-S10-12: **Móvil: el gap a quitar es el de `.size`** (selector de tamaño), no el de `.group`. Corrige REQ-S10-05.
 - REQ-S10-13: **Una carpeta por componente.** Cada componente vive en su carpeta con todos sus ficheros (p. ej. `project-heading/project-heading.{ts,html,css,spec.ts}`). Los ficheros que no son componentes (stores, utilidades) se quedan donde están.
 - REQ-S10-14: **Netlify.** `netlify.toml` con `publish = "dist/nonogram-maker/browser"` y el comando de build, para que el plugin `@netlify/angular-runtime` no falle por directorio de publicación.
+- REQ-S10-15: **Botón Restablecer.** Junto a Invertir (mismo diseño `btn-secondary`, icono `reset`) en la barra de configuración; devuelve el dibujo al logo 10×10 por defecto (`DrawingStore.reset()`: también tamaño, título por defecto y vacía el historial).
 
 ## Criterios de aceptación
 - [x] El canvas del editor dibuja las líneas vacías con `#EDEDEC`.
@@ -44,6 +45,7 @@ Pequeños ajustes visuales y de exportación pedidos por el usuario tras S08/S09
 - [x] T10.8 (REQ-S10-10/11/12) Tokens de líneas -20 %, `--color-accent` `#AB5F39` y `gap: 0` en `.size` — Hecho cuando: `npm test` (incl. contraste) en verde.
 - [x] T10.9 (REQ-S10-13) Mover cada componente a su carpeta y corregir imports — Hecho cuando: tests, lint y build en verde.
 - [x] T10.10 (REQ-S10-14) `netlify.toml` — Hecho cuando: el directorio de publicación coincide con la salida de `npm run build`.
+- [x] T10.11 (REQ-S10-15) Botón Restablecer en `config-bar` — Hecho cuando: test de `config-bar` en verde y el botón restablece el logo.
 
 - [x] REQ-S10-08..14 cumplidos (cabecera, nombre Pictocross en input y ficheros, líneas -20 %, accent AA, gap de `.size`, carpetas por componente, `netlify.toml`).
 

@@ -19,6 +19,7 @@ const PATHS = {
   pointer: 'M4 4l7.07 17 2.51-7.39L21 11.07Z',
   'chevron-up': 'm18 15-6-6-6 6',
   'chevron-down': 'm6 9 6 6 6-6',
+  reset: 'M3 12a9 9 0 1 0 2.6-6.4L3 8 M3 3v5h5',
   invert: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z M12 3v18',
 } as const;
 

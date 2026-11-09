@@ -21,7 +21,8 @@
     },
     "actions": {
       "clear": "Limpiar",
-      "invert": "Invertir"
+      "invert": "Invertir",
+      "reset": "Restablecer"
     },
     "tools": {
       "group": "Herramienta",

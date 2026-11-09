@@ -1,0 +1,37 @@
+<div class="frame" [style.--cols]="store.cols()" [style.--rows]="store.rows()">
+  <span class="corner" aria-hidden="true"></span>
+  <ol class="ruler ruler-x" aria-hidden="true">
+    @for (label of colLabels(); track $index) {
+      <li>{{ label }}</li>
+    }
+  </ol>
+  <ol class="ruler ruler-y" aria-hidden="true">
+    @for (label of rowLabels(); track $index) {
+      <li>{{ label }}</li>
+    }
+  </ol>
+  <canvas
+    #canvas
+    class="canvas"
+    tabindex="0"
+    role="application"
+    [attr.aria-label]="'editor.grid.label' | transloco"
+    (pointerdown)="onPointerDown($event)"
+    (pointermove)="onPointerMove($event)"
+    (pointerup)="onPointerEnd()"
+    (pointercancel)="onPointerEnd()"
+    (contextmenu)="$event.preventDefault()"
+    (keydown)="onKeyDown($event)"
+    (focus)="focused.set(true)"
+    (blur)="focused.set(false)"
+  ></canvas>
+</div>
+<p class="sr-only" aria-live="polite">
+  @if (focused()) {
+    @if (cursorFilled()) {
+      {{ 'editor.grid.cellFilled' | transloco: { row: cursorRow(), col: cursorCol() } }}
+    } @else {
+      {{ 'editor.grid.cellEmpty' | transloco: { row: cursorRow(), col: cursorCol() } }}
+    }
+  }
+</p>

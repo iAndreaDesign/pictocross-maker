@@ -1,4 +1,11 @@
-<main>
-  <h1>{{ 'app.brand' | transloco }}</h1>
-  <p>{{ 'app.tagline' | transloco }}</p>
+<header class="app-header">
+  <img class="logo" src="assets/logo.svg" alt="" width="40" height="40" />
+  <div>
+    <h1>{{ 'app.brand' | transloco }}</h1>
+    <p>{{ 'app.tagline' | transloco }}</p>
+  </div>
+</header>
+
+<main class="app-main">
+  <app-editor />
 </main>

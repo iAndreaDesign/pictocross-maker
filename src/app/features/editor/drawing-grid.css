@@ -1,0 +1,67 @@
+:host {
+  display: block;
+  /* Tamaño máximo de casilla en pantalla y ancho de la columna de reglas. */
+  --cell-max: 45px;
+  --ruler-width: 24px;
+  --frame-gap: 4px;
+}
+
+.frame {
+  display: grid;
+  grid-template-columns: var(--ruler-width) 1fr;
+  grid-template-rows: auto 1fr;
+  gap: var(--frame-gap);
+  width: 100%;
+  /* reglas + hueco + (columnas × casilla máxima) + borde del canvas (2 px) */
+  max-width: calc(var(--ruler-width) + var(--frame-gap) + var(--cols) * var(--cell-max) + 2px);
+}
+
+.ruler {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  line-height: 1;
+  container-type: inline-size;
+}
+
+.ruler li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.ruler-x {
+  grid-column: 2;
+  grid-row: 1;
+  grid-template-columns: repeat(var(--cols), 1fr);
+}
+
+.ruler-y {
+  grid-column: 1;
+  grid-row: 2;
+  grid-template-rows: repeat(var(--rows), 1fr);
+}
+
+.canvas {
+  grid-column: 2;
+  grid-row: 2;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  background: var(--color-preview-bg);
+  cursor: crosshair;
+  /* El puntero dibuja: sin scroll/zoom táctil sobre el lienzo. */
+  touch-action: none;
+  image-rendering: pixelated;
+  user-select: none;
+}
+
+.canvas:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}

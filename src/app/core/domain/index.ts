@@ -5,3 +5,6 @@ export * from './line-solver';
 export * from './grid-solver';
 export * from './difficulty.config';
 export * from './difficulty';
+export * from './default-logo';
+export * from './bresenham';
+export * from './grid-ops';

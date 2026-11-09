@@ -1,0 +1,32 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  background: var(--color-header);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+}
+
+h1 {
+  margin: 0;
+  font: 900 28px/1 var(--font-title);
+  letter-spacing: -1px;
+  color: var(--color-text);
+}
+
+p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.app-main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px;
+}

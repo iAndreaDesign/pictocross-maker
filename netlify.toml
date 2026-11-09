@@ -1,0 +1,4 @@
+# Netlify: el plugin @netlify/angular-runtime exige publicar la carpeta "browser" de la salida de `ng build`.
+[build]
+  command = "npm run build"
+  publish = "dist/nonogram-maker/browser"

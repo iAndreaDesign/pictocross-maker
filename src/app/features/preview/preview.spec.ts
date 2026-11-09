@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SOLVER_DEBOUNCE_MS } from '../../core/workers/solver-client';
 import { i18nTestingImports, i18nTestingProviders } from '../../shared/i18n/i18n-testing';
-import { DrawingStore } from '../editor/drawing-store';
-import { ExportService } from '../export/export.service';
+import { DrawingStore } from '../editor/drawing-store/drawing-store';
+import { ExportService } from '../export/export-service/export.service';
 import { Preview } from './preview';
 
 const HEART = [
@@ -55,7 +55,7 @@ describe('Preview', () => {
 
   it('shows a neutral "calculating" badge while the first analysis is pending', () => {
     expect(badges()).toBe('Calculando…');
-    expect(el.querySelector('.badge-possible, .badge-impossible, .badge-difficulty')).toBeNull();
+    expect(el.querySelector('.badge-possible, .badge-impossible, .badge-easy, .badge-medium, .badge-hard')).toBeNull();
   });
 
   it('shows "Puzzle posible" with a difficulty badge for a solvable drawing', () => {
@@ -63,7 +63,7 @@ describe('Preview', () => {
     flush();
     expect(el.querySelector('.badge-possible')?.textContent).toContain('Puzzle posible');
     expect(el.querySelector('.badge-possible app-icon')).not.toBeNull();
-    expect(el.querySelector('.badge-difficulty')?.textContent).toMatch(/(Fácil|Medio|Difícil) · Beta/);
+    expect(el.querySelector('.badge-easy, .badge-medium, .badge-hard')?.textContent).toMatch(/(Fácil|Medio|Difícil) · Beta/);
     expect(el.querySelector('.badge-impossible')).toBeNull();
   });
 
@@ -71,7 +71,7 @@ describe('Preview', () => {
     paint(['#.', '.#']);
     flush();
     expect(el.querySelector('.badge-impossible')?.textContent).toContain('Puzzle imposible');
-    expect(el.querySelector('.badge-difficulty')).toBeNull();
+    expect(el.querySelector('.badge-easy, .badge-medium, .badge-hard')).toBeNull();
     expect(el.querySelector('.badge-possible')).toBeNull();
   });
 
@@ -87,7 +87,7 @@ describe('Preview', () => {
     store.clear();
     flush();
     expect(badges()).toBe('Dibuja algo');
-    expect(el.querySelector('.badge-difficulty')).toBeNull();
+    expect(el.querySelector('.badge-easy, .badge-medium, .badge-hard')).toBeNull();
   });
 
   it('corrections turn the badge from impossible to possible', () => {

@@ -22,7 +22,7 @@
         }
       }
       @if (difficultyLevel(); as level) {
-        <span class="badge badge-difficulty">
+        <span class="badge" [class]="'badge-' + level">
           <app-icon name="sparkles" />
           @switch (level) {
             @case ('easy') {
@@ -38,7 +38,7 @@
         </span>
       }
     </header>
-    <button type="button" class="btn btn-soft" (click)="exporter.exportSolution()">
+    <button type="button" class="btn btn-soft export-solution" (click)="exporter.exportSolution()">
       <app-icon name="download" />
       {{ 'export.solution' | transloco }}
     </button>

@@ -2,10 +2,10 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TranslocoService, TranslocoTestingModule, Translation } from '@jsverse/transloco';
 import es from '../../../assets/i18n/es.json';
-import { ConfigBar } from '../../features/editor/config-bar';
-import { EditorToolbar } from '../../features/editor/editor-toolbar';
-import { ProjectHeading } from '../../features/editor/project-heading';
-import { ExportBar } from '../../features/export/export-bar';
+import { ConfigBar } from '../../features/editor/config-bar/config-bar';
+import { EditorToolbar } from '../../features/editor/editor-toolbar/editor-toolbar';
+import { ProjectHeading } from '../../features/editor/project-heading/project-heading';
+import { ExportBar } from '../../features/export/export-bar/export-bar';
 
 /** Segundo idioma de prueba: mismas claves, otro texto. No es un idioma de la app. */
 const mapValues = (value: unknown): unknown =>
@@ -50,8 +50,9 @@ describe('adding a second language needs no component changes (REQ-S08-05)', () 
       // Todo texto visible viene de la traducción: quitando los segmentos §…§ (y el símbolo ×) no queda nada.
       const outside = (el.textContent ?? '').replace(/§[^§]*§/g, '').replace(/[×\s]/g, '');
       expect(outside, component.name).toBe('');
-      expect(el.textContent, component.name).toContain('§');
       const labels = [...el.querySelectorAll('[aria-label]')].map((n) => n.getAttribute('aria-label') ?? '');
+      // Algunos componentes (el encabezado) solo tienen texto traducido en atributos.
+      expect((el.textContent ?? '') + labels.join(''), component.name).toContain('§');
       expect(labels.length, component.name).toBeGreaterThan(0);
       for (const label of labels) expect(label, component.name).toMatch(/^§.*§$/);
     }

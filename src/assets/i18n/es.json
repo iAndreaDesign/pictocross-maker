@@ -9,12 +9,7 @@
   "editor": {
     "title": {
       "label": "Título del proyecto",
-      "default": "Corazón de píxel",
-      "status": {
-        "saved": "Borrador guardado en este navegador",
-        "saving": "Guardando borrador…",
-        "unavailable": "No se puede guardar el borrador en este navegador"
-      }
+      "default": "Pictocross"
     },
     "size": {
       "height": "Alto",
@@ -26,7 +21,8 @@
     },
     "actions": {
       "clear": "Limpiar",
-      "invert": "Invertir"
+      "invert": "Invertir",
+      "reset": "Restablecer"
     },
     "tools": {
       "group": "Herramienta",

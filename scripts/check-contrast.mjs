@@ -1,5 +1,5 @@
 // Comprueba el contraste WCAG AA de los pares texto/fondo de los tokens de `src/styles.css`.
-// Texto normal: >= 4.5:1. Se ejecuta antes de `npm test`.
+// Texto normal: >= 4.5:1. Excepción (S10, color pedido por el usuario): texto blanco sobre el badge difícil, >= 3:1. Se ejecuta antes de `npm test`.
 import { readFileSync } from 'node:fs';
 
 const css = readFileSync('src/styles.css', 'utf8');
@@ -31,9 +31,14 @@ const PAIRS = [
   ['color-text-muted', 'color-header'],
   ['color-text-muted', 'color-input'],
   ['color-on-accent', 'color-accent'],
+  ['color-badge-hard-text', 'color-badge-hard-bg'],
+  ['color-text', 'color-badge-easy-bg'],
+  ['color-text', 'color-badge-medium-bg'],
   ['color-possible-text', 'color-possible-bg'],
   ['color-impossible-text', 'color-impossible-bg'],
 ];
+
+const EXCEPTIONS = new Set(['color-badge-hard-text|color-badge-hard-bg']);
 
 const failures = [];
 for (const [fg, bg] of PAIRS) {
@@ -44,11 +49,12 @@ for (const [fg, bg] of PAIRS) {
     continue;
   }
   const r = ratio(a, b);
-  if (r < 4.5) failures.push(`--${fg} (${a}) sobre --${bg} (${b}): ${r.toFixed(2)}:1 < 4.5:1`);
+  const min = EXCEPTIONS.has(`${fg}|${bg}`) ? 3 : 4.5;
+  if (r < min) failures.push(`--${fg} (${a}) sobre --${bg} (${b}): ${r.toFixed(2)}:1 < ${min}:1`);
 }
 
 if (failures.length) {
   console.error('Contraste AA insuficiente:\n' + failures.map((f) => ` - ${f}`).join('\n'));
   process.exit(1);
 }
-console.log(`contraste AA OK (${PAIRS.length} pares de tokens >= 4.5:1)`);
+console.log(`contraste AA OK (${PAIRS.length} pares de tokens, mínimo 4.5:1 salvo excepciones documentadas)`);

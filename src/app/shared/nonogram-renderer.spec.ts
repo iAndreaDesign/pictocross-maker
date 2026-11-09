@@ -1,4 +1,4 @@
-import { Clues, SolverCell } from '../../core/domain';
+import { Clues, SolverCell } from '../core/domain';
 import { RenderColors, RenderOptions, computeLayout, renderNonogram } from './nonogram-renderer';
 
 const COLORS: RenderColors = {

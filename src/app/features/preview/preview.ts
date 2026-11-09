@@ -13,7 +13,7 @@ import { SolverCell, generateClues } from '../../core/domain';
 import { SolverClient } from '../../core/workers/solver-client';
 import { Icon } from '../../shared/icon';
 import { DrawingStore } from '../editor/drawing-store';
-import { computeLayout, readRenderColors, renderNonogram } from './nonogram-renderer';
+import { computeLayout, readRenderColors, renderNonogram } from '../../shared/nonogram-renderer';
 
 /** Ancho de referencia cuando no se puede medir el contenedor (tests). */
 const FALLBACK_WIDTH_PX = 600;

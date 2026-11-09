@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DEFAULT_LOGO_GRID } from '../../core/domain';
-import { i18nTestingImports, i18nTestingProviders } from '../../shared/i18n/i18n-testing';
+import { DEFAULT_LOGO_GRID } from '../../../core/domain';
+import { i18nTestingImports, i18nTestingProviders } from '../../../shared/i18n/i18n-testing';
 import { ConfigBar } from './config-bar';
-import { DrawingStore } from './drawing-store';
+import { DrawingStore } from '../drawing-store';
 
 describe('ConfigBar', () => {
   let fixture: ComponentFixture<ConfigBar>;

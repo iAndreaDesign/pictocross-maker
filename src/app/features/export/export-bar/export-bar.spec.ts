@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { i18nTestingImports, i18nTestingProviders } from '../../shared/i18n/i18n-testing';
+import { i18nTestingImports, i18nTestingProviders } from '../../../shared/i18n/i18n-testing';
 import { ExportBar } from './export-bar';
-import { ExportService } from './export.service';
+import { ExportService } from '../export.service';
 
 describe('ExportBar', () => {
   let fixture: ComponentFixture<ExportBar>;

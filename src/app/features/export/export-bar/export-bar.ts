@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { Icon } from '../../shared/icon';
-import { ExportService } from './export.service';
+import { Icon } from '../../../shared/icon';
+import { ExportService } from '../export.service';
 
 /** Junto al título del proyecto: orientación de página y botones Exportar PDF / PNG, siempre activos. */
 @Component({

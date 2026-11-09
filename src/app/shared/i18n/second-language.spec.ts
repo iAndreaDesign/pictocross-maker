@@ -2,10 +2,10 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TranslocoService, TranslocoTestingModule, Translation } from '@jsverse/transloco';
 import es from '../../../assets/i18n/es.json';
-import { ConfigBar } from '../../features/editor/config-bar';
-import { EditorToolbar } from '../../features/editor/editor-toolbar';
-import { ProjectHeading } from '../../features/editor/project-heading';
-import { ExportBar } from '../../features/export/export-bar';
+import { ConfigBar } from '../../features/editor/config-bar/config-bar';
+import { EditorToolbar } from '../../features/editor/editor-toolbar/editor-toolbar';
+import { ProjectHeading } from '../../features/editor/project-heading/project-heading';
+import { ExportBar } from '../../features/export/export-bar/export-bar';
 
 /** Segundo idioma de prueba: mismas claves, otro texto. No es un idioma de la app. */
 const mapValues = (value: unknown): unknown =>

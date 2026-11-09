@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { Icon } from '../../shared/icon';
-import { DrawingStore } from './drawing-store';
+import { Icon } from '../../../shared/icon';
+import { DrawingStore } from '../drawing-store';
 
 /**
  * Cabecera del panel (Figma 4:713): selector de herramienta (la activa muestra icono y texto, la otra

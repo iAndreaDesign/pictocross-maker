@@ -9,9 +9,9 @@ import {
   viewChild,
 } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { Grid } from '../../core/domain';
-import { DrawingStore } from './drawing-store';
-import { cellFromPoint, rulerLabels, strokeModeFor } from './grid-geometry';
+import { Grid } from '../../../core/domain';
+import { DrawingStore } from '../drawing-store';
+import { cellFromPoint, rulerLabels, strokeModeFor } from '../grid-geometry';
 
 /** Casilla máxima en pantalla (px CSS). */
 const MAX_CELL_CSS_PX = 45;

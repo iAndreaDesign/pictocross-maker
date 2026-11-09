@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SOLVER_DEBOUNCE_MS } from '../../core/workers/solver-client';
-import { i18nTestingImports, i18nTestingProviders } from '../../shared/i18n/i18n-testing';
-import { DrawingStore } from '../editor/drawing-store';
-import { ExportService } from '../export/export.service';
+import { SOLVER_DEBOUNCE_MS } from '../../../core/workers/solver-client';
+import { i18nTestingImports, i18nTestingProviders } from '../../../shared/i18n/i18n-testing';
+import { DrawingStore } from '../../editor/drawing-store';
+import { ExportService } from '../../export/export.service';
 import { Preview } from './preview';
 
 const HEART = [

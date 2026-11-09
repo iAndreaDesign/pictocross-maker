@@ -1,5 +1,5 @@
 # S10 — Últimos retoques
-Estado: in-progress | Depende de: S08, S09
+Estado: done | Depende de: S08, S09
 
 ## Objetivo
 Pequeños ajustes visuales y de exportación pedidos por el usuario tras S08/S09: líneas del editor, colores de dificultad, nombres de fichero, texto blanco en botones de acento, responsive móvil y botón "Exportar solución" en la cabecera del proyecto.
@@ -42,13 +42,14 @@ Pequeños ajustes visuales y de exportación pedidos por el usuario tras S08/S09
 - [x] T10.6 (REQ-S10-06/07) Botón "Exportar solución" primero en `export-bar` y oculto en la preview a < 450 px — Hecho cuando: tests de `export-bar` y `preview` en verde y verificado en navegador.
 - [x] T10.7 (REQ-S10-08/09) Interruptor primero en la cabecera; título por defecto "Pictocross" y nombre de fichero = título mostrado — Hecho cuando: tests de `export-bar`, `export-layout` y `export.service` en verde.
 - [x] T10.8 (REQ-S10-10/11/12) Tokens de líneas -20 %, `--color-accent` `#AB5F39` y `gap: 0` en `.size` — Hecho cuando: `npm test` (incl. contraste) en verde.
-- [ ] T10.9 (REQ-S10-13) Mover cada componente a su carpeta y corregir imports — Hecho cuando: tests, lint y build en verde.
-- [ ] T10.10 (REQ-S10-14) `netlify.toml` — Hecho cuando: el directorio de publicación coincide con la salida de `npm run build`.
+- [x] T10.9 (REQ-S10-13) Mover cada componente a su carpeta y corregir imports — Hecho cuando: tests, lint y build en verde.
+- [x] T10.10 (REQ-S10-14) `netlify.toml` — Hecho cuando: el directorio de publicación coincide con la salida de `npm run build`.
 
-- [ ] REQ-S10-08..14 cumplidos (cabecera, nombre Pictocross en input y ficheros, líneas -20 %, accent AA, gap de `.size`, carpetas por componente, `netlify.toml`).
+- [x] REQ-S10-08..14 cumplidos (cabecera, nombre Pictocross en input y ficheros, líneas -20 %, accent AA, gap de `.size`, carpetas por componente, `netlify.toml`).
 
 ## Decisiones
 - **Contraste (a confirmar):** blanco sobre `#D67747` da ~3,2:1 y sobre `#C97C68` ~3,2:1, por debajo de AA para texto normal (4,5:1). En S08 se había oscurecido `--color-on-accent` precisamente por esto (Lighthouse 100). Se aplica lo pedido por el usuario; `check-contrast.mjs` admitirá 3:1 solo para estos dos pares (documentado) y se vuelve a pasar Lighthouse.
 - **Indicador de guardado eliminado (confirmado por el usuario):** `project-heading` ya no muestra el punto de estado (HTML/CSS/claves `editor.title.status.*` y sus tests fuera); la fila del título usa `justify-content: space-between`. `DraftPersistence` sigue guardando el borrador igual. Sustituye a REQ-S08-08.
 - **Implementación:** tokens `--color-badge-{easy,medium,hard}-bg`, `--color-badge-hard-text`, `--block-pad` (24 px; 8 px < 450 px). `check-contrast.mjs` admite 3:1 solo para `on-accent/accent` y `badge-hard-text/bg`. T10.3: el nombre ya funcionaba; se añadieron tests de `nombre.pdf/png/-solucion.png`.
+- **Segunda tanda (pedida por el usuario):** acento `#D67747` → `#AB5F39` (texto blanco 4,7:1, AA); queda solo la excepción 3:1 del badge difícil (`#C97C68`, color pedido). Líneas -20 % en editor, preview/exportación y pistas. Título por defecto `Pictocross` (input y ficheros). Carpetas por componente (`features/<área>/<componente>/`); `app.ts` raíz se queda en `src/app`. `netlify.toml` publica `dist/nonogram-maker/browser` (los ajustes del fichero prevalecen sobre la UI de Netlify).
 - **Límite de la verificación:** tests, lint y build en verde; no se ha revisado en navegador (320/449 px) ni vuelto a pasar Lighthouse.

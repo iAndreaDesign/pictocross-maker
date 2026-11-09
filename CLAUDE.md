@@ -22,11 +22,12 @@ Flujo obligatorio por scope: **Spec → Tareas → Implementación → Verificac
 - Al cerrar una tarea: marcar `[x]` en la spec y actualizar el estado en `docs/sdd/scopes.md`.
 - Detalle del proceso: `docs/sdd/process.md`.
 
-### Una tarea = una rama = una PR (obligatorio)
-- Cada tarea (`Txx.y`) se implementa en su **propia rama** (`feat/Sxx-Txx.y-slug`) y termina en **una PR** que cubre solo esa tarea.
-- **Antes de abrir la PR hay que validarla con el humano**: Claude presenta el resumen (qué hace, REQ cubiertos, tests, capturas si hay UI) y espera aprobación explícita. Sin "ok" no se hace commit de la PR, push ni `gh pr create`.
-- La PR la abre Claude solo tras la aprobación; **el merge lo hace el humano**. No se empieza la tarea siguiente hasta que la anterior esté aprobada.
-- Descripción de PR: tarea, REQ, criterios de aceptación marcados, cómo probar. Commits convencionales con prefijo del scope.
+### Un scope = una rama = una PR (obligatorio)
+- Cada **scope** (`Sxx`, un fichero de spec) se implementa en **una sola rama** (`feat/Sxx-slug`) desde `main` y termina en **una PR**. Las subtareas (`Txx.y`) son **solo commits** dentro de esa rama (`feat(Sxx): Txx.y ...`); nunca una rama ni una PR por subtarea.
+- No se preguntan permisos entre subtareas: se avanza, se marca `[x]` en la spec y se commitea.
+- Al terminar el scope, Claude presenta el resumen (qué hace, REQ cubiertos, tests, capturas si hay UI) y, salvo autorización expresa del usuario, espera el "ok" antes de push y `gh pr create`.
+- **El merge lo hace el humano** (salvo que lo pida expresamente). No se empiezan scopes dependientes con ramas apiladas: se espera al merge a `main` del scope previo, o se trabaja desde `main` actualizado.
+- Descripción de PR: scope, REQ, criterios de aceptación marcados, cómo probar. Commits convencionales con prefijo del scope.
 
  ## Stack
 - Angular (última versión estable), standalone components, **zoneless**, `ChangeDetectionStrategy.OnPush`.
@@ -85,5 +86,5 @@ npm run lint
 - No añadir librerías sin justificarlo en la spec del scope.
 - No implementar fuera del scope activo.
 - No tocar `nonograma-logica.txt` sin pedirlo; si hay que cambiar una regla, se propone y se actualiza spec + doc.
-- No hacer PR sin validar primero con el humano (ver "Una tarea = una rama = una PR").
+- No abrir más de una PR por scope ni ramas por subtarea (ver "Un scope = una rama = una PR").
 - No llamar a Figma sin pasar por la política de conexión mínima.

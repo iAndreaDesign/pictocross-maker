@@ -1,32 +1,47 @@
+/* Cabecera (Figma 4:607): 104 px, margen lateral 40/16 px. */
 .app-header {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  padding: 16px 24px;
+  gap: 12px 24px;
+  min-height: 104px;
+  box-sizing: border-box;
+  padding: 16px var(--page-inline);
   background: var(--color-header);
   border-bottom: 1px solid var(--color-border);
 }
 
-.header-actions {
-  margin-left: auto;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
 }
 
 .logo {
+  flex: none;
   width: 40px;
   height: 40px;
 }
 
-h1 {
-  margin: 0;
-  font: 900 28px/1 var(--font-title);
-  letter-spacing: -1px;
-  color: var(--color-text);
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
-p {
-  margin: 2px 0 0;
-  font-size: 13px;
+h1 {
+  margin: 0;
+  font: 900 28px/1.25 var(--font-title);
+  letter-spacing: -1px;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.brand-text p {
+  margin: 0;
+  font: 600 10px var(--font-ui);
+  letter-spacing: 2.3px;
   color: var(--color-text-muted);
 }
 
@@ -34,15 +49,42 @@ p {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
-  gap: 16px;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 24px;
+  gap: 24px;
+  padding: 24px var(--page-inline);
 }
 
-/* Editor a la izquierda, preview a la derecha. */
-@media (min-width: 1100px) {
+/* Dos paneles (editor izquierda, preview derecha) a partir de 960 px; por debajo, una columna. */
+@media (min-width: 960px) {
   .app-main {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+/* En móvil el nombre de la marca escala con el ancho para no cortarse (a 320 px: ~19 px). */
+@media (max-width: 639px) {
+  h1 {
+    font-size: clamp(16px, 6vw, 22px);
+  }
+}
+
+/* Pie (Figma 4:910): punto de acento + copyright. */
+.app-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 20px var(--page-inline) 24px;
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+
+.app-footer small {
+  font-size: inherit;
+}
+
+.accent {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--color-accent-dot);
 }

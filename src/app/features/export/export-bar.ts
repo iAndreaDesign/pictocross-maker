@@ -3,7 +3,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { Icon } from '../../shared/icon';
 import { ExportService } from './export.service';
 
-/** Cabecera (Figma 4:606): orientación de página y botones de exportación, siempre activos. */
+/** Junto al título del proyecto: orientación de página y botones Exportar PDF / PNG, siempre activos. */
 @Component({
   selector: 'app-export-bar',
   imports: [TranslocoPipe, Icon],
@@ -38,10 +38,6 @@ import { ExportService } from './export.service';
         <app-icon name="image" />
         {{ 'export.png' | transloco }}
       </button>
-      <button type="button" class="btn btn-light" (click)="exporter.exportSolution()">
-        <app-icon name="download" />
-        {{ 'export.solution' | transloco }}
-      </button>
     </div>
   `,
   styles: `
@@ -71,7 +67,7 @@ import { ExportService } from './export.service';
     }
     .seg-active {
       background: var(--color-accent);
-      color: var(--color-input);
+      color: var(--color-on-accent);
     }
   `,
 })

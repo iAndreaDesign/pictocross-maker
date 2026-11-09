@@ -16,6 +16,9 @@ const PATHS = {
   file: 'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z M14 3v5h5 M12 11v6 M9.5 14.5 12 17l2.5-2.5',
   image: 'M4 4h16v16H4Z M4 16l5-5 4 4 3-3 4 4 M9 9h.01',
   download: 'M12 3v12 M7 10l5 5 5-5 M4 21h16',
+  pointer: 'M4 4l7.07 17 2.51-7.39L21 11.07Z',
+  'chevron-up': 'm18 15-6-6-6 6',
+  'chevron-down': 'm6 9 6 6 6-6',
   invert: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z M12 3v18',
 } as const;
 

@@ -8,6 +8,10 @@ const COLORS: RenderColors = {
   unknown: 'RED',
   band: 'BAND',
   line: 'LINE',
+  lineThin: 'THIN',
+  lineThinFilled: 'THIN_FILLED',
+  clueLine: 'CLUE',
+  clueLineBand: 'CLUE_BAND',
   text: 'TEXT',
 };
 
@@ -28,6 +32,7 @@ function fakeCtx() {
   const fills: Fill[] = [];
   const texts: { text: string; x: number; y: number }[] = [];
   const strokes: string[] = [];
+  const strokeWidths: number[] = [];
   const ctx = {
     fillStyle: '',
     strokeStyle: '',
@@ -44,6 +49,7 @@ function fakeCtx() {
     },
     stroke() {
       strokes.push(this.strokeStyle);
+      strokeWidths.push(this.lineWidth);
     },
     save: noop,
     restore: noop,
@@ -52,7 +58,7 @@ function fakeCtx() {
     moveTo: noop,
     lineTo: noop,
   };
-  return { ctx: ctx as unknown as CanvasRenderingContext2D, fills, texts, strokes };
+  return { ctx: ctx as unknown as CanvasRenderingContext2D, fills, texts, strokes, strokeWidths };
 }
 
 const B = SolverCell.Black;
@@ -129,17 +135,77 @@ describe('renderNonogram', () => {
     expect(rowOne?.x).toBe(1 * 20 + 10);
   });
 
-  it('uses thick lines every 5 cells and on the border, thin otherwise', () => {
-    const rec = fakeCtx();
-    const wide: Clues = {
-      rows: [[0]],
-      cols: Array.from({ length: 6 }, () => [0]),
+  describe('lines (Figma reference)', () => {
+    const wide: Clues = { rows: [[0], [0]], cols: Array.from({ length: 6 }, () => [0]) };
+    const wideCells = (): SolverCell[][] => [Array<SolverCell>(6).fill(W), Array<SolverCell>(6).fill(W)];
+    const drawWide = () => {
+      const rec = fakeCtx();
+      renderNonogram(rec.ctx, { clues: wide, cells: wideCells() }, OPTS);
+      return rec;
     };
-    renderNonogram(rec.ctx, { clues: wide, cells: [Array(6).fill(W)] }, OPTS);
-    const verticals = rec.fills.filter((f) => f.style === 'LINE' && f.h > f.w && f.w <= 2);
-    const widths = verticals.slice(0, 7).map((f) => f.w);
-    // c = 0..6 → 0 grueso, 1-4 finas, 5 gruesa, 6 (borde) gruesa
-    expect(widths).toEqual([2, 1, 1, 1, 1, 2, 2]);
+
+    it('black lines are only the thick ones: the board border and every 5 cells, both axes', () => {
+      const black = drawWide().fills.filter((f) => f.style === 'LINE');
+      const vertical = black.filter((f) => f.h > f.w);
+      const horizontal = black.filter((f) => f.w > f.h);
+      // columnas 0, 5 y 6 (borde); filas 0 y 2 (borde) de un tablero de 2 filas
+      expect(vertical).toHaveLength(3);
+      expect(horizontal).toHaveLength(2);
+      expect(black.every((f) => Math.min(f.w, f.h) === OPTS.thick)).toBe(true);
+    });
+
+    it('thick lines run through the clue areas (from the very top and the very left)', () => {
+      const black = drawWide().fills.filter((f) => f.style === 'LINE');
+      expect(black.filter((f) => f.h > f.w).every((f) => f.y <= 0)).toBe(true);
+      expect(black.filter((f) => f.w > f.h).every((f) => f.x <= 0)).toBe(true);
+    });
+
+    it('thin lines between grid cells are light grey, 1 px wide, never the black colour', () => {
+      const thin = drawWide().fills.filter((f) => f.style === 'THIN');
+      // 5 separadores verticales × 2 filas + 1 horizontal × 6 columnas
+      expect(thin).toHaveLength(5 * 2 + 6);
+      expect(thin.every((f) => Math.min(f.w, f.h) === OPTS.thin)).toBe(true);
+    });
+
+    it('lines between two painted cells are almost white; next to a white cell they stay light grey', () => {
+      const rec = fakeCtx();
+      renderNonogram(rec.ctx, { clues: CLUES, cells: [[B, B, W], [W, W, W]] }, OPTS);
+      const onFilled = rec.fills.filter((f) => f.style === 'THIN_FILLED');
+      expect(onFilled).toHaveLength(1); // solo entre las dos casillas pintadas de la fila 0
+      expect(rec.fills.filter((f) => f.style === 'THIN').length).toBeGreaterThan(0);
+    });
+
+    it('separators inside the clue areas are light (never black) and lighter than their band', () => {
+      const { fills } = drawWide();
+      const clue = fills.filter((f) => f.style === 'CLUE' || f.style === 'CLUE_BAND');
+      expect(clue.length).toBeGreaterThan(0);
+      expect(clue.every((f) => Math.min(f.w, f.h) === OPTS.thin)).toBe(true);
+      expect(fills.some((f) => f.style === 'CLUE_BAND')).toBe(false); // pistas de 1 celda: sin separadores internos de banda
+    });
+
+    it('uses the banded separator colour for stacked clue cells inside a band', () => {
+      const rec = fakeCtx();
+      const stacked: Clues = { rows: [[1, 1, 1]], cols: [[1, 1], [1], [1]] };
+      renderNonogram(rec.ctx, { clues: stacked, cells: [[B, W, B]] }, OPTS);
+      expect(rec.fills.some((f) => f.style === 'CLUE_BAND')).toBe(true);
+    });
+
+    it('draws the black grid lines last so they sit on top of every thin line', () => {
+      const { fills } = drawWide();
+      const lastThin = Math.max(...fills.map((f, i) => (['THIN', 'THIN_FILLED', 'CLUE', 'CLUE_BAND'].includes(f.style) ? i : -1)));
+      const firstBlack = fills.findIndex((f) => f.style === 'LINE');
+      expect(firstBlack).toBeGreaterThan(lastThin);
+    });
+  });
+
+  it('crosses are thin: about 4 % of the cell, and never thinner than a thin line', () => {
+    const big = { ...OPTS, cellSize: 100 };
+    const rec = fakeCtx();
+    renderNonogram(rec.ctx, { clues: CLUES, cells: [[W, W, W], [W, W, W]] }, big);
+    expect(rec.strokeWidths.every((w) => w === 4)).toBe(true);
+    const small = fakeCtx();
+    renderNonogram(small.ctx, { clues: CLUES, cells: [[W, W, W], [W, W, W]] }, { ...OPTS, cellSize: 10 });
+    expect(small.strokeWidths.every((w) => w === OPTS.thin)).toBe(true);
   });
 
   it('only uses the colors it is given (no hardcoded palette)', () => {

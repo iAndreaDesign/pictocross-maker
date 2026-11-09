@@ -7,9 +7,19 @@ export interface RenderColors {
   readonly cross: string;
   readonly unknown: string;
   readonly band: string;
+  /** Líneas gruesas (borde y cada 5 casillas): negras. */
   readonly line: string;
+  /** Líneas finas entre casillas de la cuadrícula: gris claro, y casi blanco junto a casillas pintadas. */
+  readonly lineThin: string;
+  readonly lineThinFilled: string;
+  /** Separadores dentro de las zonas de pistas: sobre blanco y sobre una banda. */
+  readonly clueLine: string;
+  readonly clueLineBand: string;
   readonly text: string;
 }
+
+/** Grosor del trazo de las cruces respecto al lado de la casilla (Figma: ≈1,4 px en casillas de 36 px). */
+export const CROSS_WIDTH_RATIO = 0.04;
 
 export interface RenderOptions {
   /** Lado de una casilla en píxeles del canvas. */
@@ -83,6 +93,10 @@ export function readRenderColors(element: Element): RenderColors & { fontFamily:
     unknown: v('--color-impossible-bg'),
     band: v('--color-clue-band'),
     line: v('--color-grid-line'),
+    lineThin: v('--color-preview-line'),
+    lineThinFilled: v('--color-preview-line-filled'),
+    clueLine: v('--color-clue-line'),
+    clueLineBand: v('--color-clue-line-band'),
     text: v('--color-text'),
     fontFamily: v('--font-ui'),
   };
@@ -125,27 +139,49 @@ export function renderNonogram(ctx: CanvasRenderingContext2D, model: RenderModel
           ctx.fillRect(x, y, cs, cs);
           break;
         case SolverCell.White:
-          drawCross(ctx, x, y, cs, colors.cross, Math.max(thin, cs / 12));
+          drawCross(ctx, x, y, cs, colors.cross, Math.max(thin, cs * CROSS_WIDTH_RATIO));
           break;
       }
     }
   }
 
-  // Líneas negras al 80 %: las de la cuadrícula atraviesan también las pistas.
+  // Líneas finas de la cuadrícula (Figma): claras; casi blancas entre casillas pintadas.
+  const filled = (r: number, c: number) => cells?.[r][c] === SolverCell.Black;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (c < cols - 1) {
+        ctx.fillStyle = filled(r, c) && filled(r, c + 1) ? colors.lineThinFilled : colors.lineThin;
+        ctx.fillRect(Math.round(gridX + (c + 1) * cs - thin / 2), gridY + r * cs, thin, cs);
+      }
+      if (r < rows - 1) {
+        ctx.fillStyle = filled(r, c) && filled(r + 1, c) ? colors.lineThinFilled : colors.lineThin;
+        ctx.fillRect(gridX + c * cs, Math.round(gridY + (r + 1) * cs - thin / 2), cs, thin);
+      }
+    }
+  }
+
+  // Separadores finos dentro de las zonas de pistas: más claros que la banda (o grises junto a blanco).
+  for (let r = 0; r < rows; r++) {
+    ctx.fillStyle = r % 2 === 0 ? colors.clueLineBand : colors.clueLine;
+    for (let k = 1; k < rowClueCells; k++) ctx.fillRect(Math.round(k * cs - thin / 2), gridY + r * cs, thin, cs);
+  }
+  ctx.fillStyle = colors.clueLine;
+  for (let r = 1; r < rows; r++) ctx.fillRect(0, Math.round(gridY + r * cs - thin / 2), gridX, thin);
+  for (let c = 0; c < cols; c++) {
+    ctx.fillStyle = c % 2 === 0 ? colors.clueLineBand : colors.clueLine;
+    for (let k = 1; k < colClueCells; k++) ctx.fillRect(gridX + c * cs, Math.round(k * cs - thin / 2), cs, thin);
+  }
+  ctx.fillStyle = colors.clueLine;
+  for (let c = 1; c < cols; c++) ctx.fillRect(Math.round(gridX + c * cs - thin / 2), 0, thin, gridY);
+
+  // Líneas gruesas negras: solo el borde del tablero y cada 5 casillas; atraviesan también las pistas.
   ctx.fillStyle = colors.line;
-  const lineWidth = (index: number, count: number) =>
-    index % 5 === 0 || index === count ? thick : thin;
   for (let c = 0; c <= cols; c++) {
-    const w = lineWidth(c, cols);
-    ctx.fillRect(gridX + c * cs - w / 2, -thick / 2, w, innerHeight + thick);
+    if (c % 5 === 0 || c === cols) ctx.fillRect(Math.round(gridX + c * cs - thick / 2), -thick / 2, thick, innerHeight + thick);
   }
   for (let r = 0; r <= rows; r++) {
-    const h = lineWidth(r, rows);
-    ctx.fillRect(-thick / 2, gridY + r * cs - h / 2, innerWidth + thick, h);
+    if (r % 5 === 0 || r === rows) ctx.fillRect(-thick / 2, Math.round(gridY + r * cs - thick / 2), innerWidth + thick, thick);
   }
-  // Separadores entre casillas de pista (solo dentro de las zonas de pistas).
-  for (let k = 0; k < colClueCells; k++) ctx.fillRect(gridX, k * cs - thin / 2, innerWidth - gridX, thin);
-  for (let k = 0; k < rowClueCells; k++) ctx.fillRect(k * cs - thin / 2, gridY, thin, innerHeight - gridY);
 
   // Números: filas alineadas a la derecha, columnas alineadas abajo.
   ctx.fillStyle = colors.text;

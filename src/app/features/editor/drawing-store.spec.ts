@@ -139,6 +139,22 @@ describe('DrawingStore', () => {
     expect(store.canUndo()).toBe(false);
   });
 
+  it('load replaces the drawing, sets the title and empties the history', () => {
+    store.invert();
+    store.load([[1, 0, 1]], 'Mi dibujo');
+    expect(store.grid()).toEqual([[1, 0, 1]]);
+    expect([store.rows(), store.cols()]).toEqual([1, 3]);
+    expect(store.title()).toBe('Mi dibujo');
+    expect(store.canUndo()).toBe(false);
+    expect(store.canRedo()).toBe(false);
+  });
+
+  it('load rejects empty or oversized grids', () => {
+    expect(() => store.load([], null)).toThrow();
+    expect(() => store.load([[]], null)).toThrow();
+    expect(() => store.load(Array.from({ length: 51 }, () => [0]), null)).toThrow();
+  });
+
   it('reset restores logo, tool, title and empties history', () => {
     store.invert();
     store.setTool('erase');

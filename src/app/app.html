@@ -1,15 +1,25 @@
 <header class="app-header">
-  <img class="logo" src="assets/logo.svg" alt="" width="40" height="40" />
-  <div>
-    <h1>{{ 'app.brand' | transloco }}</h1>
-    <p>{{ 'app.tagline' | transloco }}</p>
+  <div class="brand">
+    <img class="logo" src="assets/logo.svg" alt="" width="40" height="40" />
+    <div class="brand-text">
+      <h1>{{ 'app.brand' | transloco }}</h1>
+      <p>{{ 'app.tagline' | transloco }}</p>
+    </div>
   </div>
-  <app-export-bar class="header-actions" />
 </header>
 
 <app-config-bar />
+
+<app-project-heading>
+  <app-export-bar />
+</app-project-heading>
 
 <main class="app-main">
   <app-editor />
   <app-preview />
 </main>
+
+<footer class="app-footer">
+  <span class="accent" aria-hidden="true"></span>
+  <small>{{ 'app.footer.copyright' | transloco }}</small>
+</footer>

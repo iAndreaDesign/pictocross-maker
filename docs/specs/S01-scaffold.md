@@ -45,7 +45,9 @@ Paleta extraída del Figma (nodos `4:607`, `4:656`, `4:890`). Los nombres son pr
 | `--color-header` | `#edccb4` | Fondo cabecera, badge dificultad, botón "Export solution" del panel |
 | `--color-accent` | `#d67747` | Botones primarios (Export PDF/PNG), logo |
 | `--color-text` | `#46352d` | Texto principal |
-| `--color-text-muted` | `#806d60` | Texto secundario, "Puzzle Atelier" |
+| `--color-text-muted` | `#66554a` (Figma: `#806d60`, 3,2–3,7:1) | Texto secundario, "Puzzle Atelier". Oscurecido en S08 para cumplir AA |
+| `--color-on-accent` | `#32241d` (Figma: `#46352d`, 3,6:1) | Texto sobre botones/toggle terracota. Nuevo en S08 para cumplir AA (4,7:1) |
+| `--color-accent-dot` | `#c97d68` | Punto de acento del pie (Figma 4:912) |
 | `--color-border` | `#d6c4b5` | Bordes de barra, inputs, botones secundarios |
 | `--color-divider` | `#c5b4a5` | Separador vertical |
 | `--color-surface` | `#fcf6ee` | Barra de configuración, botones secundarios |
@@ -56,6 +58,10 @@ Paleta extraída del Figma (nodos `4:607`, `4:656`, `4:890`). Los nombres son pr
 | `--color-preview-bg` | `#FFFFFF` | Fondo de la preview (sustituye al `#EADED5` de la referencia) |
 | `--color-cell-filled` | `#9E5139` | Casilla pintada (editor y preview/exportaciones). Medido en la imagen de referencia de la preview |
 | `--color-clue-band` | `#F2D7C4` | Bandas alternas de pistas (filas y columnas) en la preview |
+| `--color-preview-line` | `#D2D2D2` | Línea fina entre casillas vacías de la preview y exportaciones (Figma image 8) |
+| `--color-preview-line-filled` | `#FBF9F7` | Línea fina entre casillas pintadas |
+| `--color-clue-line` | `#EDEDEC` | Separador dentro de las pistas, junto a blanco |
+| `--color-clue-line-band` | `#F9EDE3` | Separador dentro de una banda de pistas |
 | `--color-cross` | `#D77A4B` | Cruces en las casillas blancas de la solución |
 | `--color-cell-line` | `#FFF4EA` | Línea fina entre casillas vacías del editor (Figma 4:728) |
 | `--color-cell-filled-line` | `#B26D52` | Línea fina junto a una casilla pintada del editor |

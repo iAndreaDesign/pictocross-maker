@@ -121,18 +121,25 @@ describe('mmToPx', () => {
   });
 });
 
+const LABELS = { base: 'nonograma', solution: 'solucion' };
+
 describe('exportFileName', () => {
   it('uses nonograma-{rows}x{cols}[-solucion].{ext} without a title', () => {
-    expect(exportFileName(null, 10, 15, 'blank', 'pdf')).toBe('nonograma-10x15.pdf');
-    expect(exportFileName(null, 10, 10, 'solution', 'png')).toBe('nonograma-10x10-solucion.png');
+    expect(exportFileName(null, 10, 15, 'blank', 'pdf', LABELS)).toBe('nonograma-10x15.pdf');
+    expect(exportFileName(null, 10, 10, 'solution', 'png', LABELS)).toBe('nonograma-10x10-solucion.png');
   });
 
   it('uses a slug of the project title when there is one', () => {
-    expect(exportFileName('Corazón de píxel', 10, 10, 'blank', 'png')).toBe('corazon-de-pixel.png');
-    expect(exportFileName('  ¡Mi Pez! ', 5, 5, 'solution', 'png')).toBe('mi-pez-solucion.png');
+    expect(exportFileName('Corazón de píxel', 10, 10, 'blank', 'png', LABELS)).toBe('corazon-de-pixel.png');
+    expect(exportFileName('  ¡Mi Pez! ', 5, 5, 'solution', 'png', LABELS)).toBe('mi-pez-solucion.png');
+  });
+
+  it('takes the base and solution words from the labels (i18n), not from code', () => {
+    const en = { base: 'nonogram', solution: 'solution' };
+    expect(exportFileName(null, 5, 5, 'solution', 'png', en)).toBe('nonogram-5x5-solution.png');
   });
 
   it('falls back to the default name when the title has no usable characters', () => {
-    expect(exportFileName('???', 5, 5, 'blank', 'pdf')).toBe('nonograma-5x5.pdf');
+    expect(exportFileName('???', 5, 5, 'blank', 'pdf', LABELS)).toBe('nonograma-5x5.pdf');
   });
 });

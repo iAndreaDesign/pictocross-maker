@@ -3,6 +3,7 @@ import {
   Cell,
   DEFAULT_LOGO_GRID,
   Grid,
+  assertDimensions,
   clearGrid,
   countBlack,
   invertGrid,
@@ -100,6 +101,16 @@ export class DrawingStore {
   resize(rows: number, cols: number): void {
     if (rows === this.rows() && cols === this.cols()) return;
     this.commit(resizeGrid(this.gridState(), rows, cols));
+  }
+
+  /** Sustituye el dibujo (p. ej. al restaurar el borrador guardado) y vacía el historial. */
+  load(grid: Grid, title: string | null): void {
+    assertDimensions(grid.length, grid[0]?.length ?? 0);
+    this.stroke = null;
+    this.gridState.set(grid);
+    this.undoStack.set([]);
+    this.redoStack.set([]);
+    this.title.set(title);
   }
 
   /** Vuelve al dibujo por defecto y vacía el historial. */

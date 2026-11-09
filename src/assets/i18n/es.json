@@ -1,12 +1,20 @@
 {
   "app": {
     "brand": "PICTOCROSS MAKER",
-    "tagline": "Puzzle Atelier"
+    "tagline": "Puzzle Atelier",
+    "footer": {
+      "copyright": "Copyright ©2026 @rastrosdeluna"
+    }
   },
   "editor": {
     "title": {
       "label": "Título del proyecto",
-      "default": "Corazón de píxel"
+      "default": "Corazón de píxel",
+      "status": {
+        "saved": "Borrador guardado en este navegador",
+        "saving": "Guardando borrador…",
+        "unavailable": "No se puede guardar el borrador en este navegador"
+      }
     },
     "size": {
       "height": "Alto",
@@ -33,7 +41,7 @@
       "cellEmpty": "Fila {{ row }}, columna {{ col }}: blanca"
     },
     "footer": {
-      "hint": "Arrastra para dibujar",
+      "hint": "Haz clic o arrastra para pintar.",
       "counter": "{{ filled }} / {{ total }} celdas"
     },
     "resize": {
@@ -70,6 +78,10 @@
       "suggestPortrait": "En vertical la casilla mediría {{ mm }} mm.",
       "suggestLandscape": "En horizontal la casilla mediría {{ mm }} mm.",
       "failed": "No se pudo exportar. Inténtalo de nuevo."
+    },
+    "file": {
+      "base": "nonograma",
+      "solution": "solucion"
     }
   }
 }

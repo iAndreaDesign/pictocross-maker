@@ -1,23 +1,11 @@
 <section class="editor">
   <div class="panel">
-    <div class="title-row">
-      <app-icon name="pencil" />
-      <input
-        class="title"
-        type="text"
-        maxlength="60"
-        [value]="store.title() ?? ('editor.title.default' | transloco)"
-        [attr.aria-label]="'editor.title.label' | transloco"
-        (change)="onTitleChange($event)"
-      />
-    </div>
-
     <app-editor-toolbar />
     <app-drawing-grid />
 
     <footer class="footer">
       <span class="hint">
-        <app-icon name="mouse" />
+        <app-icon name="pointer" />
         {{ 'editor.footer.hint' | transloco }}
       </span>
       <span class="counter">

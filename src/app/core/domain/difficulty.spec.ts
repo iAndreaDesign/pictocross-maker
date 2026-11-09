@@ -23,8 +23,8 @@ const ideal = (rows: number, cols: number, first: number, passes: number): Solve
 describe('points tables (boundaries)', () => {
   it.each([
     [100, 0],
-    [60, 0],
-    [59.99, 1],
+    [80, 0],
+    [79.99, 1],
     [30, 1],
     [29.99, 2],
     [0, 2],
@@ -32,8 +32,8 @@ describe('points tables (boundaries)', () => {
 
   it.each([
     [1, 0],
-    [3, 0],
-    [4, 1],
+    [4, 0],
+    [5, 1],
     [8, 1],
     [9, 2],
   ])('N=%s → %s pts', (n, pts) => expect(pointsForPasses(n)).toBe(pts));
@@ -82,10 +82,10 @@ describe('computeDifficulty', () => {
     expect(d).toMatchObject({ score: 5, level: 'hard', points: { p1: 2, n: 2, t: 1 } });
   });
 
-  it('scores around the P1=60 and N=4 boundaries', () => {
-    const d = computeDifficulty(ideal(10, 10, 60, 4));
+  it('scores around the P1=80 and N=4 boundaries (calibrated in S09)', () => {
+    const d = computeDifficulty(ideal(10, 10, 80, 5));
     expect(d).toMatchObject({ score: 1, level: 'easy' });
-    expect(computeDifficulty(ideal(10, 10, 59, 4))).toMatchObject({ score: 2, level: 'medium' });
+    expect(computeDifficulty(ideal(10, 10, 79, 5))).toMatchObject({ score: 2, level: 'medium' });
   });
 
   it('works end to end with the solver (hand-computed 4x4: P1=50%, N=3 → easy/1 pt)', () => {

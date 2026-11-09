@@ -27,12 +27,25 @@
   --color-grid-rule: #897262;
   --color-page: #eaded5;
 
+  /* Pie de página (Figma 4:912) */
+  --color-accent-dot: #c97d68;
+
   --radius-button: 10px;
   --radius-input: 8px;
   --radius-badge: 100px;
+  --radius-card: 20px;
+
+  /* Margen lateral de la página: 40 px en escritorio, 16 px por debajo de 960 px (REQ-S08-11). */
+  --page-gutter: 40px;
 
   --font-title: 'Fraunces', serif;
   --font-ui: 'Inter', sans-serif;
+}
+
+@media (max-width: 959px) {
+  :root {
+    --page-gutter: 16px;
+  }
 }
 
 body {
@@ -42,10 +55,9 @@ body {
   font-family: var(--font-ui);
 }
 
-/* Botones y utilidades compartidas (solo tokens de marca) */
+/* Botones y utilidades compartidas (solo tokens de marca; medidas del Figma 4:644) */
 .btn,
-.btn-icon,
-.chip {
+.btn-icon {
   font-family: var(--font-ui);
   cursor: pointer;
 }
@@ -53,36 +65,38 @@ body {
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 36px;
-  padding: 0 14px;
-  border: 1px solid var(--color-border);
+  justify-content: center;
+  gap: 9px;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid transparent;
   border-radius: var(--radius-button);
+  color: var(--color-text);
   font-size: 13px;
   font-weight: 600;
+  white-space: nowrap;
+}
+
+.btn .icon {
+  width: 18px;
+  height: 18px;
 }
 
 .btn-primary {
-  border-color: var(--color-accent);
   background: var(--color-accent);
-  color: var(--color-input);
 }
 
 .btn-light {
-  border-color: var(--color-border);
-  background: var(--color-input);
-  color: var(--color-text);
+  background: var(--color-surface);
 }
 
 .btn-soft {
-  border-color: var(--color-border);
   background: var(--color-header);
-  color: var(--color-text);
 }
 
 .btn-secondary {
+  border-color: var(--color-border);
   background: var(--color-surface);
-  color: var(--color-text);
 }
 
 .btn-icon {
@@ -96,24 +110,6 @@ body {
   border-radius: var(--radius-input);
   background: var(--color-surface);
   color: var(--color-text);
-}
-
-.chip {
-  min-width: 36px;
-  height: 28px;
-  padding: 0 8px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-badge);
-  background: var(--color-surface);
-  color: var(--color-text);
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.chip-active {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
-  color: var(--color-input);
 }
 
 button:disabled {

@@ -4,7 +4,7 @@ Orden de ejecución. Un scope no empieza hasta que sus dependencias estén `done
 
 | ID  | Scope                                   | Depende de | Estado |
 |-----|-----------------------------------------|------------|--------|
-| S01 | Scaffold y tooling                      | —          | in-progress |
+| S01 | Scaffold y tooling                      | —          | done |
 | S02 | Dominio: tipos y generación de pistas   | S01        | draft  |
 | S03 | Dominio: solucionador por líneas        | S02        | draft  |
 | S04 | Dominio: dificultad                     | S03        | draft  |

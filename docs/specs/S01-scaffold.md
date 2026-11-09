@@ -1,5 +1,5 @@
 # S01 — Scaffold y tooling
-Estado: in-progress | Depende de: —
+Estado: done | Depende de: —
 
 ## Objetivo
 Proyecto Angular funcionando con la configuración base (signals, zoneless, tests, lint) y la estructura de carpetas de `CLAUDE.md`.
@@ -22,20 +22,20 @@ Cualquier lógica de nonogramas o UI real.
 - REQ-S01-08: Logo de marca (Figma `4:1027`) exportado como SVG a `src/assets/` y favicon derivado.
 
 ## Criterios de aceptación
-- [ ] `npm start` sirve una página con título "Nonogram Maker".
-- [ ] `npm test` ejecuta al menos 1 test en verde.
-- [ ] `npm run build` y `npm run lint` pasan.
+- [x] `npm start` sirve una página con título "Nonogram Maker".
+- [x] `npm test` ejecuta al menos 1 test en verde.
+- [x] `npm run build` y `npm run lint` pasan.
 
 ## Tareas
 - [x] T01.0 (REQ-S01-10) `git init`, `.gitignore`, remoto y plantilla de PR — Hecho: `git init -b main`, remoto `origin` = https://github.com/iAndreaDesign/nanogram-maker.git, `.gitignore` (commit base en `main`), plantilla de PR y documentación SDD inicial en la PR 0.
 - [x] T01.1 (REQ-S01-01/02/03) `ng new` en la raíz sin romper `CLAUDE.md`/`docs/` — Hecho: Angular 22.2 (standalone, zoneless por defecto, sin router ni SSR), `strict: true` explícito, schematic de componentes con OnPush, Vitest como runner; compila y 1 test en verde.
 - [x] T01.2 (REQ-S01-04) Crear carpetas con `.gitkeep`/README mínimo. — Hecho: `core/domain`, `core/workers`, `features/{editor,preview,export}`, `shared` con `.gitkeep`.
-- [ ] T01.3 (REQ-S01-05) Añadir ESLint (angular-eslint) y scripts.
-- [ ] T01.4 (REQ-S01-06) `styles.css` con tokens de marca.
-- [ ] T01.5 (REQ-S01-07) Fuentes autoalojadas.
-- [ ] T01.6 (REQ-S01-08) Descargar logo SVG desde Figma (MCP) a assets.
-- [ ] T01.7 Test de humo del `App` component.
-- [ ] T01.8 (REQ-S01-09) Elegir e instalar i18n, `es.json` inicial y test que falla si hay una clave usada sin traducción.
+- [x] T01.3 (REQ-S01-05) Añadir ESLint (angular-eslint) y scripts. — Hecho: angular-eslint (`ng add`), `npm run lint` pasa.
+- [x] T01.4 (REQ-S01-06) `styles.css` con tokens de marca. — Hecho: tokens y radios en `src/styles.css`. `--color-page` es PROVISIONAL (= `--color-surface`): el Figma no tiene variables (`get_variable_defs` de `4:607` vacío) y falta leer el fill de fondo.
+- [x] T01.5 (REQ-S01-07) Fuentes autoalojadas. — Hecho: `@fontsource/fraunces` (900) e `@fontsource/inter` (400, 600), subset latin, importadas en `styles.css`.
+- [x] T01.6 (REQ-S01-08) Descargar logo SVG desde Figma (MCP) a assets. — Hecho: `src/assets/logo.svg` (nodo `4:1027`, sin rect de fondo) y `public/favicon.svg`; `angular.json` sirve `src/assets` en `/assets`.
+- [x] T01.7 Test de humo del `App` component. — Hecho: `app.spec.ts` (crea el componente y renderiza la marca traducida).
+- [x] T01.8 (REQ-S01-09) Elegir e instalar i18n, `es.json` inicial y test que falla si hay una clave usada sin traducción. — Hecho: Transloco 8 (runtime + signals; el i18n nativo exige una build por idioma). `src/assets/i18n/es.json`, `shared/i18n/`, `scripts/check-i18n.mjs` (encadenado en `npm test`) y handler que lanza en los tests.
 
 ## Decisiones
 Paleta extraída del Figma (nodos `4:607`, `4:656`, `4:890`). Los nombres son propuesta; los valores son del diseño:
@@ -50,7 +50,6 @@ Paleta extraída del Figma (nodos `4:607`, `4:656`, `4:890`). Los nombres son pr
 | `--color-divider` | `#c5b4a5` | Separador vertical |
 | `--color-surface` | `#fcf6ee` | Barra de configuración, botones secundarios |
 | `--color-input` | `#fffdf7` | Fondo de campos numéricos |
-| `--color-success-bg` / `-text` | `#dce5cc` / `#435738` | Badge "Puzzle posible" |
 | `--color-possible-bg` / `-text` | `#DCE5CC` / `#435738` | Badge "Puzzle posible" |
 | `--color-impossible-bg` / `-text` | `#E20000` / `#FFFFFF` | Badge "Puzzle imposible" y casillas irresolubles |
 | `--color-grid-line` | `rgba(0,0,0,0.8)` | Líneas de la cuadrícula de la preview y exportaciones |

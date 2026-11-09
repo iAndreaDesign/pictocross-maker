@@ -1,5 +1,5 @@
 # S02 — Dominio: tipos y generación de pistas
-Estado: draft | Depende de: S01 | Ref: nonograma-logica.txt §1–2
+Estado: done | Depende de: S01 | Ref: nonograma-logica.txt §1–2
 
 ## Objetivo
 Tipos base y función pura que, dado un dibujo, devuelve las pistas de filas y columnas.
@@ -17,16 +17,18 @@ Solver, UI.
 - REQ-S02-05: Validación de tamaño (1..50) con error explícito.
 
 ## Criterios de aceptación
-- [ ] `■■□■□□■■■` → `[2,1,3]`.
-- [ ] Línea toda blanca → `[0]`; toda negra de largo n → `[n]`.
-- [ ] Grid 2x2 diagonal → todas las pistas `[1]`.
-- [ ] Grid rectangular (p. ej. 3x7) con pistas correctas.
-- [ ] Tamaño 0 o >50 lanza error.
+- [x] `■■□■□□■■■` → `[2,1,3]`.
+- [x] Línea toda blanca → `[0]`; toda negra de largo n → `[n]`.
+- [x] Grid 2x2 diagonal → todas las pistas `[1]`.
+- [x] Grid rectangular (p. ej. 3x7) con pistas correctas.
+- [x] Tamaño 0 o >50 lanza error.
 
 ## Tareas
-- [ ] T02.1 (REQ-S02-01/02) Definir tipos en `core/domain/types.ts`.
-- [ ] T02.2 (REQ-S02-03) `lineToClue` + tests de los casos de §2.
-- [ ] T02.3 (REQ-S02-04) `generateClues` + tests (filas, columnas, rectangular).
-- [ ] T02.4 (REQ-S02-05) Validación de tamaño + tests.
+- [x] T02.1 (REQ-S02-01/02) Definir tipos en `core/domain/types.ts`.
+- [x] T02.2 (REQ-S02-03) `lineToClue` + tests de los casos de §2.
+- [x] T02.3 (REQ-S02-04) `generateClues` + tests (filas, columnas, rectangular).
+- [x] T02.4 (REQ-S02-05) Validación de tamaño + tests.
 
 ## Decisiones
+- Además de 1..50, `generateClues` rechaza filas de distinta longitud (`GridSizeError`). Los tests viven junto al código (`clues.spec.ts`); barrel en `core/domain/index.ts`.
+- Rama apilada sobre `feat/S01-scaffold` (PR #4 aún abierta) al iniciar S02.

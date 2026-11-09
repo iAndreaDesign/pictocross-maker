@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { i18nTestingImports, i18nTestingProviders } from '../../shared/i18n/i18n-testing';
 import { DrawingStore } from '../editor/drawing-store';
 import { EXPORT_CANVAS_FACTORY, ExportService, FILE_DOWNLOADER } from './export.service';
 import { exportPixelMetrics } from './export-render';
@@ -98,7 +99,9 @@ describe('ExportService', () => {
       getPropertyValue: (name: string) => COLORS[name] ?? '',
     } as CSSStyleDeclaration);
     TestBed.configureTestingModule({
+      imports: [...i18nTestingImports],
       providers: [
+        ...i18nTestingProviders,
         {
           provide: EXPORT_CANVAS_FACTORY,
           useValue: () => {

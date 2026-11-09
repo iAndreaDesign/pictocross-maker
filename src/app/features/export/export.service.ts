@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, InjectionToken, computed, inject, signal } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
 import { SolverCell, generateClues } from '../../core/domain';
 import { readRenderColors } from '../../shared/nonogram-renderer';
 import { DrawingStore } from '../editor/drawing-store';
@@ -43,6 +44,7 @@ export class ExportService {
   private readonly createCanvas = inject(EXPORT_CANVAS_FACTORY);
   private readonly download = inject(FILE_DOWNLOADER);
   private readonly document = inject(DOCUMENT);
+  private readonly i18n = inject(TranslocoService);
 
   /** Vertical por defecto; solo cambia si el usuario lo pide. */
   readonly orientation = signal<Orientation>('portrait');
@@ -134,6 +136,10 @@ export class ExportService {
   }
 
   private fileName(kind: 'blank' | 'solution', extension: 'png' | 'pdf'): string {
-    return exportFileName(this.store.title(), this.store.rows(), this.store.cols(), kind, extension);
+    const labels = {
+      base: this.i18n.translate('export.file.base'),
+      solution: this.i18n.translate('export.file.solution'),
+    };
+    return exportFileName(this.store.title(), this.store.rows(), this.store.cols(), kind, extension, labels);
   }
 }

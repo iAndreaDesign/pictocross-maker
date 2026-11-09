@@ -78,6 +78,10 @@
       "suggestPortrait": "En vertical la casilla mediría {{ mm }} mm.",
       "suggestLandscape": "En horizontal la casilla mediría {{ mm }} mm.",
       "failed": "No se pudo exportar. Inténtalo de nuevo."
+    },
+    "file": {
+      "base": "nonograma",
+      "solution": "solucion"
     }
   }
 }

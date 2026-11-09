@@ -85,13 +85,20 @@ export function betterOrientation(clues: Clues, current: Orientation): ExportLay
 
 export const mmToPx = (mm: number, dpi: number): number => (mm * dpi) / 25.4;
 
-/** Nombre de fichero: título del proyecto si lo hay (S05); si no, `nonograma-{filas}x{cols}`. */
+/** Textos del nombre de fichero (vienen de i18n: `export.file.*`). */
+export interface FileNameLabels {
+  readonly base: string;
+  readonly solution: string;
+}
+
+/** Nombre de fichero: título del proyecto si lo hay (S05); si no, `{base}-{filas}x{cols}`. */
 export function exportFileName(
   title: string | null,
   rows: number,
   cols: number,
   kind: 'blank' | 'solution',
   extension: 'png' | 'pdf',
+  labels: FileNameLabels,
 ): string {
   const slug = (title ?? '')
     .normalize('NFD')
@@ -99,6 +106,6 @@ export function exportFileName(
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
-  const base = slug !== '' ? slug : `nonograma-${rows}x${cols}`;
-  return `${base}${kind === 'solution' ? '-solucion' : ''}.${extension}`;
+  const base = slug !== '' ? slug : `${labels.base}-${rows}x${cols}`;
+  return `${base}${kind === 'solution' ? `-${labels.solution}` : ''}.${extension}`;
 }

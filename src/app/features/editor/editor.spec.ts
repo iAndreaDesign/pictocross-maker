@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DEFAULT_LOGO_GRID } from '../../core/domain';
 import { i18nTestingImports, i18nTestingProviders } from '../../shared/i18n/i18n-testing';
 import { DrawingStore } from './drawing-store';
 import { Editor } from './editor';
@@ -39,21 +38,6 @@ describe('Editor', () => {
   it('renders rulers 1..N for rows and columns', () => {
     expect(el.querySelectorAll('.ruler-x li')).toHaveLength(10);
     expect(el.querySelector('.ruler-y li:last-child')?.textContent?.trim()).toBe('10');
-  });
-
-  it('Clear empties the board and Undo restores it', async () => {
-    byText('Limpiar').click();
-    await settle();
-    expect(counter()).toBe('0 / 100 celdas');
-    byLabel('Deshacer').click();
-    await settle();
-    expect(store.grid()).toEqual(DEFAULT_LOGO_GRID);
-  });
-
-  it('Invert gives the complement', async () => {
-    byText('Invertir').click();
-    await settle();
-    expect(counter()).toBe('52 / 100 celdas');
   });
 
   it('undo/redo buttons are disabled when there is nothing to do', async () => {
@@ -106,65 +90,5 @@ describe('Editor', () => {
     input.dispatchEvent(new Event('change'));
     await settle();
     expect(store.title()).toBeNull();
-  });
-
-  describe('resize', () => {
-    const typeSize = async (id: string, value: string) => {
-      const input = q<HTMLInputElement>(`#${id}`);
-      input.value = value;
-      input.dispatchEvent(new Event('change'));
-      await settle();
-    };
-
-    it('growing applies immediately, no confirmation', async () => {
-      await typeSize('size-rows', '12');
-      expect(store.rows()).toBe(12);
-      expect(el.querySelector('[role="alertdialog"]')).toBeNull();
-    });
-
-    it('shrinking that loses black cells asks for confirmation', async () => {
-      await typeSize('size-rows', '5');
-      expect(store.rows()).toBe(10);
-      expect(q('[role="alertdialog"]').textContent).toContain('casillas negras');
-      expect(q<HTMLInputElement>('#size-rows').value).toBe('10');
-    });
-
-    it('cancel keeps the board; accept applies the resize', async () => {
-      await typeSize('size-cols', '5');
-      byText('Cancelar').click();
-      await settle();
-      expect(store.cols()).toBe(10);
-      expect(el.querySelector('[role="alertdialog"]')).toBeNull();
-
-      await typeSize('size-cols', '5');
-      byText('Reducir').click();
-      await settle();
-      expect(store.cols()).toBe(5);
-      expect(q<HTMLInputElement>('#size-cols').value).toBe('5');
-    });
-
-    it('clamps typed values to 1..50 and ignores garbage', async () => {
-      await typeSize('size-rows', '999');
-      expect(store.rows()).toBe(50);
-      await typeSize('size-cols', '');
-      expect(store.cols()).toBe(10);
-    });
-
-    it('steppers and presets change the size', async () => {
-      byLabel('Aumentar alto').click();
-      await settle();
-      expect(store.rows()).toBe(11);
-      byLabel('Tamaño 20 × 20').click();
-      await settle();
-      expect([store.rows(), store.cols()]).toEqual([20, 20]);
-      expect(byLabel('Tamaño 20 × 20').getAttribute('aria-pressed')).toBe('true');
-    });
-
-    it('disables steppers at the limits', async () => {
-      byLabel('Tamaño 50 × 50').click();
-      await settle();
-      expect(byLabel('Aumentar alto').disabled).toBe(true);
-      expect(byLabel('Aumentar ancho').disabled).toBe(true);
-    });
   });
 });

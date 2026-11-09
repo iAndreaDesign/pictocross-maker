@@ -78,6 +78,15 @@ describe('DrawingGrid', () => {
     expect(store.grid()).toEqual(DEFAULT_LOGO_GRID);
   });
 
+  it('still draws when the pointer can no longer be captured', () => {
+    canvas.setPointerCapture = () => {
+      throw new DOMException('No active pointer', 'NotFoundError');
+    };
+    at('pointerdown', [9, 9]);
+    at('pointerup', [9, 9]);
+    expect(store.grid()[9][9]).toBe(1);
+  });
+
   it('ignores the middle button', () => {
     at('pointerdown', [9, 9], 1);
     at('pointerup', [9, 9], 1);
@@ -117,6 +126,43 @@ describe('DrawingGrid', () => {
     expect((fixture.nativeElement as HTMLElement).querySelector('[aria-live]')?.textContent).toContain(
       'Fila 1, columna 1: blanca',
     );
+  });
+
+  it('paints the Figma palette: empty #FFFDF7, filled terracotta, faint lines, 2px rules every 5', async () => {
+    const fills: { style: string; w: number; h: number }[] = [];
+    const ctx = {
+      fillStyle: '',
+      strokeStyle: '',
+      lineWidth: 0,
+      fillRect(_x: number, _y: number, w: number, h: number) {
+        fills.push({ style: this.fillStyle, w, h });
+      },
+      strokeRect: () => undefined,
+    };
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(ctx as unknown as CanvasRenderingContext2D);
+    const tokens: Record<string, string> = {
+      '--color-input': 'EMPTY',
+      '--color-cell-filled': 'FILLED',
+      '--color-cell-line': 'LINE_EMPTY',
+      '--color-cell-filled-line': 'LINE_FILLED',
+      '--color-grid-rule': 'RULE',
+    };
+    vi.spyOn(window, 'getComputedStyle').mockReturnValue({
+      getPropertyValue: (name: string) => tokens[name] ?? '',
+    } as CSSStyleDeclaration);
+
+    store.invert();
+    await fixture.whenStable();
+
+    const styles = new Set(fills.map((f) => f.style));
+    expect(styles).toEqual(new Set(['EMPTY', 'FILLED', 'LINE_EMPTY', 'LINE_FILLED', 'RULE']));
+    // reglas gruesas: 2 px de dispositivo como mínimo; líneas finas: más estrechas
+    const rule = fills.filter((f) => f.style === 'RULE');
+    const thin = fills.filter((f) => f.style === 'LINE_EMPTY');
+    expect(Math.min(...rule.map((f) => Math.min(f.w, f.h)))).toBeGreaterThanOrEqual(2);
+    expect(Math.max(...thin.map((f) => Math.min(f.w, f.h)))).toBeLessThan(2);
+    // 10x10: reglas en 0, 5 y 10 en cada eje = 3 + 3
+    expect(rule).toHaveLength(6);
   });
 
   it('exposes a labelled, focusable canvas', () => {

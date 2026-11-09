@@ -9,6 +9,10 @@ const PATHS = {
   minus: 'M5 12h14',
   plus: 'M5 12h14 M12 5v14',
   trash: 'M3 6h18 M8 6V4h8v2 M19 6l-1 14H6L5 6 M10 11v6 M14 11v6',
+  'circle-check': 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z M8.5 12.5l2.5 2.5 4.5-5',
+  'circle-x': 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z M9 9l6 6 M15 9l-6 6',
+  sparkles: 'M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8Z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z',
+  grid: 'M3 3h18v18H3Z M3 9h18 M3 15h18 M9 3v18 M15 3v18',
   invert: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z M12 3v18',
 } as const;
 

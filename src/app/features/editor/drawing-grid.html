@@ -1,4 +1,4 @@
-<div class="frame" [style.--cols]="store.cols()" [style.--rows]="store.rows()">
+<div #frame class="frame" [style.--cols]="store.cols()" [style.--rows]="store.rows()">
   <span class="corner" aria-hidden="true"></span>
   <ol class="ruler ruler-x" aria-hidden="true">
     @for (label of colLabels(); track $index) {

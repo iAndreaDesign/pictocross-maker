@@ -1,5 +1,5 @@
 # S06 — Preview, validación y worker
-Estado: draft | Depende de: S03, S04, S05 | Ref: nonograma-logica.txt §4 (paso 4), §5, §6 (pasos 3–5)
+Estado: done | Depende de: S03, S04, S05 | Ref: nonograma-logica.txt §4 (paso 4), §5, §6 (pasos 3–5)
 
 ## Objetivo
 Mostrar a la derecha el nonograma generado con sus pistas en tiempo real, el indicador ideal/no resoluble, el resaltado rojo de casillas indecidibles y la dificultad.
@@ -26,18 +26,27 @@ Mostrar a la derecha el nonograma generado con sus pistas en tiempo real, el ind
 - REQ-S06-15: Pistas con bandas alternas en `--color-clue-band` (melocotón, no gris) y esquina de pistas vacía en blanco, según la imagen de referencia (el Figma `4:882` las muestra en gris: manda la imagen).
 
 ## Criterios de aceptación
-- [ ] Dibujar un corazón relleno → verde + dificultad.
-- [ ] Dibujar diagonal dispersa → rojo con manchas; corregir las encoge hasta verde.
-- [ ] 50x50 dibujando no bloquea la UI.
-- [ ] Una respuesta antigua nunca pisa a una más reciente.
+- [x] Dibujar un corazón relleno → verde + dificultad.
+- [x] Dibujar diagonal dispersa → rojo con manchas; corregir las encoge hasta verde.
+- [x] 50x50 dibujando no bloquea la UI.
+- [x] Una respuesta antigua nunca pisa a una más reciente.
 
 ## Tareas
-- [ ] T06.1 (REQ-S06-01/09) Worker + `SolverClient`.
-- [ ] T06.2 (REQ-S06-02/03) Debounce, request-id, signals de estado.
-- [ ] T06.3 (REQ-S06-04) Render de la preview con pistas.
-- [ ] T06.4 (REQ-S06-05/06/07) Indicador, resaltado rojo, dificultad.
-- [ ] T06.5 (REQ-S06-08) Caso dibujo vacío.
-- [ ] T06.6 Tests del cliente (con fallback síncrono) y del componente.
+- [x] T06.1 (REQ-S06-01/09) Worker + `SolverClient`.
+- [x] T06.2 (REQ-S06-02/03) Debounce, request-id, signals de estado.
+- [x] T06.3 (REQ-S06-04) Render de la preview con pistas.
+- [x] T06.4 (REQ-S06-05/06/07) Indicador, resaltado rojo, dificultad.
+- [x] T06.5 (REQ-S06-08) Caso dibujo vacío.
+- [x] T06.6 Tests del cliente (con fallback síncrono) y del componente.
 
 ## Decisiones
 - Pendiente de decidir (REQ-S06-08): dibujo vacío → propuesta: mostrar estado neutro "Dibuja algo" y deshabilitar dificultad.
+- **Dibujo vacío (REQ-S06-08):** badge neutro "Dibuja algo", dificultad oculta; la preview sigue mostrando la cuadrícula con pistas `0`.
+- **Mientras calcula (REQ-S06-05):** "stale-while-revalidate": se mantiene el último resultado del mismo tamaño de tablero (sin parpadeo); solo se muestra el badge neutro "Calculando…" antes del primer resultado o tras redimensionar.
+- **Pistas en el hilo principal, solución en el worker:** las pistas se calculan al instante en la preview (barato) para el tiempo real; el worker ejecuta `analyzeGrid` (pistas + solver + dificultad, `core/domain/analysis.ts`). La preview pinta el dibujo y marca como desconocidas las casillas que devuelve el análisis.
+- **Renderer único:** `features/preview/nonogram-renderer.ts` (`computeLayout` + `renderNonogram`) recibe `cellSize`, grosores y colores; S07 lo reutilizará para PNG/PDF. Colores leídos de los tokens (`readRenderColors`). Líneas finas de 1 px y gruesas (cada 5) de 2 px de dispositivo.
+- **Casillas irresolubles:** rojo `#E20000` opaco (token `--color-impossible-bg`), sin cruz ni relleno.
+- **Casilla máxima en la preview: 45 px**, igual que el editor.
+- **Botón "Export solution" (REQ-S06-14): aplazado a S07**, donde tiene su función; no se deja un botón sin acción. La cabecera de la preview lleva los badges.
+- **Capas:** `SolverClient` no depende de `features/`; `track(grid)` recibe la señal del dibujo. Worker con `tsconfig.worker.json` (`webWorkerTsConfig`). La fábrica del worker es un `InjectionToken` (`SOLVER_WORKER_FACTORY`) para poder probar respuestas obsoletas con un worker falso.
+- **Verificado en Edge (build de producción, worker real):** logo → "Puzzle posible · Fácil · Beta"; dibujo disperso → "Puzzle imposible" con zonas rojas; 50x50 → líneas visibles y badge correcto. Tiempos de fotograma no medidos.

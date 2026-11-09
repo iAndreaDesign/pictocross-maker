@@ -1,19 +1,17 @@
 :host {
   display: block;
-  /* Tamaño máximo de casilla en pantalla y ancho de la columna de reglas. */
-  --cell-max: 45px;
+  /* Ancho de la columna de reglas y hueco: deben coincidir con RULER_AND_GAP_CSS_PX en drawing-grid.ts. */
   --ruler-width: 24px;
   --frame-gap: 4px;
 }
 
 .frame {
   display: grid;
-  grid-template-columns: var(--ruler-width) 1fr;
+  /* La columna del lienzo mide lo que mide el canvas (casilla ≤ 45 px, calculado en el componente). */
+  grid-template-columns: var(--ruler-width) max-content;
   grid-template-rows: auto 1fr;
   gap: var(--frame-gap);
   width: 100%;
-  /* reglas + hueco + (columnas × casilla máxima) + borde del canvas (2 px) */
-  max-width: calc(var(--ruler-width) + var(--frame-gap) + var(--cols) * var(--cell-max) + 2px);
 }
 
 .ruler {
@@ -22,9 +20,8 @@
   padding: 0;
   list-style: none;
   color: var(--color-text-muted);
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1;
-  container-type: inline-size;
 }
 
 .ruler li {
@@ -49,15 +46,10 @@
 .canvas {
   grid-column: 2;
   grid-row: 2;
-  width: 100%;
-  height: auto;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-input);
-  background: var(--color-preview-bg);
+  display: block;
   cursor: crosshair;
   /* El puntero dibuja: sin scroll/zoom táctil sobre el lienzo. */
   touch-action: none;
-  image-rendering: pixelated;
   user-select: none;
 }
 

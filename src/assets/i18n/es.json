@@ -14,9 +14,7 @@
       "heightDecrease": "Reducir alto",
       "heightIncrease": "Aumentar alto",
       "widthDecrease": "Reducir ancho",
-      "widthIncrease": "Aumentar ancho",
-      "presets": "Tamaños rápidos",
-      "preset": "Tamaño {{ n }} × {{ n }}"
+      "widthIncrease": "Aumentar ancho"
     },
     "actions": {
       "clear": "Limpiar",
@@ -43,5 +41,19 @@
       "accept": "Reducir",
       "cancel": "Cancelar"
     }
+  },
+  "preview": {
+    "badge": {
+      "empty": "Dibuja algo",
+      "calculating": "Calculando…",
+      "possible": "Puzzle posible",
+      "impossible": "Puzzle imposible"
+    },
+    "difficulty": {
+      "easy": "Fácil · Beta",
+      "medium": "Medio · Beta",
+      "hard": "Difícil · Beta"
+    },
+    "canvas": "Vista previa del nonograma ({{ rows }} × {{ cols }})"
   }
 }

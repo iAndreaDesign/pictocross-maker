@@ -13,11 +13,16 @@ import { Grid } from '../../core/domain';
 import { DrawingStore } from './drawing-store';
 import { cellFromPoint, rulerLabels, strokeModeFor } from './grid-geometry';
 
-/** Resolución interna por casilla; el canvas se escala por CSS al ancho disponible. */
-const CELL_PX = 24;
+/** Casilla máxima en pantalla (px CSS). */
+const MAX_CELL_CSS_PX = 45;
+/** Ancho de la columna de reglas + hueco (debe coincidir con drawing-grid.css). */
+const RULER_AND_GAP_CSS_PX = 28;
+/** Lado de casilla de referencia cuando no se puede medir el contenedor (tests). */
+const FALLBACK_CELL_CSS_PX = 24;
 
 /**
- * Cuadrícula de dibujo en <canvas> (50x50 = 2.500 casillas sin coste de DOM).
+ * Cuadrícula de dibujo en <canvas> (50x50 = 2.500 casillas sin coste de DOM), dibujada a
+ * resolución de dispositivo para que las líneas del Figma (finas y gruesas cada 5) sean nítidas.
  * Puntero con captura + interpolación Bresenham; teclado con flechas y espacio/enter.
  */
 @Component({
@@ -30,7 +35,9 @@ const CELL_PX = 24;
 export class DrawingGrid {
   protected readonly store = inject(DrawingStore);
   private readonly canvasRef = viewChild<ElementRef<HTMLCanvasElement>>('canvas');
+  private readonly frameRef = viewChild<ElementRef<HTMLElement>>('frame');
 
+  private readonly frameWidth = signal(0);
   private readonly cursor = signal<readonly [number, number]>([0, 0]);
   protected readonly focused = signal(false);
 
@@ -50,9 +57,17 @@ export class DrawingGrid {
   });
 
   constructor() {
+    effect((onCleanup) => {
+      const frame = this.frameRef()?.nativeElement;
+      if (!frame || typeof ResizeObserver === 'undefined') return;
+      const observer = new ResizeObserver(([entry]) => this.frameWidth.set(entry.contentRect.width));
+      observer.observe(frame);
+      onCleanup(() => observer.disconnect());
+    });
+
     effect(() => {
       const canvas = this.canvasRef()?.nativeElement;
-      if (canvas) this.draw(canvas, this.store.grid(), this.cursorCell(), this.focused());
+      if (canvas) this.draw(canvas, this.store.grid(), this.cursorCell(), this.focused(), this.frameWidth());
     });
   }
 
@@ -60,7 +75,11 @@ export class DrawingGrid {
     const mode = strokeModeFor(this.store.tool(), event.button);
     if (!mode) return;
     event.preventDefault();
-    (event.currentTarget as HTMLCanvasElement).setPointerCapture?.(event.pointerId);
+    try {
+      (event.currentTarget as HTMLCanvasElement).setPointerCapture?.(event.pointerId);
+    } catch {
+      // El puntero ya no está activo: el trazo sigue funcionando sin captura.
+    }
     this.store.beginStroke(mode);
     this.paintAt(event);
   }
@@ -107,54 +126,73 @@ export class DrawingGrid {
     grid: Grid,
     cursor: readonly [number, number],
     focused: boolean,
+    frameWidth: number,
   ): void {
     const rows = grid.length;
     const cols = grid[0].length;
-    const width = cols * CELL_PX;
-    const height = rows * CELL_PX;
-    if (canvas.width !== width) canvas.width = width;
-    if (canvas.height !== height) canvas.height = height;
+
+    // Casilla en píxeles de dispositivo (entera, para líneas nítidas), sin pasar de 45 px CSS.
+    const dpr = window.devicePixelRatio || 1;
+    const cssWidth =
+      frameWidth > 0 ? Math.max(frameWidth - RULER_AND_GAP_CSS_PX, cols) : cols * FALLBACK_CELL_CSS_PX;
+    const cell = Math.max(1, Math.floor(Math.min(cssWidth / cols, MAX_CELL_CSS_PX) * dpr));
+    const width = cell * cols;
+    const height = cell * rows;
+    canvas.width = width;
+    canvas.height = height;
+    canvas.style.width = `${width / dpr}px`;
+    canvas.style.height = `${height / dpr}px`;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-
     const css = getComputedStyle(canvas);
     const color = (name: string) => css.getPropertyValue(name).trim();
 
-    ctx.fillStyle = color('--color-preview-bg');
+    // Figma 4:728: líneas finas de 0,5 px (≥ 1 px de dispositivo) y reglas de 2 px cada 5 casillas y en el borde.
+    const thin = Math.max(1, Math.round(dpr / 2));
+    const major = Math.max(2, Math.round(2 * dpr));
+
+    ctx.fillStyle = color('--color-input');
     ctx.fillRect(0, 0, width, height);
 
     ctx.fillStyle = color('--color-cell-filled');
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        if (grid[r][c] === 1) ctx.fillRect(c * CELL_PX, r * CELL_PX, CELL_PX, CELL_PX);
+        if (grid[r][c] === 1) ctx.fillRect(c * cell, r * cell, cell, cell);
       }
     }
 
-    // Líneas finas y, cada 5 casillas, líneas gruesas (misma convención que la preview).
-    for (const [lineColor, lineWidth, every] of [
-      [color('--color-border'), 1, 1],
-      [color('--color-divider'), 2, 5],
-    ] as const) {
-      ctx.strokeStyle = lineColor;
-      ctx.lineWidth = lineWidth;
-      ctx.beginPath();
-      for (let c = 0; c <= cols; c++) {
-        if (c % every !== 0 && c !== cols) continue;
-        ctx.moveTo(c * CELL_PX, 0);
-        ctx.lineTo(c * CELL_PX, height);
+    // Líneas finas: tenues entre casillas vacías, terracota claro junto a una pintada.
+    const lineEmpty = color('--color-cell-line');
+    const lineFilled = color('--color-cell-filled-line');
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (c < cols - 1) {
+          ctx.fillStyle = grid[r][c] === 1 || grid[r][c + 1] === 1 ? lineFilled : lineEmpty;
+          ctx.fillRect((c + 1) * cell - Math.floor(thin / 2), r * cell, thin, cell);
+        }
+        if (r < rows - 1) {
+          ctx.fillStyle = grid[r][c] === 1 || grid[r + 1][c] === 1 ? lineFilled : lineEmpty;
+          ctx.fillRect(c * cell, (r + 1) * cell - Math.floor(thin / 2), cell, thin);
+        }
       }
-      for (let r = 0; r <= rows; r++) {
-        if (r % every !== 0 && r !== rows) continue;
-        ctx.moveTo(0, r * CELL_PX);
-        ctx.lineTo(width, r * CELL_PX);
-      }
-      ctx.stroke();
+    }
+
+    // Reglas gruesas cada 5 casillas y marco exterior (pegadas al borde para no recortarse).
+    ctx.fillStyle = color('--color-grid-rule');
+    const ruleStart = (index: number, size: number) => Math.min(Math.max(index * cell - major / 2, 0), size - major);
+    for (let c = 0; c <= cols; c++) {
+      if (c % 5 === 0 || c === cols) ctx.fillRect(ruleStart(c, width), 0, major, height);
+    }
+    for (let r = 0; r <= rows; r++) {
+      if (r % 5 === 0 || r === rows) ctx.fillRect(0, ruleStart(r, height), width, major);
     }
 
     if (focused) {
+      const inset = Math.max(2, Math.round(dpr * 2));
       ctx.strokeStyle = color('--color-accent');
-      ctx.lineWidth = 4;
-      ctx.strokeRect(cursor[1] * CELL_PX + 2, cursor[0] * CELL_PX + 2, CELL_PX - 4, CELL_PX - 4);
+      ctx.lineWidth = inset;
+      ctx.strokeRect(cursor[1] * cell + inset, cursor[0] * cell + inset, cell - inset * 2, cell - inset * 2);
     }
   }
 }

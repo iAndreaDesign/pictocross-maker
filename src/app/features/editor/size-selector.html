@@ -66,19 +66,4 @@
       </button>
     </div>
   </div>
-
-  <div class="presets" role="group" [attr.aria-label]="'editor.size.presets' | transloco">
-    @for (preset of presets; track preset) {
-      <button
-        type="button"
-        class="chip"
-        [class.chip-active]="rows() === preset && cols() === preset"
-        [attr.aria-pressed]="rows() === preset && cols() === preset"
-        [attr.aria-label]="'editor.size.preset' | transloco: { n: preset }"
-        (click)="selectPreset(preset)"
-      >
-        {{ preset }}
-      </button>
-    }
-  </div>
 </div>

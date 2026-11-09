@@ -1,32 +1,4 @@
 <section class="editor">
-  <div class="config-bar">
-    <app-size-selector [rows]="store.rows()" [cols]="store.cols()" (sizeChange)="requestResize($event)" />
-    <div class="actions">
-      <button type="button" class="btn btn-secondary" (click)="store.clear()">
-        <app-icon name="trash" />
-        {{ 'editor.actions.clear' | transloco }}
-      </button>
-      <button type="button" class="btn btn-secondary" (click)="store.invert()">
-        <app-icon name="invert" />
-        {{ 'editor.actions.invert' | transloco }}
-      </button>
-    </div>
-  </div>
-
-  @if (pendingResize(); as pending) {
-    <div class="confirm" role="alertdialog" aria-live="assertive">
-      <p>{{ 'editor.resize.confirm' | transloco: { count: pending.lost } }}</p>
-      <div class="confirm-actions">
-        <button type="button" class="btn btn-primary" (click)="confirmResize()">
-          {{ 'editor.resize.accept' | transloco }}
-        </button>
-        <button type="button" class="btn btn-secondary" (click)="cancelResize()">
-          {{ 'editor.resize.cancel' | transloco }}
-        </button>
-      </div>
-    </div>
-  }
-
   <div class="panel">
     <div class="title-row">
       <app-icon name="pencil" />

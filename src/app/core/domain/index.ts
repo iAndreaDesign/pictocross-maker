@@ -8,3 +8,4 @@ export * from './difficulty';
 export * from './default-logo';
 export * from './bresenham';
 export * from './grid-ops';
+export * from './analysis';
